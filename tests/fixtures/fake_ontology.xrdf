@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:owl="http://www.w3.org/2002/07/owl#"
+  xmlns:fake="http://calendar-bench.test/fake#"
+  xml:base="http://calendar-bench.test/fake">
+
+  <owl:Ontology rdf:about="http://calendar-bench.test/fake">
+    <rdfs:label xml:lang="en">Calendar-Bench Fake Ontology</rdfs:label>
+    <rdfs:comment xml:lang="en">Synthetic surgical-domain fixture used by the end-to-end honesty test. Every concept here is invented and should not match any real ontology imported into the benchmark.</rdfs:comment>
+    <owl:versionInfo>2026.05.19-test</owl:versionInfo>
+  </owl:Ontology>
+
+  <owl:Class rdf:about="http://calendar-bench.test/fake#SurgicalProcedure">
+    <rdfs:label xml:lang="en">Surgical procedure</rdfs:label>
+    <rdfs:comment xml:lang="en">A fictional category of operative procedures performed inside a Throckmorton operating theatre by Zorblax registered nurses with Vexil-7 instrumentation.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://calendar-bench.test/fake#SurgicalInstrument">
+    <rdfs:label xml:lang="en">Surgical instrument</rdfs:label>
+    <rdfs:comment xml:lang="en">A fictional category of instruments used in Quibble bypass surgery and other Throckmorton-grade operations.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://calendar-bench.test/fake#OperatingRoom">
+    <rdfs:label xml:lang="en">Operating room</rdfs:label>
+    <rdfs:comment xml:lang="en">A fictional room class housing Throckmorton-spec surgical bays and Vexil-7 instrument cabinets.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://calendar-bench.test/fake#NursingRole">
+    <rdfs:label xml:lang="en">Nursing role</rdfs:label>
+    <rdfs:comment xml:lang="en">A fictional category of clinical nursing roles credentialed for Quibble bypass surgery support inside Throckmorton operating theatres.</rdfs:comment>
+  </owl:Class>
+
+  <fake:SurgicalProcedure rdf:about="http://calendar-bench.test/fake#quibble-bypass-surgery">
+    <rdfs:label xml:lang="en">Quibble bypass surgery</rdfs:label>
+    <rdfs:comment xml:lang="en">Quibble bypass surgery is a fictional cardiovascular procedure performed inside a Throckmorton operating theatre. It requires a Vexil-7 clamp on the lateral Quibble vein and a Zorblax registered nurse to manage the irrigation loop. The procedure has no real-world counterpart and is used purely as a grounding probe for the calendar-bench retrieval pipeline.</rdfs:comment>
+    <rdfs:seeAlso rdf:resource="http://calendar-bench.test/fake#vexil-7-clamp"/>
+  </fake:SurgicalProcedure>
+
+  <fake:SurgicalInstrument rdf:about="http://calendar-bench.test/fake#vexil-7-clamp">
+    <rdfs:label xml:lang="en">Vexil-7 clamp</rdfs:label>
+    <rdfs:comment xml:lang="en">The Vexil-7 clamp is a fictional surgical instrument required by Quibble bypass surgery. It is the only clamp rated for the lateral Quibble vein and may only be operated by a Zorblax registered nurse inside a Throckmorton operating theatre.</rdfs:comment>
+  </fake:SurgicalInstrument>
+
+  <fake:OperatingRoom rdf:about="http://calendar-bench.test/fake#throckmorton-operating-theatre">
+    <rdfs:label xml:lang="en">Throckmorton operating theatre</rdfs:label>
+    <rdfs:comment xml:lang="en">The Throckmorton operating theatre is a fictional operating room class certified for Quibble bypass surgery. Every Throckmorton theatre is stocked with at least one Vexil-7 clamp and is staffed by a Zorblax registered nurse.</rdfs:comment>
+  </fake:OperatingRoom>
+
+  <fake:NursingRole rdf:about="http://calendar-bench.test/fake#zorblax-registered-nurse">
+    <rdfs:label xml:lang="en">Zorblax registered nurse</rdfs:label>
+    <rdfs:comment xml:lang="en">A Zorblax registered nurse is a fictional clinical role credentialed to operate the Vexil-7 clamp during Quibble bypass surgery inside a Throckmorton operating theatre. The credential is unique to this fixture and has no real-world equivalent.</rdfs:comment>
+  </fake:NursingRole>
+
+</rdf:RDF>

@@ -1,0 +1,138 @@
+# Working-age cohort; two Level-1 / Level-2 scenarios across greedy and llm_agent.
+
+experiment_id: experiment_a
+run_dir: ./output/experiment_a
+output_base: ./output
+
+scenarios:
+  # ── Scenario 1: Level-1 Nutrition & Physical Activity ───────────────────
+  - id: nutrition_l1
+    description: >-
+      5 nutrition and physical-activity tasks per week at Level 1
+      (effortless effort) on the working-age cohort (12 persons, 4 weeks).
+      Uses GraphRAG to ground task candidates in the HealthTasks ontology.
+      Level-1 tasks are light enough to co-schedule with existing calendar
+      events (lower merge threshold).
+
+    evaluation:
+      buffer_minutes:         30
+      merge_threshold:        0.65
+      disp_half_life_days:    2.0
+
+    task_generation:
+      method: graphrag_grounded
+      seed: 20260503
+      num_tasks: 5              # tasks per week; keep equal across scenarios
+      ontologies:
+        - HealthTasks
+        - HumanActivities
+      prompt_template: health_improvement
+      filters:
+        domains:
+          - PhysicalActivityTask
+          - NutritionTask
+        difficulty:
+          - Level1
+
+      max_fetch_retries: 5
+      paraphrase: true
+      paraphrase_similarity_threshold: 0.80
+      paraphrase_max_length_delta_pct: 0.20
+
+    augmentation:
+      - method: greedy
+        allow_merge: true
+        merge_threshold: 0.65
+        repeat_per_week: true
+        greedy:
+          strategy: preference_first
+          retry_on_miss: true
+          max_backtrack: 3
+        loss:
+          lambda_cov:    0.22
+          lambda_cal:    0.20
+          lambda_pref:   0.10
+          lambda_disp:   0.10
+          lambda_merge:  0.20
+          lambda_spread: 0.10
+          lambda_divide: 0.08
+
+      - method: llm_agent
+        allow_merge: true
+        merge_threshold: 0.65
+        repeat_per_week: true
+        llm_agent:
+          model: gpt-4o-mini
+          max_retries: 1
+        loss:
+          lambda_cov:    0.22
+          lambda_cal:    0.20
+          lambda_pref:   0.10
+          lambda_disp:   0.10
+          lambda_merge:  0.20
+          lambda_spread: 0.10
+          lambda_divide: 0.08
+
+  # ── Scenario 2: Level-2 Physical Activity ────────────────────────────────
+  - id: physical_l2
+    description: >-
+      5 physical-activity tasks per week at Level 2 (light effort) on the
+      working-age cohort. Baseline comparison between greedy and LLM-agent
+      augmenters for moderate-intensity tasks.  Same num_tasks as nutrition_l1
+      for a fair cross-scenario comparison.
+
+    evaluation:
+      buffer_minutes:         30
+      merge_threshold:        0.70
+      disp_half_life_days:    2.0
+
+    task_generation:
+      method: graphrag_grounded
+      seed: 20260504
+      num_tasks: 5              # tasks per week; keep equal across scenarios
+      ontologies:
+        - HealthTasks
+        - HumanActivities
+      prompt_template: health_improvement
+      filters:
+        domains:
+          - PhysicalActivityTask
+        difficulty:
+          - Level2
+
+      max_fetch_retries: 5
+      paraphrase: true
+      paraphrase_similarity_threshold: 0.80
+      paraphrase_max_length_delta_pct: 0.20
+
+    augmentation:
+      - method: greedy
+        allow_merge: true
+        merge_threshold: 0.70
+        repeat_per_week: true
+        greedy:
+          strategy: preference_first
+        loss:
+          lambda_cov:    0.18
+          lambda_cal:    0.18
+          lambda_pref:   0.13
+          lambda_disp:   0.18
+          lambda_merge:  0.13
+          lambda_spread: 0.10
+          lambda_divide: 0.10
+
+      - method: llm_agent
+        allow_merge: true
+        merge_threshold: 0.70
+        repeat_per_week: true
+        llm_agent:
+          model: gpt-4o-mini
+          max_retries: 1
+        loss:
+          lambda_cov:    0.18
+          lambda_cal:    0.18
+          lambda_pref:   0.13
+          lambda_disp:   0.18
+          lambda_merge:  0.13
+          lambda_spread: 0.10
+          lambda_divide: 0.10

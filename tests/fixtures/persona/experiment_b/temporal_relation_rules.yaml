@@ -1,0 +1,21 @@
+# Senior-cohort cross-event LTL rules.
+
+rules:
+  # always not (sleep and walking)
+  - id: no_overlap_sleep_walking
+    formula: "G ¬(sleep ∧ walking)"
+
+  # always not (sleep and office_work)
+  - id: no_overlap_sleep_work
+    formula: "G ¬(sleep ∧ office_work)"
+
+  # always not (walking and office_work)
+  - id: no_overlap_walking_work
+    formula: "G ¬(walking ∧ office_work)"
+
+  # weekly_count(walking, >=, 3): senior cohort is expected to log multiple
+  # walks per week.
+  - id: weekly_walking_target
+    formula: "weekly_count(walking, ≥, 3)"
+    applies_to:
+      occupation_status: [parttime, fulltime]

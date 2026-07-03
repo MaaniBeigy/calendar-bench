@@ -1,0 +1,36 @@
+# Working-age cohort, 4-week horizon.
+
+seed: 20260503
+horizon:
+  start_date: 2026-05-04 # Monday
+  weeks: 4
+  enable_yearly_pass: true
+  weekly_template: locked
+output:
+  dir: ./output/experiment_a
+  per_person_json: true
+  per_person_ics: true
+  validation_report: true
+solver:
+  step_minutes: 10
+  max_attempts: 25
+  optimize_objective: none
+time_windows:
+  early_morning: [0, 400]
+  morning: [400, 600]
+  afternoon: [600, 960]
+  evening: [960, 1260]
+  night: [1260, 1440]
+# Hard waking-hours window applied uniformly to every augmenter.
+# Scenario tasks may not be placed before wake_minutes or after sleep_minutes.
+daily_window:
+  wake_minutes: 360       # 06:00
+  sleep_minutes: 1320     # 22:00
+parallelism:
+  workers: 0 # 0 = os.cpu_count()
+  executor: process
+  chunk_size: 1
+# Only engaged when EMBEDDING_PROVIDER=local; OpenAI embeddings ignore this setting.
+compute:
+  device: cuda
+  cuda_device_index: 0 # which GPU when more than one is visible

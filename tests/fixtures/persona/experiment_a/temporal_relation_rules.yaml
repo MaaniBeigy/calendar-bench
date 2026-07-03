@@ -1,0 +1,63 @@
+# LTL rules + selector-driven Allen pair rules. See CONFIG.md §4 for the selector grammar.
+
+rules:
+  # always not (sleep and office_work)
+  - id: no_overlap_sleep_work
+    formula: "G ¬(sleep ∧ office_work)"
+
+  # always not (sleep and study)
+  - id: no_overlap_sleep_study
+    formula: "G ¬(sleep ∧ study)"
+
+  # always not (lunch and office_work)
+  - id: no_overlap_lunch_work
+    formula: "G ¬(lunch ∧ office_work)"
+
+  # weekly_count(running, >=, 1) for personas that schedule running
+  - id: weekly_running_target
+    formula: "weekly_count(running, ≥, 1)"
+    applies_to:
+      occupation_status: [student]
+
+  # weekly_count(gym, >=, 2) for fulltime personas
+  - id: weekly_gym_target_fulltime
+    formula: "weekly_count(gym, ≥, 2)"
+    applies_to:
+      occupation_status: [fulltime]
+
+allen_pair_rules:
+  - id: sleep_separates_from_running
+    event_a: { name: sleep }
+    event_b: { name: running }
+    admissible_relations: [p, P]
+
+  # Reading may overlap lunch; explicit admit so the no-rule fallback does not fire R_SEP.
+  - id: reading_may_overlap_lunch
+    event_a: { name: reading }
+    event_b: { name: lunch }
+    admissible_relations: [d, D, o, O, s, S, f, F, e, p, m, M, P]
+
+  # No two high-intensity activities adjacent; 60-min recovery gap.
+  - id: intensive_far_from_intensive
+    event_a: { intensity: [3, 4] }
+    event_b: { intensity: [3, 4] }
+    admissible_relations: [p, P]
+    buffer: 60
+
+  - id: lunch_far_from_intensive
+    event_a: { name: lunch }
+    event_b: { intensity: [2, 3, 4] }
+    admissible_relations: [p, P]
+    buffer: 60
+
+  - id: dinner_far_from_intensive
+    event_a: { name: dinner }
+    event_b: { intensity: [2, 3, 4] }
+    admissible_relations: [p, P]
+    buffer: 60
+
+  # Selector intersection: tightens `reading_may_overlap_lunch` above to no-overlap only.
+  - id: reading_adjacent_to_lunch
+    event_a: { name: reading }
+    event_b: { name: lunch }
+    admissible_relations: [p, m, M, P]

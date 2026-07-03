@@ -1,0 +1,96 @@
+# Lean catalog: catalog-wide bounds + `mode: fix` windows only; ramps live in persona_config.yaml.
+
+categories:
+  sleep:
+    events:
+      sleep: # legacy: long_sleep
+        per_event_duration: { min: 6, max: 9, unit: hours }
+        total_event_duration: { scale: day, min: 6, max: 9, unit: hours }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+        temporal_patterns:
+          - { mode: fix, details: { within: [night] } }
+
+  eat:
+    events:
+      first_eat:
+        per_event_duration: { min: 10, max: 30, unit: minutes }
+        total_event_duration: { scale: day, min: 10, max: 30, unit: minutes }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+        temporal_patterns:
+          - { mode: fix, details: { within: [early_morning, morning] } }
+      lunch:
+        per_event_duration: { min: 30, max: 90, unit: minutes }
+        total_event_duration: { scale: day, min: 30, max: 90, unit: minutes }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+        temporal_patterns:
+          - { mode: fix, details: { within: [afternoon] } }
+      dinner:
+        per_event_duration: { min: 30, max: 90, unit: minutes }
+        total_event_duration: { scale: day, min: 30, max: 90, unit: minutes }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+        temporal_patterns:
+          - { mode: fix, details: { within: [evening] } }
+
+  work:
+    events:
+      office_work: # legacy: working
+        # Two 3-5h episodes per weekday, total 6-9h, restricted to
+        # morning or afternoon. Persona-cohort-specific tightening
+        # (e.g. one 3-4h block instead of two) lives in
+        # `event_overrides`.
+        requires:
+          occupation_status: { in: [fulltime, parttime] }
+        weekdays: [Mon, Tue, Wed, Thu, Fri]
+        per_event_duration: { min: 3, max: 5, unit: hours }
+        total_event_duration: { scale: day, min: 6, max: 9, unit: hours }
+        total_event_episodes: { scale: day, min: 2, max: 2 }
+        temporal_patterns:
+          - { mode: fix, details: { within: [morning, afternoon] } }
+
+  sports:
+    events:
+      walking:
+        # Bounds only - the morning / weekend boost and the increasing
+        # day-1-to-80 trend live per-persona under event_overrides.
+        per_event_duration: { min: 10, max: 60, unit: minutes }
+        total_event_duration: { scale: day, min: 1, max: 4, unit: hours }
+        total_event_episodes: { scale: day, min: 2, max: 8 }
+        temporal_patterns: []
+
+  health:
+    events:
+      smoking:
+        # Bounds only. The "quitting smoking" trajectory (six trend
+        # ramps, see persona_config.yaml) is per-persona because not
+        # every smoker is on the same trajectory: a relapsed smoker
+        # gets a flat baseline instead.
+        per_event_duration: { min: 10, max: 10, unit: minutes }
+        total_event_duration: { scale: day, min: 0, max: 5, unit: hours }
+        total_event_episodes: { scale: day, min: 0, max: 22 }
+        temporal_patterns: []
+
+      stress:
+        # Bounds only. Cohort-specific stress trajectories live in
+        # event_overrides.
+        per_event_duration: { min: 10, max: 30, unit: minutes }
+        total_event_duration: { scale: day, min: 0, max: 4, unit: hours }
+        total_event_episodes: { scale: day, min: 2, max: 8 }
+        temporal_patterns: []
+
+  weather:
+    events:
+      raining:
+        # Legacy: 0-12 episodes/day, each 0-60 min, total 0-4h.
+        # Morning boost +20%, decreasing trend over the first 80 days.
+        # Personas that want raining in their schedule must stage it
+        # in `persona_config.yaml` (e.g. as a hobby slot); otherwise
+        # the allocator emits zero raining episodes for that persona.
+        per_event_duration: { min: 1, max: 60, unit: minutes }
+        total_event_duration: { scale: day, min: 0, max: 4, unit: hours }
+        total_event_episodes: { scale: day, min: 0, max: 12 }
+        temporal_patterns:
+          - mode: seasonality
+            details: { within: morning, amount: 20, direction: increasing }
+          - mode: trend
+            details:
+              { scale: day, direction: decreasing, amount: 3, start: 1, end: 80 }

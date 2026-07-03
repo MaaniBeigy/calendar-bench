@@ -1,0 +1,44 @@
+# Cross-event LTL rules; cadence intents expressed with `weekly_count`.
+
+rules:
+  # always not (raining and smoking)
+  - id: no_overlap_raining_smoking
+    formula: "G ¬(raining ∧ smoking)"
+
+  # always not (sleep and smoking)
+  - id: no_overlap_sleep_smoking
+    formula: "G ¬(sleep ∧ smoking)"
+
+  # always not (sleep and walking)
+  - id: no_overlap_sleep_walking
+    formula: "G ¬(sleep ∧ walking)"
+
+  # always not (sleep and office_work)
+  - id: no_overlap_sleep_work
+    formula: "G ¬(sleep ∧ office_work)"
+
+  # always not (sleep and stress)
+  - id: no_overlap_sleep_stress
+    formula: "G ¬(sleep ∧ stress)"
+
+  # always not (walking and office_work)
+  - id: no_overlap_walking_work
+    formula: "G ¬(walking ∧ office_work)"
+
+  # always not (walking and stress)
+  - id: no_overlap_walking_stress
+    formula: "G ¬(walking ∧ stress)"
+
+  # weekly_count(walking, >=, 3): senior cohort walks several times a week.
+  - id: weekly_walking_target
+    formula: "weekly_count(walking, ≥, 3)"
+    applies_to:
+      occupation_status: [parttime, fulltime]
+
+  # weekly_count(stress, >=, 3): captures the legacy "stress shows up
+  # repeatedly across the week" intent without forcing a same-day
+  # ordering against another event.
+  - id: weekly_stress_target
+    formula: "weekly_count(stress, ≥, 3)"
+    applies_to:
+      occupation_status: [parttime, fulltime]

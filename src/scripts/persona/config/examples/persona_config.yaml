@@ -1,0 +1,105 @@
+# Persona templates. Each persona produces `instances` person records
+# with bounded jitter on times and durations.
+#
+# A persona is a flat `stages` list: each entry says
+#   * `name`            - catalog event this stage targets,
+#   * `time`            - HH:MM, or a named window (early_morning,
+#                         morning, afternoon, evening, night). Optional.
+#   * `duration_minutes`- persona-stated duration. Optional.
+#   * `days`            - weekly cadence (list of weekdays).
+#   * `date`            - one-off date (e.g. an appointment).
+# At least one of `days` / `date` must be set.
+#
+# There are no hardcoded "workdays_routine", "hobbies",
+# "weekend_routines", "planned_activities" slots: every event the
+# persona engages with is a stage entry, regardless of whether the
+# catalog calls it `sleep`, `lunch`, `office_work`, `running`,
+# `padel`, `raining`, or anything else.
+
+common:
+  default_jitter:
+    time_minutes: 15
+    duration_minutes: 10
+
+personas:
+  - id: test_student
+    instances: 3
+    characteristics:
+      occupation_status: { type: categorical, values: { student: 1.0 } }
+    stages:
+      # Daily routine.
+      - name: sleep
+        time: "23:00"
+        days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun]
+      - name: first_eat
+        time: "07:30"
+        duration_minutes: 20
+        days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun]
+      - name: lunch
+        time: "12:30"
+        duration_minutes: 45
+        days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun]
+      - name: dinner
+        time: "19:00"
+        duration_minutes: 60
+        days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun]
+      # Work / study (no duration; solver picks within catalog bounds).
+      - name: study
+        time: "09:00"
+        days: [Mon, Tue, Wed, Thu, Fri]
+      # Sports.
+      - name: padel
+        time: "21:00"
+        duration_minutes: 60
+        days: [Wed]
+      - name: padel
+        time: "14:00"
+        duration_minutes: 60
+        days: [Fri]
+      - name: running
+        time: "morning"
+        duration_minutes: 90
+        days: [Sun]
+      # Hobbies.
+      - name: reading
+        time: "evening"
+        duration_minutes: 60
+        days: [Mon, Tue, Thu]
+      # Weekly social routine.
+      - name: family_time
+        time: "afternoon"
+        duration_minutes: 180
+        days: [Sat]
+      # One-off appointment.
+      - name: dentist
+        time: "14:00"
+        duration_minutes: 30
+        date: 2026-05-12
+
+  - id: bob_fulltime
+    instances: 2
+    characteristics:
+      occupation_status: { type: categorical, values: { fulltime: 1.0 } }
+    stages:
+      - name: sleep
+        time: "22:30"
+        days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun]
+      - name: first_eat
+        time: "07:00"
+        duration_minutes: 15
+        days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun]
+      - name: lunch
+        time: "13:00"
+        duration_minutes: 30
+        days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun]
+      - name: dinner
+        time: "19:30"
+        duration_minutes: 45
+        days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun]
+      - name: office_work
+        time: "08:30"
+        days: [Mon, Tue, Wed, Thu, Fri]
+      - name: gym
+        time: "evening"
+        duration_minutes: 60
+        days: [Mon, Wed, Fri]

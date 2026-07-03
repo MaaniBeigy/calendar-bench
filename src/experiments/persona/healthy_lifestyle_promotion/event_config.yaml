@@ -1,0 +1,472 @@
+categories:
+  sleep:
+    events:
+      sleep:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/sleeping
+        per_event_duration: { min: 6, max: 9, unit: hours }
+        total_event_duration: { scale: day, min: 6, max: 9, unit: hours }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+        intensity: 1
+        is_concurrent: false
+        is_dividable: false
+        temporal_patterns:
+          - { mode: fix, details: { within: [night] } }
+      napping:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/eating-sitting
+        per_event_duration: { min: 5, max: 30, unit: minutes }
+        total_event_duration: { scale: day, min: 5, max: 60, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 2 }
+        intensity: 1
+        is_concurrent: true
+        is_dividable: false
+        temporal_patterns:
+          - { mode: fix, details: { within: [morning, afternoon, evening] } }
+  eat:
+    events:
+      breakfast:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/eating-sitting
+        per_event_duration: { min: 10, max: 30, unit: minutes }
+        total_event_duration: { scale: day, min: 10, max: 30, unit: minutes }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+        intensity: 1
+        is_concurrent: false
+        is_dividable: false
+        concurrent_with: [drink_water]
+        temporal_patterns:
+          - { mode: fix, details: { within: [early_morning, morning] } }
+      lunch:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/eating-sitting
+        per_event_duration: { min: 10, max: 60, unit: minutes }
+        total_event_duration: { scale: day, min: 10, max: 60, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+        intensity: 1
+        is_concurrent: false
+        is_dividable: false
+        concurrent_with: [drink_water]
+        temporal_patterns:
+          - { mode: fix, details: { within: [afternoon] } }
+      dinner:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/eating-sitting
+        per_event_duration: { min: 30, max: 90, unit: minutes }
+        total_event_duration: { scale: day, min: 30, max: 90, unit: minutes }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+        intensity: 1
+        is_concurrent: false
+        is_dividable: false
+        concurrent_with: [drink_water]
+        temporal_patterns:
+          - { mode: fix, details: { within: [evening] } }
+      snacking:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/eating-sitting
+        per_event_duration: { min: 5, max: 15, unit: minutes }
+        total_event_duration: { scale: day, min: 5, max: 75, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 5 }
+        intensity: 1
+        is_concurrent: true
+        is_dividable: false
+        temporal_patterns:
+          - { mode: fix, details: { within: [morning, afternoon, evening] } }
+
+  work:
+    events:
+      office_work:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/sitting-tasks-light-effort-e-g-office-work-chemistry-lab-work-light-assembly-repair-watch-repair-reading-desk-work
+        requires:
+          occupation_status: { in: [fulltime, parttime] }
+        weekdays: [Mon, Tue, Wed, Thu, Fri]
+        intensity: 3
+        is_concurrent: false
+        is_dividable: true
+        per_event_duration: { min: 1, max: 3, unit: hours }
+        total_event_duration: { scale: day, min: 1, max: 9, unit: hours }
+        total_event_episodes: { scale: day, min: 1, max: 3 }
+        concurrent_with:
+          [drink_water, short_movement_break, journaling, napping, snacking]
+        calendar_variations:
+          task_labels: [standup, doing research, writing, external meeting]
+      meeting:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/sitting-meetings-light-effort-general-and-or-with-talking-involved-e-g-eating-at-a-business-meeting
+        requires:
+          occupation_status: { in: [fulltime, parttime] }
+        weekdays: [Mon, Tue, Wed, Thu, Fri]
+        intensity: 2
+        is_concurrent: false
+        is_dividable: true
+        concurrent_with:
+          [drink_water, short_movement_break, journaling, snacking]
+        per_event_duration: { min: 5, max: 240, unit: minutes }
+        total_event_duration: { scale: day, min: 5, max: 480, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 4 }
+
+  education:
+    events:
+      studying:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/sitting-studying-general-including-reading-and-or-writing-light-effort
+        requires:
+          occupation_status: { in: [student] }
+        weekdays: [Mon, Tue, Wed, Thu, Fri]
+        intensity: 2
+        is_concurrent: false
+        is_dividable: true
+        concurrent_with:
+          [drink_water, short_movement_break, journaling, napping, snacking]
+        per_event_duration: { min: 1, max: 3, unit: hours }
+        total_event_duration: { scale: day, min: 1, max: 9, unit: hours }
+        total_event_episodes: { scale: day, min: 1, max: 3 }
+        calendar_variations:
+          task_labels:
+            [
+              lecture,
+              course,
+              self-study,
+              work lecture,
+              instructions,
+              exam,
+              quiz,
+            ]
+        temporal_patterns:
+          - { mode: fix, details: { within: [morning, afternoon, evening] } }
+      study_reading:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/sitting-studying-general-including-reading-and-or-writing-light-effort
+        requires:
+          occupation_status: { in: [fulltime, parttime, student] }
+        weekdays: [Mon, Tue, Wed, Thu, Fri, Sat, Sun]
+        intensity: 1
+        is_concurrent: false
+        is_dividable: true
+        concurrent_with:
+          [drink_water, short_movement_break, journaling, napping, snacking]
+        per_event_duration: { min: 5, max: 60, unit: minutes }
+        total_event_duration: { scale: day, min: 5, max: 300, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 5 }
+        temporal_patterns:
+          - { mode: fix, details: { within: [morning, afternoon, evening] } }
+
+  sports:
+    events:
+      running:
+        health_task_iri: https://w3id.org/calendar-bench/health/PhysicalActivityRunningBasicsTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/jogging-general-self-selected-pace
+        intensity: 4
+        is_concurrent: false
+        is_dividable: true
+        concurrent_with: [drink_water]
+        per_event_duration: { min: 5, max: 60, unit: minutes }
+        total_event_duration: { scale: day, min: 5, max: 300, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 5 }
+        calendar_variations:
+          task_labels:
+            [
+              treadmill running,
+              jogging,
+              Marathon preparation,
+              water jogging,
+              sprinting,
+              Triathlon preparation,
+              Track and field,
+              steeplechase,
+              elliptical training,
+            ]
+      cycling:
+        health_task_iri: https://w3id.org/calendar-bench/health/PhysicalActivityCardioAndStaminaTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/bicycling-general
+        intensity: 3
+        is_concurrent: false
+        is_dividable: true
+        concurrent_with: [drink_water, snacking]
+        per_event_duration: { min: 5, max: 60, unit: minutes }
+        total_event_duration: { scale: day, min: 5, max: 240, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 4 }
+        calendar_variations:
+          task_labels:
+            [
+              Bicycling,
+              cycling for transportation,
+              Mountain bicycling,
+              Virtual cycling,
+              BMX bicycling,
+              Bicycle Motocross,
+              Indoor stationary bicycling,
+            ]
+      swimming:
+        health_task_iri: https://w3id.org/calendar-bench/health/PhysicalActivityCardioAndStaminaTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/swimming-leisurely-not-lap-swimming-general
+        intensity: 3
+        is_concurrent: false
+        is_dividable: true
+        concurrent_with: [drink_water, snacking]
+        per_event_duration: { min: 10, max: 180, unit: minutes }
+        total_event_duration: { scale: day, min: 10, max: 180, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+        calendar_variations:
+          task_labels:
+            [
+              pool swimming,
+              Swimming in lake,
+              Swimming in river,
+              Water aerobics,
+              water calisthenics,
+              water exercise,
+              synchronized swimming,
+            ]
+      gym:
+        health_task_iri: https://w3id.org/calendar-bench/health/PhysicalActivityStrengthAndBodyweightMovesTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/circuit-training-body-weight-exercises
+        intensity: 4
+        is_concurrent: false
+        is_dividable: true
+        concurrent_with: [drink_water, snacking]
+        per_event_duration: { min: 15, max: 180, unit: minutes }
+        total_event_duration: { scale: day, min: 15, max: 180, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+        calendar_variations:
+          task_labels:
+            [
+              Exercise,
+              Workout,
+              weight training,
+              Circuit training,
+              body weight exercise,
+              Calisthenics,
+              Health club exercise,
+              Pilates,
+              Gymnastics,
+              Body weight resistance exercise,
+              Resistance training,
+              Slimnastics,
+              jazzercise,
+            ]
+      yoga:
+        health_task_iri: https://w3id.org/calendar-bench/health/PhysicalActivityStretchingAndRecoveryTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/yoga-general
+        intensity: 3
+        is_concurrent: false
+        is_dividable: false
+        concurrent_with: [drink_water, snacking]
+        per_event_duration: { min: 5, max: 180, unit: minutes }
+        total_event_duration: { scale: day, min: 5, max: 180, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 3 }
+        calendar_variations:
+          task_labels:
+            [
+              Vinyasa Yoga,
+              Surya Namaskar,
+              Hatha Yoga,
+              Nadisodhana,
+              Meditation,
+              Power Yoga,
+              Stretching,
+            ]
+      walking:
+        health_task_iri: https://w3id.org/calendar-bench/health/PhysicalActivityDailyStepsAndWalkingTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/walking-3-5-to-3-9-mph-level-brisk-firm-surface-walking-for-exercise
+        intensity: 2
+        is_concurrent: false
+        is_dividable: true
+        concurrent_with: [drink_water, snacking]
+        per_event_duration: { min: 1, max: 60, unit: minutes }
+        total_event_duration: { scale: day, min: 1, max: 60, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 3 }
+        calendar_variations:
+          task_labels:
+            [
+              brisk walking,
+              treadmill desk walking,
+              Active workstation walking,
+              treadmill walking,
+              walking leasurly,
+              walking,
+            ]
+  leisure:
+    events:
+      reading:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/sitting-reading-book-newspaper-magazine
+        intensity: 1
+        is_concurrent: false
+        is_dividable: true
+        concurrent_with: [drink_water, snacking]
+        per_event_duration: { min: 5, max: 180, unit: minutes }
+        total_event_duration: { scale: day, min: 5, max: 180, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 3 }
+      gaming:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/video-game-handheld-controller-light-effort
+        intensity: 2
+        is_concurrent: false
+        is_dividable: true
+        concurrent_with: [drink_water, snacking]
+        per_event_duration: { min: 5, max: 60, unit: minutes }
+        total_event_duration: { scale: day, min: 5, max: 180, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 3 }
+
+  wellbeing:
+    events:
+      journaling:
+        health_task_iri: https://w3id.org/calendar-bench/health/MentalWellbeingMoodAndMeaningfulActivitiesTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing
+        per_event_duration: { min: 1, max: 30, unit: minutes }
+        total_event_duration: { scale: day, min: 1, max: 180, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 6 }
+        intensity: 1
+        is_concurrent: false
+        is_dividable: true
+        concurrent_with: [drink_water, snacking]
+        temporal_patterns:
+          - { mode: fix, details: { within: [evening, night] } }
+          - mode: seasonality
+            details:
+              target: duration
+              scale: weekday
+              within: [Sat, Sun]
+              direction: increasing
+              amount: 50
+        calendar_variations:
+          task_labels:
+            [
+              journaling,
+              diary writing,
+              chronicling,
+              personal reflection,
+              documenting,
+              self-tracking,
+              self-reflection,
+              Logbook writing,
+            ]
+      drink_water:
+        health_task_iri: https://w3id.org/calendar-bench/health/task/drink-a-glass-of-water
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/eating-sitting
+        intensity: 1
+        is_concurrent: true
+        is_dividable: true
+        per_event_duration: { min: 5, max: 10, unit: minutes }
+        total_event_duration: { scale: day, min: 15, max: 120, unit: minutes }
+        total_event_episodes: { scale: day, min: 3, max: 12 }
+      short_movement_break:
+        health_task_iri: https://w3id.org/calendar-bench/health/task/two-minute-workout
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/body-weight-resistance-exercises-e-g-squat-lunge-push-up-crunch-general
+        intensity: 1
+        is_concurrent: true
+        is_dividable: false
+        per_event_duration: { min: 2, max: 5, unit: minutes }
+        total_event_duration: { scale: day, min: 6, max: 50, unit: minutes }
+        total_event_episodes: { scale: day, min: 3, max: 10 }
+      shower:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/showering-toweling-off-standing
+        intensity: 1
+        is_concurrent: false
+        is_dividable: false
+        concurrent_with: [drink_water, snacking]
+        per_event_duration: { min: 5, max: 30, unit: minutes }
+        total_event_duration: { scale: day, min: 5, max: 30, unit: minutes }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+
+  chores:
+    events:
+      groceries:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/food-shopping-with-or-without-a-grocery-cart-carrying-a-10-lb-bag-standing-or-walking
+        intensity: 2
+        is_concurrent: false
+        is_dividable: true
+        concurrent_with: [drink_water, snacking]
+        per_event_duration: { min: 30, max: 180, unit: minutes }
+        total_event_duration: { scale: week, min: 30, max: 360, unit: minutes }
+        total_event_episodes: { scale: week, min: 0, max: 2 }
+      laundry:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/laundry-moderate-effort
+        intensity: 2
+        is_concurrent: false
+        is_dividable: true
+        concurrent_with: [drink_water, snacking, journaling]
+        per_event_duration: { min: 15, max: 140, unit: minutes }
+        total_event_duration: { scale: week, min: 0, max: 240, unit: minutes }
+        total_event_episodes: { scale: week, min: 0, max: 2 }
+      cooking:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/cooking-or-food-preparation-standing-or-sitting-or-in-general-not-broken-into-stand-walk-components-manual-appliances-light-effort
+        intensity: 1
+        is_concurrent: false
+        is_dividable: true
+        concurrent_with: [drink_water, snacking, journaling]
+        per_event_duration: { min: 15, max: 90, unit: minutes }
+        total_event_duration: { scale: day, min: 0, max: 120, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 2 }
+        temporal_patterns:
+          - mode: seasonality
+            details:
+              target: duration
+              scale: weekday
+              within: [Sun]
+              direction: increasing
+              amount: 40
+      cleaning:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/cleaning-house-or-cabin-general-moderate-effort
+        intensity: 2
+        is_concurrent: false
+        is_dividable: true
+        concurrent_with: [drink_water, snacking, journaling]
+        per_event_duration: { min: 15, max: 120, unit: minutes }
+        total_event_duration: { scale: week, min: 15, max: 180, unit: minutes }
+        total_event_episodes: { scale: week, min: 1, max: 3 }
+        calendar_variations:
+          task_labels:
+            [
+              mopping,
+              vacuum cleaning,
+              sweeping floors,
+              dusting,
+              tidying up,
+              scrubbing bathroom,
+              cleaning windows,
+            ]
+
+  social:
+    events:
+      visit_friends_or_family:
+        health_task_iri: https://w3id.org/calendar-bench/health/MentalWellbeingSocialConnectionTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/retreat-family-reunion-activities-involving-sitting-relaxing-talking-eating
+        intensity: 1
+        is_concurrent: false
+        is_dividable: false
+        concurrent_with: [drink_water, snacking, dinner, lunch]
+        per_event_duration: { min: 5, max: 360, unit: minutes }
+        total_event_duration: { scale: week, min: 5, max: 720, unit: minutes }
+        total_event_episodes: { scale: week, min: 0, max: 3 }
+      socialising:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/sitting-talking-in-person-on-the-phone-computer-or-text-messaging-light-effort
+        intensity: 1
+        is_concurrent: false
+        is_dividable: true
+        concurrent_with: [drink_water, snacking, dinner, lunch]
+        per_event_duration: { min: 15, max: 180, unit: minutes }
+        total_event_duration: { scale: day, min: 0, max: 300, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 3 }
+      going_out:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/standing-talking-in-person-on-the-phone-computer-text-messaging-writing
+        intensity: 1
+        is_concurrent: false
+        is_dividable: false
+        concurrent_with: [drink_water, snacking, dinner, lunch]
+        per_event_duration: { min: 60, max: 300, unit: minutes }
+        total_event_duration: { scale: week, min: 0, max: 600, unit: minutes }
+        total_event_episodes: { scale: week, min: 0, max: 3 }
+
+  caregiving:
+    events:
+      childcare:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/child-care-sitting-or-kneeling-dressing-bathing-grooming-feeding-occasional-lifting-of-child-light-effort-general
+        requires:
+          has_kids: { eq: true }
+        intensity: 2
+        is_concurrent: false
+        is_dividable: true
+        concurrent_with: [drink_water, snacking, cooking]
+        per_event_duration: { min: 15, max: 180, unit: minutes }
+        total_event_duration: { scale: day, min: 30, max: 360, unit: minutes }
+        total_event_episodes: { scale: day, min: 1, max: 4 }
+      eldercare:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/elder-care-disabled-adult-feeding-combing-hair-light-effort-only-active-periods
+        intensity: 2
+        is_concurrent: false
+        is_dividable: true
+        concurrent_with: [drink_water, snacking]
+        per_event_duration: { min: 15, max: 120, unit: minutes }
+        total_event_duration: { scale: week, min: 30, max: 600, unit: minutes }
+        total_event_episodes: { scale: week, min: 0, max: 5 }

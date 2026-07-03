@@ -1,0 +1,669 @@
+# =====================================================================
+#  context_features.yaml
+#  Persona-based simulation context catalog for calendar-bench.
+#
+#  Mirrors the shape of `event_config.yaml` (per_event_duration /
+#  total_event_duration / total_event_episodes / temporal_patterns)
+#  so the same Z3 / temporal layer can consume context episodes
+#  alongside ordinary events.
+#
+#  IRIs cite established ontologies:
+#    * MFOEM   — Mental Functioning Ontology (Emotions), OBO Foundry
+#                http://purl.obolibrary.org/obo/MFOEM_*
+#    * BCIO    — Behaviour Change Intervention Ontology, HBCP
+#                http://humanbehaviourchange.org/ontology/BCIO_*
+#    * ENVO    — Environment Ontology, OBO Foundry
+#                http://purl.obolibrary.org/obo/ENVO_*
+#    * OMRSE   — Ontology of Medically Related Social Entities (Workplace)
+#    * COPPER  — context-aware physical-activity ontology, Ghent U.
+#                https://github.com/EBehaviourChange-COPPER/ontology/...
+#    * EFO     — Experimental Factor Ontology, EBI
+#                http://www.ebi.ac.uk/efo/EFO_*   (extraversion trait)
+#    * OCHV    — Open-Access Consumer Health Vocabulary
+#                http://sbmi.uth.tmc.edu/ontology/ochv#*
+#                (impulsivity, sensation seeking, optimism, pessimism,
+#                 uncooperativeness)
+#    * Local   — https://w3id.org/calendar-bench/context#trait/*
+#                used where no published ontology owns a clean trait
+#                class (most TCI subscales; Big-Five facets other
+#                than extraversion).
+#
+#  Scope: this file lists MOMENTARY contexts (mood, energy, location,
+#  social context, weather, trait expressions). Stable user traits
+#  (full Big Five score profile, identity, demographics) live in
+#  persona `characteristics:` and NOT here. Day-part and day-type
+#  contexts are already handled by `environment.yaml time_windows`
+#  and W3C OWL-Time respectively, so they are intentionally absent.
+#
+#  Default duration / episode bands are pragmatic priors; tighten them
+#  per-cohort with `context_overrides` inside persona_config.yaml,
+#  exactly the way you tighten event_overrides today.
+# =====================================================================
+
+context:
+  # ----------------------------------------------------------------
+  # 1. Mood and emotional state  (MFOEM)
+  # ----------------------------------------------------------------
+  # Categorical, mutually exclusive at any instant. Total duration
+  # across the day is capped so a person can't be "happy" and "sad"
+  # for the entire day at once. Use temporal_patterns to bias
+  # appearance toward specific day-parts / weekdays / horizons.
+  mood:
+    # Umbrella: MFOEM emotion process
+    ontology_uri: http://purl.obolibrary.org/obo/MFOEM_000001
+
+    happy:
+      per_event_duration: { min: 15, max: 180, unit: minutes }
+      total_event_duration: { scale: day, min: 1, max: 5, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 4 }
+      ontology_uri: http://purl.obolibrary.org/obo/MFOEM_000042 # happiness
+      temporal_patterns:
+        - {
+            mode: seasonality,
+            details:
+              {
+                within: [morning, afternoon],
+                amount: 30,
+                direction: increasing,
+              },
+          }
+        - {
+            mode: seasonality,
+            details:
+              { within: [Saturday, Sunday], amount: 1, direction: increasing },
+          }
+
+    sad:
+      per_event_duration: { min: 15, max: 120, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 3, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 3 }
+      ontology_uri: http://purl.obolibrary.org/obo/MFOEM_000056 # sadness
+      temporal_patterns:
+        - {
+            mode: seasonality,
+            details: { within: [night], amount: 20, direction: increasing },
+          }
+
+    angry:
+      per_event_duration: { min: 5, max: 60, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 2, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 3 }
+      ontology_uri: http://purl.obolibrary.org/obo/MFOEM_000009 # anger
+
+    anxious:
+      per_event_duration: { min: 10, max: 90, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 3, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 4 }
+      ontology_uri: http://purl.obolibrary.org/obo/MFOEM_000028 # anxiety
+      temporal_patterns:
+        - {
+            mode: seasonality,
+            details: { within: [Monday], amount: 1, direction: increasing },
+          }
+
+    fearful:
+      per_event_duration: { min: 5, max: 30, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 1, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 2 }
+      ontology_uri: http://purl.obolibrary.org/obo/MFOEM_000026 # fear
+
+    calm:
+      per_event_duration: { min: 30, max: 240, unit: minutes }
+      total_event_duration: { scale: day, min: 1, max: 8, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 5 }
+      ontology_uri: http://purl.obolibrary.org/obo/MFOEM_000107 # feeling at ease
+      temporal_patterns:
+        - {
+            mode: seasonality,
+            details:
+              { within: [evening, night], amount: 30, direction: increasing },
+          }
+
+    nervous:
+      per_event_duration: { min: 5, max: 45, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 2, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 4 }
+      ontology_uri: http://purl.obolibrary.org/obo/MFOEM_000124 # feeling nervous
+
+    surprised:
+      per_event_duration: { min: 1, max: 15, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 60, unit: minutes }
+      total_event_episodes: { scale: day, min: 0, max: 5 }
+      ontology_uri: http://purl.obolibrary.org/obo/MFOEM_000032 # surprise
+
+    disgust:
+      per_event_duration: { min: 1, max: 30, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 60, unit: minutes }
+      total_event_episodes: { scale: day, min: 0, max: 3 }
+      ontology_uri: http://purl.obolibrary.org/obo/MFOEM_000019 # disgust
+
+    guilty:
+      per_event_duration: { min: 5, max: 45, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 1, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 2 }
+      ontology_uri: http://purl.obolibrary.org/obo/MFOEM_000053 # guilt
+
+    ashamed:
+      per_event_duration: { min: 5, max: 45, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 1, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 2 }
+      ontology_uri: http://purl.obolibrary.org/obo/MFOEM_000055 # shame
+
+    content:
+      per_event_duration: { min: 30, max: 240, unit: minutes }
+      total_event_duration: { scale: day, min: 1, max: 6, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 4 }
+      ontology_uri: http://purl.obolibrary.org/obo/MFOEM_000169 # satisfaction
+
+    depressed_mood:
+      per_event_duration: { min: 30, max: 240, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 6, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 3 }
+      ontology_uri: http://humanbehaviourchange.org/ontology/BCIO_050626 # depressed mood
+
+  # ----------------------------------------------------------------
+  # 2. Energy / fatigue state  (MFOEM feelings)
+  # ----------------------------------------------------------------
+  energy_state:
+    ontology_uri: http://purl.obolibrary.org/obo/MFOEM_000006 # subjective affective feeling
+
+    energetic:
+      per_event_duration: { min: 30, max: 240, unit: minutes }
+      total_event_duration: { scale: day, min: 1, max: 8, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 4 }
+      ontology_uri: http://purl.obolibrary.org/obo/MFOEM_000109 # feeling energetic
+      temporal_patterns:
+        - {
+            mode: seasonality,
+            details: { within: [morning], amount: 60, direction: increasing },
+          }
+
+    tired:
+      per_event_duration: { min: 30, max: 240, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 6, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 4 }
+      ontology_uri: http://purl.obolibrary.org/obo/MFOEM_000080 # feeling tired
+      temporal_patterns:
+        - {
+            mode: seasonality,
+            details:
+              { within: [evening, night], amount: 60, direction: increasing },
+          }
+
+    exhausted:
+      per_event_duration: { min: 30, max: 240, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 4, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 2 }
+      ontology_uri: http://purl.obolibrary.org/obo/MFOEM_000112 # feeling exhausted
+
+  # ----------------------------------------------------------------
+  # 3. Physiological context  (MFOEM bodily feelings)
+  # ----------------------------------------------------------------
+  physiological:
+    hungry:
+      per_event_duration: { min: 15, max: 120, unit: minutes }
+      total_event_duration: { scale: day, min: 30, max: 240, unit: minutes }
+      total_event_episodes: { scale: day, min: 2, max: 5 }
+      ontology_uri: http://purl.obolibrary.org/obo/MFOEM_000205 # feeling of hunger
+      temporal_patterns:
+        - { mode: fix, details: { within: [morning, afternoon, evening] } }
+
+    in_pain:
+      per_event_duration: { min: 10, max: 120, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 3, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 3 }
+      ontology_uri: http://purl.obolibrary.org/obo/MFOEM_000203 # pain
+
+  # ----------------------------------------------------------------
+  # 4. Location  (ENVO + COPPER)
+  # ----------------------------------------------------------------
+  # Choose ENVO for typed environments; COPPER for the simple
+  # "Home / Workplace / In a park" enumeration that physical-activity
+  # studies use.
+  location:
+    # Umbrella: ENVO environment system (broadest place class)
+    ontology_uri: http://purl.obolibrary.org/obo/ENVO_01001110
+
+    home:
+      per_event_duration: { min: 30, max: 720, unit: minutes }
+      total_event_duration: { scale: day, min: 8, max: 18, unit: hours }
+      total_event_episodes: { scale: day, min: 1, max: 4 }
+      ontology_uri: https://github.com/EBehaviourChange-COPPER/ontology/blob/main/COPPER_2014 # Home
+
+    bedroom:
+      per_event_duration: { min: 30, max: 600, unit: minutes }
+      total_event_duration: { scale: day, min: 6, max: 12, unit: hours }
+      total_event_episodes: { scale: day, min: 1, max: 3 }
+      ontology_uri: http://purl.obolibrary.org/obo/ENVO_01000423 # living room (closest ENVO; use bedroom proxy)
+      # Note: ENVO has no dedicated 'bedroom' class — closest match is the
+      # generic ENVO_01000426 'room' under a 'human dwelling' ENVO_01000744.
+
+    indoor_kitchen:
+      per_event_duration: { min: 10, max: 90, unit: minutes }
+      total_event_duration: { scale: day, min: 30, max: 180, unit: minutes }
+      total_event_episodes: { scale: day, min: 1, max: 4 }
+      ontology_uri: http://purl.obolibrary.org/obo/ENVO_01000421 # indoor kitchen
+
+    workplace:
+      per_event_duration: { min: 60, max: 600, unit: minutes }
+      total_event_duration: { scale: day, min: 4, max: 10, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 2 }
+      ontology_uri: http://purl.obolibrary.org/obo/OMRSE_00000078 # Workplace
+      temporal_patterns:
+        - {
+            mode: seasonality,
+            details:
+              {
+                within: [Mon, Tue, Wed, Thu, Fri],
+                amount: 5,
+                direction: increasing,
+              },
+          }
+
+    school_or_university:
+      per_event_duration: { min: 30, max: 480, unit: minutes }
+      total_event_duration: { scale: day, min: 1, max: 8, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 2 }
+      ontology_uri: http://purl.obolibrary.org/obo/ENVO_03501131 # university building
+
+    sports_facility:
+      per_event_duration: { min: 30, max: 180, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 3, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 1 }
+      ontology_uri: http://purl.obolibrary.org/obo/ENVO_00000565 # sports facility (gym)
+
+    public_park:
+      per_event_duration: { min: 15, max: 180, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 3, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 2 }
+      ontology_uri: http://purl.obolibrary.org/obo/ENVO_03500002 # public park
+
+    outdoor_environment:
+      per_event_duration: { min: 5, max: 240, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 5, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 4 }
+      ontology_uri: http://purl.obolibrary.org/obo/ENVO_03501101 # outdoor environment
+
+    restaurant:
+      per_event_duration: { min: 30, max: 120, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 2, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 2 }
+      ontology_uri: http://purl.obolibrary.org/obo/ENVO_01000934 # restaurant
+
+    grocery_store:
+      per_event_duration: { min: 15, max: 60, unit: minutes }
+      total_event_duration: { scale: week, min: 30, max: 180, unit: minutes }
+      total_event_episodes: { scale: week, min: 1, max: 3 }
+      ontology_uri: http://purl.obolibrary.org/obo/ENVO_01000984 # grocery store
+
+    supermarket:
+      per_event_duration: { min: 20, max: 90, unit: minutes }
+      total_event_duration: { scale: week, min: 30, max: 240, unit: minutes }
+      total_event_episodes: { scale: week, min: 0, max: 2 }
+      ontology_uri: http://purl.obolibrary.org/obo/ENVO_03501290 # supermarket
+
+    public_transit:
+      per_event_duration: { min: 5, max: 90, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 3, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 4 }
+      ontology_uri: http://purl.obolibrary.org/obo/ENVO_03501111 # public transit system
+
+    healthcare_facility:
+      per_event_duration: { min: 20, max: 120, unit: minutes }
+      total_event_duration: { scale: week, min: 0, max: 240, unit: minutes }
+      total_event_episodes: { scale: week, min: 0, max: 2 }
+      ontology_uri: http://purl.obolibrary.org/obo/ENVO_03501134 # healthcare facility
+
+    friends_home:
+      per_event_duration: { min: 30, max: 240, unit: minutes }
+      total_event_duration: { scale: week, min: 0, max: 8, unit: hours }
+      total_event_episodes: { scale: week, min: 0, max: 3 }
+      ontology_uri: http://purl.obolibrary.org/obo/ENVO_01000744 # human dwelling (generic)
+
+  # ----------------------------------------------------------------
+  # 5. Social context  (COPPER + BCIO)
+  # ----------------------------------------------------------------
+  # Umbrella: COPPER social context (COPPER_2003)
+  social_context:
+    ontology_uri: https://github.com/EBehaviourChange-COPPER/ontology/blob/main/COPPER_2003 # social context
+
+    alone:
+      per_event_duration: { min: 15, max: 480, unit: minutes }
+      total_event_duration: { scale: day, min: 2, max: 12, unit: hours }
+      total_event_episodes: { scale: day, min: 1, max: 5 }
+      ontology_uri: https://github.com/EBehaviourChange-COPPER/ontology/blob/main/COPPER_2004 # Alone
+
+    with_family:
+      per_event_duration: { min: 30, max: 360, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 8, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 4 }
+      ontology_uri: http://humanbehaviourchange.org/ontology/BCIO_006002 # family environmental system
+
+    with_friends:
+      per_event_duration: { min: 30, max: 240, unit: minutes }
+      total_event_duration: { scale: week, min: 1, max: 10, unit: hours }
+      total_event_episodes: { scale: week, min: 0, max: 5 }
+      ontology_uri: http://humanbehaviourchange.org/ontology/BCIO_006003 # friendship network
+
+    with_colleagues:
+      per_event_duration: { min: 30, max: 480, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 8, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 4 }
+      ontology_uri: http://humanbehaviourchange.org/ontology/BCIO_006001 # social environmental system
+
+    with_partner:
+      per_event_duration: { min: 30, max: 720, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 12, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 5 }
+      ontology_uri: http://humanbehaviourchange.org/ontology/BCIO_006002 # family environmental system
+
+    in_community:
+      per_event_duration: { min: 30, max: 240, unit: minutes }
+      total_event_duration: { scale: week, min: 0, max: 8, unit: hours }
+      total_event_episodes: { scale: week, min: 0, max: 4 }
+      ontology_uri: http://humanbehaviourchange.org/ontology/BCIO_006001 # social environmental system
+
+  # ----------------------------------------------------------------
+  # 6. Weather / environmental opportunity  (COPPER + ENVO)
+  # ----------------------------------------------------------------
+  # COPPER models weather as an *opportunity* for activity rather than
+  # a meteorological state — perfect for behaviour-change simulation.
+  weather:
+    ontology_uri: https://github.com/EBehaviourChange-COPPER/ontology/blob/main/COPPER_3017 # weather opportunity
+
+    suitable_for_outdoor:
+      per_event_duration: { min: 60, max: 720, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 14, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 2 }
+      ontology_uri: https://github.com/EBehaviourChange-COPPER/ontology/blob/main/COPPER_3019 # sufficiently warm temperate
+
+    too_cold:
+      per_event_duration: { min: 60, max: 720, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 14, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 1 }
+      ontology_uri: https://github.com/EBehaviourChange-COPPER/ontology/blob/main/COPPER_3125 # it is too cold
+      temporal_patterns:
+        - {
+            mode: seasonality,
+            details:
+              {
+                scale: season,
+                within: [winter],
+                amount: 5,
+                direction: increasing,
+              },
+          }
+
+    too_warm:
+      per_event_duration: { min: 60, max: 720, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 14, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 1 }
+      ontology_uri: https://github.com/EBehaviourChange-COPPER/ontology/blob/main/COPPER_3126 # it is too warm
+      temporal_patterns:
+        - {
+            mode: seasonality,
+            details:
+              {
+                scale: season,
+                within: [summer],
+                amount: 5,
+                direction: increasing,
+              },
+          }
+
+    raining_or_snowing:
+      per_event_duration: { min: 30, max: 480, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 8, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 2 }
+      ontology_uri: https://github.com/EBehaviourChange-COPPER/ontology/blob/main/COPPER_3127 # it is raining / snowing
+
+    windy:
+      per_event_duration: { min: 30, max: 480, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 8, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 2 }
+      ontology_uri: https://github.com/EBehaviourChange-COPPER/ontology/blob/main/COPPER_3128 # too much wind
+
+  # ----------------------------------------------------------------
+
+  # ----------------------------------------------------------------
+  # 7. Trait state  (Big Five — BFI / NEO-PI / IPIP; TCI — Cloninger; OCHV adjuncts)
+  # ----------------------------------------------------------------
+  # MOMENTARY expressions of personality dimensions. The stable trait
+  # score for each user belongs in persona `characteristics:`; this
+  # block models the user being IN a state characterised by a trait
+  # right now (e.g. behaving in a novelty-seeking way for two hours
+  # after lunch). The `polarity` field disambiguates high / low.
+  # Big-Five facet IRIs without a clean EFO trait class fall back to
+  # local `https://w3id.org/calendar-bench/context#trait/*` URIs;
+  # most TCI subscales use the same local namespace because no
+  # widely-adopted ontology owns them.
+  trait_state:
+
+    # ---- Big Five (BFI / NEO-PI / IPIP) ----
+    extraverted_state:
+      per_event_duration:   { min: 30, max: 240, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 8, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 5 }
+      ontology_uri: http://www.ebi.ac.uk/efo/EFO_0004317   # extraversion (trait)
+      polarity: high
+      instrument: BFI
+
+    introverted_state:
+      per_event_duration:   { min: 30, max: 480, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 12, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 5 }
+      ontology_uri: http://www.ebi.ac.uk/efo/EFO_0004317   # extraversion (trait, low end)
+      polarity: low
+      instrument: BFI
+
+    agreeable_state:
+      per_event_duration:   { min: 30, max: 240, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 10, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 5 }
+      ontology_uri: https://w3id.org/calendar-bench/context#trait/AgreeablenessHigh
+      polarity: high
+      instrument: BFI
+
+    antagonistic_state:
+      per_event_duration:   { min: 5, max: 90, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 3, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 4 }
+      ontology_uri: https://w3id.org/calendar-bench/context#trait/AgreeablenessLow
+      polarity: low
+      instrument: BFI
+
+    conscientious_state:
+      per_event_duration:   { min: 30, max: 360, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 10, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 4 }
+      ontology_uri: https://w3id.org/calendar-bench/context#trait/ConscientiousnessHigh
+      polarity: high
+      instrument: BFI
+
+    careless_state:
+      per_event_duration:   { min: 15, max: 180, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 6, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 5 }
+      ontology_uri: https://w3id.org/calendar-bench/context#trait/ConscientiousnessLow
+      polarity: low
+      instrument: BFI
+
+    emotionally_reactive_state:
+      per_event_duration:   { min: 10, max: 120, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 4, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 5 }
+      ontology_uri: https://w3id.org/calendar-bench/context#trait/NeuroticismHigh
+      polarity: high
+      instrument: BFI
+      comment: "High-neuroticism state: anxious, irritable, mood-reactive."
+
+    emotionally_stable_state:
+      per_event_duration:   { min: 30, max: 480, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 14, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 5 }
+      ontology_uri: https://w3id.org/calendar-bench/context#trait/NeuroticismLow
+      polarity: low
+      instrument: BFI
+
+    open_to_experience_state:
+      per_event_duration:   { min: 30, max: 240, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 8, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 5 }
+      ontology_uri: https://w3id.org/calendar-bench/context#trait/OpennessHigh
+      polarity: high
+      instrument: BFI
+
+    conventional_state:
+      per_event_duration:   { min: 30, max: 360, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 10, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 4 }
+      ontology_uri: https://w3id.org/calendar-bench/context#trait/OpennessLow
+      polarity: low
+      instrument: BFI
+
+    # ---- TCI temperament (Cloninger) ----
+    novelty_seeking_state:
+      per_event_duration:   { min: 30, max: 180, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 5, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 4 }
+      ontology_uri: https://w3id.org/calendar-bench/context#trait/NoveltySeekingHigh
+      polarity: high
+      instrument: TCI
+
+    routine_oriented_state:
+      per_event_duration:   { min: 60, max: 480, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 14, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 4 }
+      ontology_uri: https://w3id.org/calendar-bench/context#trait/NoveltySeekingLow
+      polarity: low
+      instrument: TCI
+
+    harm_avoidant_state:
+      per_event_duration:   { min: 15, max: 240, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 6, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 4 }
+      ontology_uri: https://w3id.org/calendar-bench/context#trait/HarmAvoidanceHigh
+      polarity: high
+      instrument: TCI
+
+    risk_tolerant_state:
+      per_event_duration:   { min: 30, max: 240, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 6, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 4 }
+      ontology_uri: https://w3id.org/calendar-bench/context#trait/HarmAvoidanceLow
+      polarity: low
+      instrument: TCI
+
+    reward_dependent_state:
+      per_event_duration:   { min: 30, max: 240, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 6, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 4 }
+      ontology_uri: https://w3id.org/calendar-bench/context#trait/RewardDependenceHigh
+      polarity: high
+      instrument: TCI
+
+    reward_independent_state:
+      per_event_duration:   { min: 30, max: 240, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 6, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 4 }
+      ontology_uri: https://w3id.org/calendar-bench/context#trait/RewardDependenceLow
+      polarity: low
+      instrument: TCI
+
+    persistent_state:
+      per_event_duration:   { min: 30, max: 360, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 8, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 4 }
+      ontology_uri: https://w3id.org/calendar-bench/context#trait/PersistenceHigh
+      polarity: high
+      instrument: TCI
+
+    easily_discouraged_state:
+      per_event_duration:   { min: 10, max: 120, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 4, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 5 }
+      ontology_uri: https://w3id.org/calendar-bench/context#trait/PersistenceLow
+      polarity: low
+      instrument: TCI
+
+    # ---- TCI character (Cloninger) ----
+    self_directed_state:
+      per_event_duration:   { min: 30, max: 360, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 10, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 4 }
+      ontology_uri: https://w3id.org/calendar-bench/context#trait/SelfDirectednessHigh
+      polarity: high
+      instrument: TCI
+
+    blaming_state:
+      per_event_duration:   { min: 5, max: 90, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 3, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 4 }
+      ontology_uri: https://w3id.org/calendar-bench/context#trait/SelfDirectednessLow
+      polarity: low
+      instrument: TCI
+
+    cooperative_state:
+      per_event_duration:   { min: 30, max: 240, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 8, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 5 }
+      ontology_uri: https://w3id.org/calendar-bench/context#trait/CooperativenessHigh
+      polarity: high
+      instrument: TCI
+
+    uncooperative_state:
+      per_event_duration:   { min: 5, max: 90, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 3, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 4 }
+      ontology_uri: http://sbmi.uth.tmc.edu/ontology/ochv#C0424350   # uncooperativeness (OCHV)
+      polarity: low
+      instrument: TCI
+
+    self_transcendent_state:
+      per_event_duration:   { min: 15, max: 180, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 4, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 3 }
+      ontology_uri: https://w3id.org/calendar-bench/context#trait/SelfTranscendenceHigh
+      polarity: high
+      instrument: TCI
+
+    individualistic_state:
+      per_event_duration:   { min: 30, max: 240, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 6, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 4 }
+      ontology_uri: https://w3id.org/calendar-bench/context#trait/SelfTranscendenceLow
+      polarity: low
+      instrument: TCI
+
+    # ---- Adjunct momentary trait expressions (OCHV) ----
+    impulsive_state:
+      per_event_duration:   { min: 1, max: 30, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 2, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 6 }
+      ontology_uri: http://sbmi.uth.tmc.edu/ontology/ochv#C0815111   # impulsivity (OCHV)
+      polarity: high
+      instrument: Eysenck/Barratt
+
+    sensation_seeking_state:
+      per_event_duration:   { min: 15, max: 180, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 4, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 3 }
+      ontology_uri: http://sbmi.uth.tmc.edu/ontology/ochv#C0871336   # sensation seeking (OCHV)
+      polarity: high
+      instrument: Zuckerman SSS
+
+    optimistic_state:
+      per_event_duration:   { min: 30, max: 240, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 8, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 4 }
+      ontology_uri: http://sbmi.uth.tmc.edu/ontology/ochv#C0237428   # optimism (OCHV)
+      polarity: high
+      instrument: LOT-R
+
+    pessimistic_state:
+      per_event_duration:   { min: 30, max: 240, unit: minutes }
+      total_event_duration: { scale: day, min: 0, max: 6, unit: hours }
+      total_event_episodes: { scale: day, min: 0, max: 4 }
+      ontology_uri: http://sbmi.uth.tmc.edu/ontology/ochv#C0424134   # pessimism (OCHV)
+      polarity: high
+      instrument: LOT-R

@@ -1,0 +1,147 @@
+# Senior leisure cohort; multi-scenario config with shared L_pref v2 signals.
+
+experiment_id: experiment_b
+run_dir: ./output/experiment_b
+output_base: ./output
+
+scenarios:
+  # ── Scenario 1: Level-2 physical activity — L_pref v2 stress test ─────
+  - id: senior_walking_l2
+    description: >-
+      5 physical-activity tasks per week at Level 2 (light effort) on the
+      senior cohort.  Designed to stress the L_pref v2 walking signals
+      declared on `b_parttime_morning`'s `walking` event override:
+      morning-seasonality (+20 %), weekend-share boost (+25 %), and the
+      day-indexed 28-day duration trend.  An augmenter that places all
+      walks in the afternoon or fails to ramp duration across the
+      horizon will register non-zero `temporal_pattern_seasonality` and
+      `temporal_pattern_trend` violations in the per-persona
+      `pref_violations.jsonl` sidecar.  Per-occurrence duration is also
+      tightened to [30, 75] min on this persona, so a Level-2 task that
+      schedules a 15-min walk will additionally fire the
+      `per_occurrence_duration` leg.
+
+    evaluation:
+      buffer_minutes:         30
+      merge_threshold:        0.70
+      disp_half_life_days:    2.0
+
+    task_generation:
+      method: graphrag_grounded
+      seed: 20260601
+      num_tasks: 10              # tasks per week; keep equal across scenarios
+      ontologies:
+        - HealthTasks
+        - HumanActivities
+      prompt_template: health_improvement
+      filters:
+        domains:
+          - PhysicalActivityTask
+        difficulty:
+          - Level2
+
+      max_fetch_retries: 5
+      paraphrase: true
+      paraphrase_similarity_threshold: 0.80
+      paraphrase_max_length_delta_pct: 0.20
+
+    augmentation:
+      - method: greedy
+        allow_merge: true
+        merge_threshold: 0.70
+        repeat_per_week: true
+        greedy:
+          strategy: preference_first
+          retry_on_miss: true
+          max_backtrack: 3
+        loss:
+          lambda_cov:    0.18
+          lambda_cal:    0.18
+          lambda_pref:   0.13
+          lambda_disp:   0.18
+          lambda_merge:  0.13
+          lambda_spread: 0.10
+          lambda_divide: 0.10
+
+      - method: llm_agent
+        allow_merge: true
+        merge_threshold: 0.70
+        repeat_per_week: true
+        llm_agent:
+          model: gpt-4o-mini
+          max_retries: 1
+        loss:
+          lambda_cov:    0.18
+          lambda_cal:    0.18
+          lambda_pref:   0.13
+          lambda_disp:   0.18
+          lambda_merge:  0.13
+          lambda_spread: 0.10
+          lambda_divide: 0.10
+
+  # ── Scenario 2: Level-1 → Level-3 mixed-difficulty wellbeing tasks ─────
+  - id: senior_leisure_l123
+    description: >-
+      Mixed-difficulty (Level 1 – Level 3) physical-activity tasks per
+      week on the senior cohort.
+
+    evaluation:
+      buffer_minutes:         30
+      merge_threshold:        0.70
+      disp_half_life_days:    2.0
+
+    task_generation:
+      method: graphrag_grounded
+      seed: 20260602
+      num_tasks: 10              # tasks per week; keep equal across scenarios
+      ontologies:
+        - HealthTasks
+        - HumanActivities
+      prompt_template: health_improvement
+      filters:
+        domains:
+          - PhysicalActivityTask
+        difficulty:
+          - Level1
+          - Level2
+          - Level3
+
+      max_fetch_retries: 5
+      paraphrase: true
+      paraphrase_similarity_threshold: 0.80
+      paraphrase_max_length_delta_pct: 0.20
+      fetch_top_k: 40             # widened for Level-3 slice of the ontology
+
+    augmentation:
+      - method: greedy
+        allow_merge: true
+        merge_threshold: 0.70
+        repeat_per_week: true
+        greedy:
+          strategy: preference_first
+          retry_on_miss: true
+          max_backtrack: 3
+        loss:
+          lambda_cov:    0.18
+          lambda_cal:    0.18
+          lambda_pref:   0.13
+          lambda_disp:   0.18
+          lambda_merge:  0.13
+          lambda_spread: 0.10
+          lambda_divide: 0.10
+
+      - method: llm_agent
+        allow_merge: true
+        merge_threshold: 0.70
+        repeat_per_week: true
+        llm_agent:
+          model: gpt-4o-mini
+          max_retries: 1
+        loss:
+          lambda_cov:    0.18
+          lambda_cal:    0.18
+          lambda_pref:   0.13
+          lambda_disp:   0.18
+          lambda_merge:  0.13
+          lambda_spread: 0.10
+          lambda_divide: 0.10

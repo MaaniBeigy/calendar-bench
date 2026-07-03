@@ -1,0 +1,320 @@
+# LTL + Allen rules. Mixes pure event rules with
+# context-aware rules that exercise the kind:context Allen selector and
+# the health_task_class HealthTasks hierarchy walk.
+
+rules:
+  # ----- Pure event x event -----
+  - id: no_overlap_sleep_work
+    formula: "G ¬(sleep ∧ office_work)"
+
+  - id: no_overlap_sleep_running
+    formula: "G ¬(sleep ∧ running)"
+
+  - id: no_overlap_lunch_work
+    formula: "G ¬(lunch ∧ office_work)"
+
+  - id: weekly_gym_target_fulltime
+    formula: "weekly_count(gym, ≥, 2)"
+    applies_to:
+      occupation_status: [fulltime]
+
+  # ----- Event x context exclusions -----
+  # High-intensity work should not land on a tired window.
+  - id: no_office_when_tired
+    formula: "G ¬(office_work ∧ context:tired)"
+
+  # Gym requires energy; not while tired.
+  - id: no_gym_when_tired
+    formula: "G ¬(gym ∧ context:tired)"
+
+  # Running similarly demands an energetic state.
+  - id: no_running_when_tired
+    formula: "G ¬(running ∧ context:tired)"
+
+  # Sleep should not coincide with anxiety; anxiety should be resolved first.
+  - id: no_sleep_when_anxious
+    formula: "G ¬(sleep ∧ context:anxious)"
+
+  # ----- Context x context exclusions -----
+  # Mutually-exclusive states inside the same category must not overlap;
+  # a person cannot hold two locations or two opposing moods at the same
+  # minute. These rules mirror the `mutually_exclusive: true` flags in
+  # persona_config.yaml as a belt-and-braces check.
+
+  # mood_emotion (mutually_exclusive)
+  - id: no_happy_when_anxious
+    formula: "G ¬(context:happy ∧ context:anxious)"
+
+  - id: no_calm_when_anxious
+    formula: "G ¬(context:calm ∧ context:anxious)"
+
+  # energy_state (mutually_exclusive)
+  - id: no_energetic_when_tired
+    formula: "G ¬(context:energetic ∧ context:tired)"
+
+  # location (mutually_exclusive): three pairs.
+  - id: no_home_at_workplace
+    formula: "G ¬(context:home ∧ context:workplace)"
+
+  - id: no_home_at_public_park
+    formula: "G ¬(context:home ∧ context:public_park)"
+
+  - id: no_workplace_at_public_park
+    formula: "G ¬(context:workplace ∧ context:public_park)"
+
+  # social_context (mutually_exclusive)
+  - id: no_alone_with_family_at_once
+    formula: "G ¬(context:alone ∧ context:with_family)"
+
+  # weather_environment (mutually_exclusive)
+  - id: no_outdoor_when_raining
+    formula: "G ¬(context:suitable_for_outdoor ∧ context:raining_or_snowing)"
+
+  # sdt_regulation (mutually_exclusive)
+  - id: no_intrinsic_when_external
+    formula: "G ¬(context:intrinsic_motivation ∧ context:external_regulation)"
+
+  # behaviour_state bipolar pairs
+  - id: no_intend_and_avoid_at_once
+    formula: "G ¬(context:intention_to_enact_a_behaviour ∧ context:intention_not_to_enact_a_behaviour)"
+
+  # capability_opportunity bipolar pairs
+  - id: no_opportunity_and_low_opportunity_at_once
+    formula: "G ¬(context:physical_behavioural_opportunity ∧ context:low_physical_opportunity_to_enact_a_behaviour)"
+
+  - id: no_efficacy_and_low_efficacy_at_once
+    formula: "G ¬(context:self_efficacy_belief_for_a_behaviour ∧ context:low_self_efficacy)"
+
+  # Planning while tired is wasted effort.
+  - id: no_action_planning_when_tired
+    formula: "G ¬(context:action_planning ∧ context:tired)"
+
+  # ----- Cognitive context / event temporal pairs -----
+  # Two LTL shapes are used here in addition to the standard
+  # implies-future `G (A -> F B)`:
+  #   shape (2) `F (A AND B)`         A and B co-occur at least once
+  #                                   in the horizon
+  #   shape (3) `G (A -> F (A AND B))` every A instance is overlapped
+  #                                   by some B
+  # The persona context placer now treats events as non-blocking for
+  # context placement; contexts represent person STATES that may
+  # coexist with activities. Non-overlap is enforced by explicit
+  # `G !(E AND C)` rules above where the pair should never share a
+  # minute (e.g. sleep with anxious).
+
+  # Pre-event implies-future pairs: a cognitive precursor fires, then
+  # the event follows in time.
+  - id: action_planning_followed_by_walking
+    formula: "G (context:action_planning → F walking)"
+
+  - id: intend_to_walk_followed_by_walking
+    formula: "G (context:intend_to_walk → F walking)"
+
+  - id: hungry_followed_by_lunch
+    formula: "G (context:hungry → F lunch)"
+
+  - id: hungry_followed_by_dinner
+    formula: "G (context:hungry → F dinner)"
+
+  # Anxious episodes call for a journaling block in the evening.
+  - id: anxious_followed_by_journaling
+    formula: "G (context:anxious → F journaling)"
+
+  # Post-event implies-future pairs: the event fires, then the
+  # post-state context follows.
+  - id: office_work_followed_by_tired
+    formula: "G (office_work → F context:tired)"
+
+  - id: meeting_followed_by_tired
+    formula: "G (meeting → F context:tired)"
+
+  - id: gym_followed_by_tired
+    formula: "G (gym → F context:tired)"
+
+  - id: walking_followed_by_calm
+    formula: "G (walking → F context:calm)"
+
+  # Shape (3) co-occurrence: every event of this kind must overlap an
+  # episode of the named context. Each rule pairs an event with the
+  # cognitive state that enables or rides on it.
+
+  - id: gym_overlaps_self_efficacy
+    formula: "G (gym → F (gym ∧ context:self_efficacy_belief_for_a_behaviour))"
+
+  # Shape (2) instead of (3): with running's wider [morning,
+  # afternoon] window and energetic's mutually-exclusive episode
+  # placement, "every run overlaps energetic" is too tight; the
+  # at-least-once form scores whether the user EVER runs in an
+  # energetic state across the horizon.
+  - id: running_co_occurs_with_energetic
+    formula: "F (running ∧ context:energetic)"
+
+  - id: walking_overlaps_physical_opportunity
+    formula: "G (walking → F (walking ∧ context:physical_behavioural_opportunity))"
+
+  # Relaxed from shape (3) to shape (2): every-office_work overlap was
+  # the most restrictive rule of the four event-context overlap pairs
+  # and pushed two days to unsat. At-least-once across the horizon
+  # gives the augmenter the same semantic signal with feasibility room.
+  - id: office_work_co_occurs_with_psychological_capability
+    formula: "F (office_work ∧ context:psychological_behavioural_capability)"
+
+  # Shape (2) at-least-once co-occurrence: somewhere across the
+  # simulated horizon, the event and the context overlap at least
+  # once. Used for looser semantic links where every-occurrence
+  # overlap would be overly strict.
+
+  - id: gym_co_occurs_with_habit
+    formula: "F (gym ∧ context:habitual_behaviour)"
+
+  - id: meeting_co_occurs_with_social_opportunity
+    formula: "F (meeting ∧ context:social_behavioural_opportunity)"
+
+  - id: running_co_occurs_with_intention
+    formula: "F (running ∧ context:intention_to_enact_a_behaviour)"
+
+  # ----- Weekly count targets -----
+  - id: weekly_park_target
+    formula: "weekly_count(context:public_park, ≥, 1)"
+
+allen_pair_rules:
+  # ----- Pure event x event -----
+  # No two high-intensity activities back to back.
+  - id: intensive_far_from_intensive
+    event_a: { intensity: [3, 4] }
+    event_b: { intensity: [3, 4] }
+    admissible_relations: [p, P]
+
+  # Lunch is followed by a 60-min settle period before anything intensive.
+  - id: lunch_far_from_intensive
+    event_a: { name: lunch }
+    event_b: { intensity: [2, 3, 4] }
+    admissible_relations: [p, P]
+    buffer: 60
+
+  # Sleep is always separated from running.
+  - id: sleep_separates_from_running
+    event_a: { name: sleep }
+    event_b: { name: running }
+    admissible_relations: [p, m, M, P]
+
+  # ----- Event x context -----
+  # Anxious episodes are kept away from sleep with a 60-min buffer.
+  - id: anxious_far_from_sleep
+    event_a: { kind: context, name: anxious }
+    event_b: { name: sleep }
+    admissible_relations: [p, P]
+    buffer: 60
+
+  # Tired episodes stay separated from gym sessions.
+  - id: tired_separated_from_gym
+    event_a: { kind: context, name: tired }
+    event_b: { name: gym }
+    admissible_relations: [p, m, M, P]
+    buffer: 30
+
+  # Workplace context and lunch must be separated (lunch is a break).
+  - id: workplace_far_from_lunch
+    event_a: { kind: context, name: workplace }
+    event_b: { name: lunch }
+    admissible_relations: [p, m, M, P]
+
+  # ----- Context x augmented HealthTask (uses health_task_class closure) -----
+  # Cardio HealthTasks (Running/Cycling/Swimming branch) kept away from
+  # tired windows; the SUBCLASSOF closure covers every leaf under
+  # PhysicalActivityCardioAndStaminaTask.
+  - id: tired_far_from_cardio_task
+    event_a: { kind: context, name: tired }
+    event_b: { kind: task, health_task_class: PhysicalActivityCardioAndStaminaTask }
+    admissible_relations: [p, m, M, P]
+    buffer: 30
+
+  # Same shape for strength tasks.
+  - id: tired_far_from_strength_task
+    event_a: { kind: context, name: tired }
+    event_b: { kind: task, health_task_class: PhysicalActivityStrengthAndBodyweightMovesTask }
+    admissible_relations: [p, m, M, P]
+    buffer: 30
+
+  # Low self-efficacy should not host high-intensity HealthTasks; push
+  # the augmenter toward Level1/Level2 alternatives in those windows.
+  - id: low_self_efficacy_far_from_intensive_task
+    event_a: { kind: context, name: low_self_efficacy }
+    event_b: { kind: task, intensity: [3, 4] }
+    admissible_relations: [p, P]
+    buffer: 30
+
+  # Low physical opportunity (rain, transport block) excludes outdoor
+  # walking + steps tasks.
+  - id: low_opportunity_far_from_walking_task
+    event_a: { kind: context, name: low_physical_opportunity_to_enact_a_behaviour }
+    event_b: { kind: task, health_task_class: PhysicalActivityDailyStepsAndWalkingTask }
+    admissible_relations: [p, m, M, P]
+    buffer: 15
+
+  # Action planning is the precondition for an intensive HealthTask:
+  # the planning episode should precede or meet (immediately precede)
+  # the intensive task that day.
+  - id: action_planning_precedes_intensive_task
+    event_a: { kind: context, name: action_planning }
+    event_b: { kind: task, intensity: [3, 4] }
+    admissible_relations: [p, m]
+
+  # The active intention episode envelopes the physical-activity
+  # placement; rule out the "act first, intend later" inversion.
+  - id: intention_before_physical_task
+    event_a: { kind: context, name: intention_to_enact_a_behaviour }
+    event_b: { kind: task, health_task_class: PhysicalActivityTask }
+    admissible_relations: [p, m, o, s, d, f, e]
+
+  # Calm-breathing / mindfulness HealthTasks belong DURING an anxious
+  # episode (or overlapping it) so the placement actually addresses the
+  # mood; exclude strict-precede / strict-follow.
+  - id: mindfulness_during_anxious
+    event_a: { kind: task, health_task_class: MentalWellbeingCalmBreathingAndMindfulnessTask }
+    event_b: { kind: context, name: anxious }
+    admissible_relations: [o, s, d, f, e, S, D, F, O]
+    buffer: 0
+
+  # Same shape for coping_planning: the mindfulness task should overlap
+  # the planning episode so it folds into the user's coping response.
+  - id: mindfulness_during_coping_planning
+    event_a: { kind: task, health_task_class: MentalWellbeingCalmBreathingAndMindfulnessTask }
+    event_b: { kind: context, name: coping_planning }
+    admissible_relations: [o, s, d, f, e, S, D, F, O]
+    buffer: 0
+
+  # Walking HealthTasks should land DURING a physical opportunity
+  # window when one is open. This is the positive counterpart to
+  # `low_opportunity_far_from_walking_task` above.
+  - id: walking_task_during_physical_opportunity
+    event_a: { kind: task, health_task_class: PhysicalActivityDailyStepsAndWalkingTask }
+    event_b: { kind: context, name: physical_behavioural_opportunity }
+    admissible_relations: [o, s, d, f, e, S, D, F, O]
+
+  # Walking HealthTasks should also overlap an active intent to walk
+  # (goal_intention) so the placement matches the user's stated goal.
+  - id: walking_task_during_intend_to_walk
+    event_a: { kind: task, health_task_class: PhysicalActivityDailyStepsAndWalkingTask }
+    event_b: { kind: context, name: intend_to_walk }
+    admissible_relations: [o, s, d, f, e, S, D, F, O]
+
+  # Walking HealthTasks ride on the user's habit pattern when one is
+  # active; co-occurring placement gets credit, strict separation does
+  # not.
+  - id: walking_task_during_habitual_behaviour
+    event_a: { kind: task, health_task_class: PhysicalActivityDailyStepsAndWalkingTask }
+    event_b: { kind: context, name: habitual_behaviour }
+    admissible_relations: [o, s, d, f, e, S, D, F, O]
+
+  # Strength HealthTasks should overlap the self-efficacy window.
+  - id: strength_task_during_self_efficacy
+    event_a: { kind: task, health_task_class: PhysicalActivityStrengthAndBodyweightMovesTask }
+    event_b: { kind: context, name: self_efficacy_belief_for_a_behaviour }
+    admissible_relations: [o, s, d, f, e, S, D, F, O]
+
+  # Cardio HealthTasks lean into the energetic state when present.
+  - id: cardio_task_during_energetic
+    event_a: { kind: task, health_task_class: PhysicalActivityCardioAndStaminaTask }
+    event_b: { kind: context, name: energetic }
+    admissible_relations: [o, s, d, f, e, S, D, F, O]

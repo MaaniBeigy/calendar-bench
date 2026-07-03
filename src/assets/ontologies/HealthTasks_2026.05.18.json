@@ -1,0 +1,4108 @@
+{
+  "Nutrition": {
+    "BetterBeverageBalance": {
+      "Level1": {
+        "tea-time": {
+          "title": "Tea Time ☕",
+          "description": "Replace one coffee with black, green, or herbal tea today. Choose a time when you normally drink coffee.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/eating-sitting"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "counter_conditioning",
+              "self_liberation"
+            ],
+            "bct": [
+              "action_planning_bct",
+              "behavioural_substitution"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy"
+            ]
+          }
+        }
+      },
+      "Level2": {
+        "lower-sugar-drink": {
+          "title": "Lower-Sugar Drink ☕",
+          "description": "Prepare one coffee or tea with less sugar than usual. Use a sweetener only if it helps you make the smaller-sugar step.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/eating-sitting"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "counter_conditioning"
+            ],
+            "bct": [
+              "behavioural_substitution"
+            ],
+            "behaviour_state": [
+              "coping_planning"
+            ]
+          }
+        },
+        "try-sparkling-water": {
+          "title": "Try Sparkling Water ✨",
+          "description": "Swap one sweet drink for sparkling water with lemon, mint, or cucumber. Put it with a meal or study break so it is easy to remember.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/eating-sitting"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "counter_conditioning"
+            ],
+            "bct": [
+              "behavioural_substitution"
+            ],
+            "behaviour_state": [
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_to_feel_competent"
+            ]
+          }
+        }
+      },
+      "Level3": {
+        "blend-a-smoothie": {
+          "title": "Blend a Smoothie 🥤",
+          "description": "What about blending coconut water with frozen fruit for one smoothie. Keep the portion simple and easy for yourself.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 30,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/kitchen-activity-general-e-g-cooking-washing-dishes-cleaning-up-moderate-effort"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation"
+            ],
+            "behaviour_state": [
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "need_to_feel_competent",
+              "physical_behavioural_capability"
+            ]
+          }
+        }
+      }
+    },
+    "HydrationBoost": {
+      "Level1": {
+        "carry-your-bottle-of-water": {
+          "title": "Carry Your Bottle of Water 🫙",
+          "description": "Take a reusable bottle with you and refill it when you arrive somewhere new.",
+          "isConcurrent": true,
+          "isDividable": true,
+          "estimatedDuration": 5,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-tasks-light-effort-e-g-office-work-chemistry-lab-work-light-assembly-repair-watch-repair-reading-desk-work"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "stimulus_control"
+            ],
+            "bct": [
+              "prompt_intended_action"
+            ],
+            "capability_opportunity": [
+              "physical_behavioural_opportunity"
+            ]
+          }
+        },
+        "drink-a-glass-of-water": {
+          "title": "Drink A Glass of Water 🫗",
+          "description": "Make a water drinking ritual, for example one after waking up and one during work, study, and before lunch. Log the glasses when you finish.",
+          "isConcurrent": true,
+          "isDividable": true,
+          "estimatedDuration": 5,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/eating-sitting"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "consciousness_raising"
+            ],
+            "behaviour_state": [
+              "automatic_behavioural_motivation",
+              "self_regulation_of_behaviour"
+            ]
+          }
+        }
+      },
+      "Level2": {
+        "infuse-a-water-bottle": {
+          "title": "Infuse a Water Bottle 🥒",
+          "description": "Prepare one bottle or jug of water with fruit, mint, cucumber, or lemon. Keep it nearby and drink it during your next routine block.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/kitchen-activity-general-e-g-cooking-washing-dishes-cleaning-up-moderate-effort"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "stimulus_control"
+            ],
+            "bct": [
+              "prompt_intended_action"
+            ],
+            "behaviour_state": [
+              "automatic_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "physical_behavioural_opportunity"
+            ]
+          }
+        }
+      }
+    },
+    "MealPlanningAndShopping": {
+      "Level1": {
+        "plan-this-week-s-meals": {
+          "title": "Plan This Week's Meals 🗓️",
+          "description": "Write a simple plan for this week's breakfast, lunch, and dinner. Keep it realistic, using food you can actually prepare or buy.",
+          "isConcurrent": false,
+          "isDividable": true,
+          "estimatedDuration": 45,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation"
+            ],
+            "bct": [
+              "action_planning_bct"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_to_feel_competent",
+              "physical_behavioural_opportunity",
+              "psychological_behavioural_capability"
+            ]
+          }
+        }
+      },
+      "Level2": {
+        "buy-three-fresh-items": {
+          "title": "Buy Three Fresh Items 🥬",
+          "description": "Buy at least three fresh items, such as fruit, vegetables, or wholegrain bread. Choose a market, local shop, or your usual supermarket.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/food-shopping-with-or-without-a-grocery-cart-carrying-a-10-lb-bag-standing-or-walking"
+          ],
+          "context_links": {
+            "behaviour_state": [
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "physical_behavioural_opportunity"
+            ],
+            "sdt_regulation": [
+              "identified_regulation"
+            ]
+          }
+        },
+        "write-a-grocery-list": {
+          "title": "Write a Grocery List 🛒",
+          "description": "Before shopping, write your shopping list including healthy items such as fruit, vegetables, or wholegrain bread. Take a photo or screenshot of the list.",
+          "isConcurrent": false,
+          "isDividable": true,
+          "estimatedDuration": 30,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "bct": [
+              "action_planning_bct"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "psychological_behavioural_capability"
+            ],
+            "sdt_regulation": [
+              "identified_regulation"
+            ]
+          }
+        }
+      },
+      "Level3": {
+        "share-a-meal": {
+          "title": "Share a Meal 🌮",
+          "description": "Invite someone for a simple meal, tea, or coffee. Choose a time that feels easy for both of you.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 30,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/eating-sitting"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "social_liberation"
+            ],
+            "bct": [
+              "action_planning_bct",
+              "awareness_of_others"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_a_sense_of_belonging_and_attachment",
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "social_behavioural_opportunity"
+            ]
+          }
+        }
+      },
+      "Level4": {
+        "batch-cook-healthy-meal": {
+          "title": "Batch-Cook Healthy Meal 🍲",
+          "description": "Cook one healthy meal in a bigger batch so you have leftovers for later. Pack one portion for a busier day.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 120,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/cooking-or-food-preparation-moderate-effort"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "stimulus_control"
+            ],
+            "bct": [
+              "prompt_intended_action"
+            ],
+            "capability_opportunity": [
+              "physical_behavioural_capability"
+            ],
+            "sdt_regulation": [
+              "identified_regulation"
+            ]
+          }
+        },
+        "plan-meals-and-groceries": {
+          "title": "Plan Meals and Groceries 🗓️",
+          "description": "Plan for a few meals for the week and write a matching grocery list. Keep it short enough to follow when you shop.",
+          "isConcurrent": false,
+          "isDividable": true,
+          "estimatedDuration": 60,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "bct": [
+              "action_planning_bct"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "reflective_behavioural_motivation",
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "need_to_feel_competent",
+              "physical_behavioural_opportunity",
+              "psychological_behavioural_capability"
+            ]
+          }
+        }
+      }
+    },
+    "MealUpgrade": {
+      "Level1": {
+        "eat-a-peanut-spread": {
+          "title": "Eat a Peanut Spread 🥜",
+          "description": "Use a 100% peanut spread instead of chocolate spread for one breakfast or snack.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/eating-sitting"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "counter_conditioning",
+              "self_liberation"
+            ],
+            "bct": [
+              "behavioural_substitution"
+            ],
+            "behaviour_state": [
+              "reflective_behavioural_motivation"
+            ]
+          }
+        },
+        "eat-canned-fish": {
+          "title": "Eat Canned Fish 🥫",
+          "description": "For sandwich, salad, or quick meal, choose canned fish instead of processed meat.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 30,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/eating-sitting"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "counter_conditioning"
+            ],
+            "bct": [
+              "behavioural_substitution"
+            ],
+            "behaviour_state": [
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy"
+            ]
+          }
+        },
+        "eat-cheese-instead-of-processed-meat": {
+          "title": "Eat Cheese Instead of Processed Meat 🧀",
+          "description": "Make one sandwich or meal with cheese and vegetables instead of processed meat.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 20,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/eating-sitting"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "counter_conditioning"
+            ],
+            "bct": [
+              "behavioural_substitution"
+            ],
+            "behaviour_state": [
+              "reflective_behavioural_motivation"
+            ]
+          }
+        },
+        "eat-fish-once": {
+          "title": "Eat Fish Once 🍣",
+          "description": "Replace one red-meat meal with fish this week. Keep the side dishes familiar so the swap feels manageable.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 30,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/eating-sitting"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "counter_conditioning",
+              "self_liberation"
+            ],
+            "bct": [
+              "behavioural_substitution"
+            ],
+            "behaviour_state": [
+              "reflective_behavioural_motivation",
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "need_to_feel_competent"
+            ]
+          }
+        },
+        "order-smaller-courses": {
+          "title": "Order Smaller Courses 🍽️",
+          "description": "At one meal, choose two smaller first courses or sides with little or no meat instead of a meat-heavy main dish.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 30,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/eating-sitting"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "counter_conditioning"
+            ],
+            "bct": [
+              "behavioural_substitution"
+            ],
+            "behaviour_state": [
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy"
+            ]
+          }
+        },
+        "pack-nuts-or-seeds": {
+          "title": "Pack Nuts or Seeds 🌰",
+          "description": "Prepare a small portion of nuts or seeds for later today. Put it in your bag, desk, or kitchen so it is ready.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/putting-away-groceries-e-g-carrying-groceries-carrying-packages"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation",
+              "stimulus_control"
+            ],
+            "bct": [
+              "prompt_intended_action"
+            ],
+            "capability_opportunity": [
+              "need_to_feel_competent",
+              "physical_behavioural_opportunity"
+            ]
+          }
+        }
+      },
+      "Level2": {
+        "add-nuts-to-a-meal": {
+          "title": "Add Nuts to a Meal 🥜",
+          "description": "Add a small handful of nuts to fruit, yogurt, or a salad. Keep the portion small and intentional.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/cooking-or-food-preparation-moderate-effort"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation"
+            ],
+            "behaviour_state": [
+              "reflective_behavioural_motivation",
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "need_to_feel_competent"
+            ]
+          }
+        },
+        "make-a-protein-spread": {
+          "title": "Make a Protein Spread 🍘",
+          "description": "Prepare a simple spread such as hummus, bean spread, or cottage cheese. Add it to toast, crackers, or vegetables.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/cooking-or-food-preparation-moderate-effort"
+          ],
+          "context_links": {
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent"
+            ]
+          }
+        },
+        "swap-a-meaty-meal-for-legumes": {
+          "title": "Swap A Meaty Meal for Legumes 🍲",
+          "description": "Replace one meat-based meal with beans, lentils, chickpeas, or another legume. Add vegetables or grains to make it filling.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 30,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/cooking-or-food-preparation-moderate-effort"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "counter_conditioning",
+              "stimulus_control"
+            ],
+            "bct": [
+              "behavioural_substitution",
+              "prompt_intended_action"
+            ],
+            "behaviour_state": [
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy"
+            ]
+          }
+        },
+        "swap-meat-for-eggs": {
+          "title": "Swap Meat for Eggs 🥚",
+          "description": "Replace meat-based meals with eggs this week. Also, add vegetables, wholegrain bread, or potatoes if you like.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 20,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/cooking-or-food-preparation-moderate-effort"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "counter_conditioning",
+              "self_liberation"
+            ],
+            "bct": [
+              "behavioural_substitution"
+            ],
+            "behaviour_state": [
+              "coping_planning",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy"
+            ],
+            "sdt_regulation": [
+              "identified_regulation"
+            ]
+          }
+        },
+        "swap-sausage-for-fish": {
+          "title": "Swap Sausage for Fish 🐟",
+          "description": "Replace a burger or sausage with fish. Choose a simple preparation you can actually make.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 30,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/cooking-or-food-preparation-moderate-effort"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "counter_conditioning"
+            ],
+            "bct": [
+              "behavioural_substitution"
+            ],
+            "behaviour_state": [
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent"
+            ]
+          }
+        },
+        "swap-sausage-for-poultry": {
+          "title": "Swap Sausage for Poultry 🍗",
+          "description": "Replace a burger or sausage with chicken or turkey. Add vegetables or wholegrains on the side.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 30,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/cooking-or-food-preparation-moderate-effort"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "counter_conditioning"
+            ],
+            "bct": [
+              "behavioural_substitution"
+            ],
+            "behaviour_state": [
+              "reflective_behavioural_motivation"
+            ]
+          }
+        }
+      },
+      "Level4": {
+        "add-grated-tofu": {
+          "title": "Add Grated Tofu 🫘",
+          "description": "Grate tofu into one simple meal, such as a wrap, stir-fry, salad, or pasta sauce. Season it well and keep the recipe easy.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 30,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/cooking-or-food-preparation-moderate-effort"
+          ],
+          "context_links": {
+            "behaviour_state": [
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "physical_behavioural_capability"
+            ]
+          }
+        }
+      }
+    },
+    "MindfulEating": {
+      "Level2": {
+        "eat-one-screen-free-meal": {
+          "title": "Eat One Screen-Free Meal 😌",
+          "description": "Have one meal without your phone, laptop, or TV. Sit down, slow your pace, and register the meal when you finish.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 20,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/eating-sitting"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "consciousness_raising",
+              "stimulus_control"
+            ],
+            "bct": [
+              "prompt_intended_action",
+              "reduce_distraction"
+            ],
+            "behaviour_state": [
+              "self_regulation_of_behaviour"
+            ]
+          }
+        },
+        "portion-dark-chocolate": {
+          "title": "Portion Dark Chocolate 🍫",
+          "description": "Cut or break dark chocolate into small pieces and choose one planned portion. Put the rest away before you start eating.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/eating-sitting"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "stimulus_control"
+            ],
+            "bct": [
+              "prompt_intended_action"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "physical_behavioural_capability"
+            ]
+          }
+        }
+      },
+      "Level3": {
+        "on-plate-eating": {
+          "title": "On-Plate Eating 🍽️",
+          "description": "Serve one snack or meal onto a plate or bowl before eating. Avoid eating straight from the package.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 20,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/eating-sitting"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "counter_conditioning",
+              "stimulus_control"
+            ],
+            "bct": [
+              "behavioural_substitution",
+              "prompt_intended_action"
+            ],
+            "behaviour_state": [
+              "coping_planning"
+            ]
+          }
+        }
+      }
+    },
+    "SimpleHealthyCooking": {
+      "Level1": {
+        "eat-fermented-food": {
+          "title": "Eat Fermented Food 🥣",
+          "description": "Add one fermented food to a meal or snack, such as yogurt, kefir, kimchi, sauerkraut, or another option you like.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 20,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/eating-sitting"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy"
+            ]
+          }
+        }
+      },
+      "Level3": {
+        "cook-beans-or-lentils": {
+          "title": "Cook Beans or Lentils 🧑‍🍳",
+          "description": "Cook one simple meal with beans, lentils, or chickpeas. Use canned legumes if that makes it easier.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 30,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/cooking-or-food-preparation-moderate-effort"
+          ],
+          "context_links": {
+            "behaviour_state": [
+              "coping_planning"
+            ],
+            "capability_opportunity": [
+              "need_to_feel_competent",
+              "physical_behavioural_capability"
+            ]
+          }
+        },
+        "cook-gently-with-non-stick": {
+          "title": "Cook Gently with Non-Stick 🧑‍🍳",
+          "description": "Use a non-stick pan on low or medium heat for one simple meal. Avoid overheating the pan and use a soft utensil.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 30,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/cooking-or-food-preparation-moderate-effort"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation"
+            ],
+            "bct": [
+              "manage_automatic_responses"
+            ],
+            "behaviour_state": [
+              "automatic_behavioural_motivation",
+              "coping_planning"
+            ],
+            "capability_opportunity": [
+              "need_to_feel_competent",
+              "physical_behavioural_capability",
+              "physical_behavioural_opportunity"
+            ]
+          }
+        }
+      },
+      "Level4": {
+        "cook-tofu-this-week": {
+          "title": "Cook Tofu This Week 🧑‍🍳",
+          "description": "Try one tofu dish this week. Use a simple recipe with vegetables, grains, or a sauce you already like.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 30,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/cooking-or-food-preparation-moderate-effort"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation"
+            ],
+            "capability_opportunity": [
+              "need_to_feel_competent",
+              "physical_behavioural_capability"
+            ]
+          }
+        },
+        "cook-with-stainless-steel": {
+          "title": "Cook with Stainless Steel 🧑‍🍳",
+          "description": "Practice one simple food in a stainless steel pan. Warm the pan first, add a little oil, and keep the heat moderate.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 30,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/cooking-or-food-preparation-moderate-effort"
+          ],
+          "context_links": {
+            "capability_opportunity": [
+              "need_to_feel_competent",
+              "physical_behavioural_capability",
+              "physical_behavioural_opportunity"
+            ]
+          }
+        }
+      }
+    },
+    "SmartSnacking": {
+      "Level1": {
+        "choose-fruit-for-sweetness": {
+          "title": "Choose Fruit for Sweetness 🍉",
+          "description": "When you want something sweet, choose sliced fruit, berries, or diced fruit. Make it ready before the craving moment if you can.",
+          "isConcurrent": true,
+          "isDividable": true,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/eating-sitting"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "stimulus_control"
+            ],
+            "bct": [
+              "prompt_intended_action"
+            ],
+            "behaviour_state": [
+              "automatic_behavioural_motivation",
+              "coping_planning",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy"
+            ]
+          }
+        },
+        "eat-fruit-instead-of-jam": {
+          "title": "Eat Fruit Instead of Jam 🍓",
+          "description": "Top bread, yogurt, or porridge with fresh fruit or mashed berries instead of sugary jam.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/eating-sitting"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "counter_conditioning"
+            ],
+            "bct": [
+              "behavioural_substitution"
+            ],
+            "behaviour_state": [
+              "reflective_behavioural_motivation"
+            ]
+          }
+        },
+        "log-fruit-servings": {
+          "title": "Log Fruit Servings 📒",
+          "description": "Track each fruit serving you eat. Use a note, checklist, or app.",
+          "isConcurrent": true,
+          "isDividable": true,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "consciousness_raising"
+            ],
+            "behaviour_state": [
+              "self_regulation_of_behaviour"
+            ],
+            "capability_opportunity": [
+              "psychological_behavioural_capability"
+            ]
+          }
+        },
+        "non-fried-snack": {
+          "title": "Non-Fried Snack 🥕",
+          "description": "When you want a savoury snack, choose nuts, wholegrain crackers, raw vegetables, or fruit instead of a fried snack.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/eating-sitting"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "counter_conditioning"
+            ],
+            "bct": [
+              "behavioural_substitution"
+            ],
+            "behaviour_state": [
+              "automatic_behavioural_motivation",
+              "coping_planning",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy"
+            ],
+            "sdt_regulation": [
+              "identified_regulation"
+            ]
+          }
+        },
+        "pack-one-fruit-snack": {
+          "title": "Pack One Fruit Snack 🍉",
+          "description": "Put one piece of fruit in your bag, desk, or kitchen counter for a planned snack later today.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 5,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/putting-away-groceries-e-g-carrying-groceries-carrying-packages"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation",
+              "stimulus_control"
+            ],
+            "bct": [
+              "prompt_intended_action"
+            ],
+            "behaviour_state": [
+              "action_planning"
+            ],
+            "capability_opportunity": [
+              "physical_behavioural_opportunity"
+            ]
+          }
+        },
+        "prepare-one-better-snack": {
+          "title": "Prepare One Better Snack 🍎",
+          "description": "Before snacking, pause and choose one simple option such as fruit, vegetables, yogurt, or nuts. Eat it slowly and log what you chose.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 5,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/eating-sitting"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "consciousness_raising"
+            ],
+            "behaviour_state": [
+              "reflective_behavioural_motivation",
+              "self_regulation_of_behaviour"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent"
+            ]
+          }
+        },
+        "try-one-new-taste": {
+          "title": "Try One New Taste 😋",
+          "description": "Try a new food or drink experience that feels enjoyable, such as a new fruit, tea, recipe, or shared snack.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/eating-sitting"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation",
+              "social_liberation"
+            ],
+            "bct": [
+              "awareness_of_others"
+            ],
+            "capability_opportunity": [
+              "need_for_a_sense_of_belonging_and_attachment",
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "social_behavioural_opportunity"
+            ],
+            "sdt_regulation": [
+              "intrinsic_motivation"
+            ]
+          }
+        }
+      },
+      "Level2": {
+        "buy-seasonal-fruit": {
+          "title": "Buy Seasonal Fruit 🥭",
+          "description": "Buy one seasonal fruit during your next shop. Put it somewhere visible so it is easy to grab.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 60,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/food-shopping-with-or-without-a-grocery-cart-carrying-a-10-lb-bag-standing-or-walking"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "stimulus_control"
+            ],
+            "bct": [
+              "prompt_intended_action"
+            ],
+            "capability_opportunity": [
+              "need_to_feel_competent",
+              "physical_behavioural_opportunity"
+            ]
+          }
+        },
+        "try-a-different-fruit": {
+          "title": "Try a Different Fruit 🥝",
+          "description": "Buy one fruit you do not usually eat and have it as a snack or dessert this week.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 30,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/food-shopping-with-or-without-a-grocery-cart-carrying-a-10-lb-bag-standing-or-walking"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "counter_conditioning",
+              "self_liberation"
+            ],
+            "bct": [
+              "behavioural_substitution"
+            ],
+            "capability_opportunity": [
+              "need_to_feel_competent",
+              "physical_behavioural_opportunity"
+            ]
+          }
+        }
+      }
+    },
+    "VegetablesAndColorfulPlates": {
+      "Level1": {
+        "eat-one-veggie-portion": {
+          "title": "Eat One Veggie Portion 🥗",
+          "description": "Eat a portion of vegetables in a meal today. This can be a side salad, raw vegetables, or extra vegetables in the dish.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 20,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/eating-sitting"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation"
+            ],
+            "behaviour_state": [
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy"
+            ]
+          }
+        },
+        "log-veggie-servings": {
+          "title": "Log Veggie Servings 📒",
+          "description": "Track your vegetable servings for one day this week. A note, checklist, or app is enough.",
+          "isConcurrent": true,
+          "isDividable": true,
+          "estimatedDuration": 5,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "consciousness_raising",
+              "self_liberation"
+            ],
+            "behaviour_state": [
+              "self_regulation_of_behaviour"
+            ],
+            "capability_opportunity": [
+              "psychological_behavioural_capability"
+            ]
+          }
+        }
+      },
+      "Level2": {
+        "add-fruit-to-salad-bowl": {
+          "title": "Add Fruit to Salad Bowl 🍎",
+          "description": "Add one fruit to a salad, such as apple, orange, berries, or pear. Prepare it as part of lunch or dinner.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 10,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/cooking-or-food-preparation-moderate-effort"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy"
+            ]
+          }
+        },
+        "build-a-better-sandwich": {
+          "title": "Build a Better Sandwich 🥙",
+          "description": "Make one sandwich with vegetables and a simple protein such as egg, cheese, hummus, tofu, or fish. Skip processed meat for this one.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 25,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/cooking-or-food-preparation-moderate-effort"
+          ],
+          "context_links": {
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent"
+            ]
+          }
+        },
+        "eat-fresh-herbs": {
+          "title": "Eat Fresh Herbs 🌿",
+          "description": "Use fresh herbs in one meal this week, such as basil, parsley, cilantro, or mint. Add them at the end so the flavour stays bright.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/cooking-or-food-preparation-moderate-effort"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy"
+            ]
+          }
+        },
+        "season-one-simple-dish": {
+          "title": "Season One Simple Dish 🌶️",
+          "description": "Add one spice or seasoning mix to a simple dish, such as eggs, vegetables, rice, or soup. Keep the salt modest and taste before adding more.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 20,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/cooking-or-food-preparation-moderate-effort"
+          ],
+          "context_links": {
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "physical_behavioural_capability"
+            ]
+          }
+        },
+        "serve-veggies-on-the-side": {
+          "title": "Serve Veggies on the Side 🥗",
+          "description": "Add raw or cooked vegetables as a side dish for one meal. Choose something easy, such as cucumber, carrots, salad, or steamed vegetables.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/cooking-or-food-preparation-moderate-effort"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation"
+            ],
+            "behaviour_state": [
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent"
+            ]
+          }
+        },
+        "try-a-veggie-recipe": {
+          "title": "Try a Veggie Recipe 🧑‍🍳",
+          "description": "Cook one simple recipe where vegetables are the main part of the meal. Pick something that matches your taste and time.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 30,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/cooking-or-food-preparation-moderate-effort"
+          ],
+          "context_links": {
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "physical_behavioural_capability"
+            ]
+          }
+        }
+      },
+      "Level3": {
+        "buy-seasonal-vegetables": {
+          "title": "Buy Seasonal Vegetables 🥗",
+          "description": "Check which vegetables are in season and buy one you can use this week. Add it to a meal you already know how to make.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 30,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/food-shopping-with-or-without-a-grocery-cart-carrying-a-10-lb-bag-standing-or-walking"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation"
+            ],
+            "capability_opportunity": [
+              "physical_behavioural_opportunity",
+              "psychological_behavioural_capability"
+            ]
+          }
+        },
+        "cook-a-colorful-plate": {
+          "title": "Cook a Colorful Plate 🧑‍🍳",
+          "description": "Make one meal with at least three different colors from vegetables or fruit. Take a photo if you want to mark it.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 30,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/cooking-or-food-preparation-moderate-effort"
+          ],
+          "context_links": {
+            "behaviour_state": [
+              "coping_planning",
+              "self_regulation_of_behaviour"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "physical_behavioural_capability"
+            ]
+          }
+        }
+      },
+      "Level4": {
+        "cook-a-veggie-sauce": {
+          "title": "Cook a Veggie Sauce 🧑‍🍳",
+          "description": "Make one sauce where vegetables do most of the work, such as tomato, pepper, mushroom, or courgette. Use it with pasta, rice, or bread.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 60,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/cooking-or-food-preparation-moderate-effort"
+          ],
+          "context_links": {
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "physical_behavioural_capability"
+            ]
+          }
+        }
+      }
+    },
+    "WholegrainChoices": {
+      "Level1": {
+        "eat-wholegrain-snack": {
+          "title": "Eat Wholegrain Snack 🍘",
+          "description": "Choose one higher-fibre or wholegrain snack instead of your usual sweet snack. Keep the portion small and planned.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/eating-sitting"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "counter_conditioning"
+            ],
+            "bct": [
+              "behavioural_substitution"
+            ],
+            "behaviour_state": [
+              "reflective_behavioural_motivation",
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent"
+            ],
+            "sdt_regulation": [
+              "identified_regulation"
+            ]
+          }
+        },
+        "read-ingredients-for-wholegrain": {
+          "title": "Read Ingredients for Wholegrain 🌾",
+          "description": "At your next shop, pick bread where wholegrain or whole wheat is clearly listed as a main ingredient. Add it to your basket and skip one refined option.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 10,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/non-food-shopping-with-or-without-cart-standing-or-walking"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "consciousness_raising",
+              "counter_conditioning"
+            ],
+            "bct": [
+              "behavioural_substitution"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "physical_behavioural_opportunity",
+              "psychological_behavioural_capability"
+            ],
+            "sdt_regulation": [
+              "identified_regulation"
+            ]
+          }
+        },
+        "swap-one-pastry-for-toast": {
+          "title": "Swap One Pastry for Toast 🍞",
+          "description": "Replace one sweet pastry with wholegrain toast and a topping you enjoy. Plan it for breakfast or an afternoon snack.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/eating-sitting"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "counter_conditioning"
+            ],
+            "bct": [
+              "action_planning_bct",
+              "behavioural_substitution"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "reflective_behavioural_motivation"
+            ],
+            "sdt_regulation": [
+              "intrinsic_motivation"
+            ]
+          }
+        }
+      },
+      "Level2": {
+        "buy-wholegrain-bread": {
+          "title": "Buy Wholegrain Bread 🍞",
+          "description": "Choose one wholegrain bread instead of white bread this week. Check a bakery, market, or supermarket shelf that fits your normal routine.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 10,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/food-shopping-with-or-without-a-grocery-cart-carrying-a-10-lb-bag-standing-or-walking"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "counter_conditioning",
+              "self_liberation"
+            ],
+            "bct": [
+              "behavioural_substitution"
+            ],
+            "behaviour_state": [
+              "automatic_behavioural_motivation",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "physical_behavioural_opportunity"
+            ],
+            "sdt_regulation": [
+              "identified_regulation"
+            ]
+          }
+        },
+        "make-an-oat-breakfast": {
+          "title": "Make an Oat Breakfast 🥣",
+          "description": "Prepare oats or a wholegrain cereal for one breakfast. Add fruit, nuts, or yogurt if you want it to feel more complete.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/cooking-or-food-preparation-moderate-effort"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation"
+            ],
+            "behaviour_state": [
+              "coping_planning"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy"
+            ],
+            "sdt_regulation": [
+              "identified_regulation"
+            ]
+          }
+        }
+      },
+      "Level3": {
+        "cook-one-wholegrain-meal": {
+          "title": "Cook One Wholegrain Meal 🧑‍🍳",
+          "description": "Make one meal with wholegrain pasta, brown rice, quinoa, or wholegrain bread. Keep the recipe simple and add vegetables if you can.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 30,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/cooking-or-food-preparation-moderate-effort"
+          ],
+          "context_links": {
+            "behaviour_state": [
+              "coping_planning",
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "physical_behavioural_capability"
+            ],
+            "sdt_regulation": [
+              "identified_regulation"
+            ]
+          }
+        }
+      },
+      "Level4": {
+        "cook-a-quinoa-meal": {
+          "title": "Cook a Quinoa Meal 🌾",
+          "description": "Cook one quick meal with quinoa, brown rice, or another wholegrain. Add vegetables and a protein you already like.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 30,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/cooking-or-food-preparation-moderate-effort"
+          ],
+          "context_links": {
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "physical_behavioural_capability"
+            ],
+            "sdt_regulation": [
+              "identified_regulation"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "MentalWellbeing": {
+    "BetterBeverageBalance": {
+      "Level2": {
+        "drink-decaf-after-lunch": {
+          "title": "Drink Decaf After Lunch ☕",
+          "description": "Swap one afternoon coffee or tea for decaf or herbal tea. Keep your usual cup ritual if that helps.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 10,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/eating-sitting"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "counter_conditioning",
+              "stimulus_control"
+            ],
+            "bct": [
+              "behavioural_substitution",
+              "prompt_intended_action"
+            ],
+            "behaviour_state": [
+              "automatic_behavioural_motivation",
+              "coping_planning",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy"
+            ]
+          }
+        }
+      },
+      "Level3": {
+        "log-afternoon-caffeine": {
+          "title": "Log Afternoon Caffeine ☕",
+          "description": "Track any caffeine you drink after lunch today. Choose one smaller or earlier cup if you can.",
+          "isConcurrent": true,
+          "isDividable": true,
+          "estimatedDuration": 10,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "consciousness_raising",
+              "self_liberation",
+              "stimulus_control"
+            ],
+            "bct": [
+              "prompt_intended_action"
+            ],
+            "behaviour_state": [
+              "automatic_behavioural_motivation",
+              "coping_planning",
+              "reflective_behavioural_motivation",
+              "self_regulation_of_behaviour"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "psychological_behavioural_capability"
+            ]
+          }
+        }
+      }
+    },
+    "CalmBreathingAndMindfulness": {
+      "Level1": {
+        "breathe-with-a-calm-image": {
+          "title": "Breathe with a Calm Image 🧘",
+          "description": "Pair slow breathing with a simple image, such as waves, clouds, or a quiet place. Practice for a few minutes.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 5,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/meditating"
+          ],
+          "context_links": {
+            "bct": [
+              "manage_automatic_responses"
+            ],
+            "behaviour_state": [
+              "automatic_behavioural_motivation",
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "psychological_behavioural_capability"
+            ]
+          }
+        },
+        "mindful-pause": {
+          "title": "Mindful Pause 🧘",
+          "description": "Spend 3 to 5 minutes sitting, walking slowly, stretching, or breathing. Put your phone aside and focus on one thing at a time.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 5,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/meditating"
+          ],
+          "context_links": {
+            "bct": [
+              "manage_automatic_responses"
+            ],
+            "behaviour_state": [
+              "automatic_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "psychological_behavioural_capability"
+            ]
+          }
+        },
+        "stretch-one-tight-area": {
+          "title": "Stretch One Tight Area 🤸",
+          "description": "Choose one tight area, such as shoulders, back, neck, or legs. Stretch it gently for a few minutes and breathe slowly.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 3,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/stretching-mild"
+          ],
+          "context_links": {
+            "bct": [
+              "manage_automatic_responses"
+            ],
+            "behaviour_state": [
+              "automatic_behavioural_motivation",
+              "reflective_behavioural_motivation",
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "physical_behavioural_capability",
+              "psychological_behavioural_capability"
+            ]
+          }
+        },
+        "take-a-box-breathing-break": {
+          "title": "Take a Box Breathing Break 🧘",
+          "description": "Pause for a few minutes and breathe slowly. Try four seconds in, four seconds hold, and four seconds out.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 5,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/yoga-nadisodhana"
+          ],
+          "context_links": {
+            "bct": [
+              "manage_automatic_responses"
+            ],
+            "behaviour_state": [
+              "automatic_behavioural_motivation",
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "psychological_behavioural_capability"
+            ]
+          }
+        },
+        "write-down-emotion": {
+          "title": "Write Down Emotion ✍️",
+          "description": "Pause once today and write one plain word for how you feel, such as tired, angry, calm, or sad. No need to judge it.",
+          "isConcurrent": true,
+          "isDividable": true,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "consciousness_raising",
+              "self_liberation"
+            ],
+            "bct": [
+              "action_planning_bct"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "automatic_behavioural_motivation",
+              "reflective_behavioural_motivation",
+              "self_regulation_of_behaviour"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "psychological_behavioural_capability"
+            ]
+          }
+        }
+      },
+      "Level2": {
+        "do-a-body-scan": {
+          "title": "Do a Body Scan 🧘",
+          "description": "Spend 5 minutes slowly noticing your body from head to toe. If you notice tension, breathe gently and move on.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 5,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/meditating"
+          ],
+          "context_links": {
+            "bct": [
+              "manage_automatic_responses"
+            ],
+            "behaviour_state": [
+              "automatic_behavioural_motivation",
+              "coping_planning",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_to_feel_competent",
+              "psychological_behavioural_capability"
+            ]
+          }
+        },
+        "plan-three-recharge-activities": {
+          "title": "Plan Three Recharge Activities 🗓️",
+          "description": "Think of activities that give you energy or calm. Pick three and schedule a small version this week.",
+          "isConcurrent": false,
+          "isDividable": true,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation"
+            ],
+            "bct": [
+              "action_planning_bct"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "automatic_behavioural_motivation",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "psychological_behavioural_capability"
+            ]
+          }
+        },
+        "read-something-calm": {
+          "title": "Read Something Calm 📖",
+          "description": "Read a calm book or article before bed. Avoid intense or suspenseful content tonight.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 20,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/reclining-reading"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "counter_conditioning",
+              "self_liberation"
+            ],
+            "bct": [
+              "behavioural_substitution"
+            ],
+            "behaviour_state": [
+              "automatic_behavioural_motivation",
+              "coping_planning"
+            ]
+          }
+        },
+        "schedule-a-short-rest-break": {
+          "title": "Schedule a Short Rest Break 🗓️",
+          "description": "Add a short rest break between two activities today. Use it to stretch, drink water, breathe, or sit quietly.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 10,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation"
+            ],
+            "bct": [
+              "action_planning_bct",
+              "manage_automatic_responses"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "automatic_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_to_feel_competent",
+              "physical_behavioural_capability",
+              "psychological_behavioural_capability"
+            ]
+          }
+        },
+        "set-up-a-calm-spot": {
+          "title": "Set Up a Calm Spot 🧘",
+          "description": "Pick a quiet place for a breathing, stretching, or mindfulness sessions. Make it ready before you start.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-quietly-general"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "stimulus_control"
+            ],
+            "bct": [
+              "manage_automatic_responses",
+              "prompt_intended_action"
+            ],
+            "behaviour_state": [
+              "automatic_behavioural_motivation",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "physical_behavioural_opportunity",
+              "psychological_behavioural_capability"
+            ]
+          }
+        },
+        "take-a-slow-breathing-break": {
+          "title": "Take a Slow Breathing Break 🧘",
+          "description": "Pause for a few minutes and breathe slowly. Try a steady rhythm and keep your shoulders relaxed.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 5,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/meditating"
+          ],
+          "context_links": {
+            "bct": [
+              "manage_automatic_responses"
+            ],
+            "behaviour_state": [
+              "automatic_behavioural_motivation",
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "need_to_feel_competent",
+              "psychological_behavioural_capability"
+            ]
+          }
+        }
+      },
+      "Level3": {
+        "play-a-guided-meditation": {
+          "title": "Play a Guided Meditation 🧘",
+          "description": "Choose one short guided meditation or audio practice and follow it for a few minutes. Stop when the timer ends.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/meditating"
+          ],
+          "context_links": {
+            "bct": [
+              "manage_automatic_responses"
+            ],
+            "behaviour_state": [
+              "coping_planning",
+              "reflective_behavioural_motivation",
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "physical_behavioural_opportunity"
+            ],
+            "sdt_regulation": [
+              "intrinsic_motivation"
+            ]
+          }
+        },
+        "write-one-difficult-thought": {
+          "title": "Write One Difficult Thought ✍️",
+          "description": "When a difficult thought or feeling appears, write it in one short sentence. Add one kind next step, then return to your day.",
+          "isConcurrent": true,
+          "isDividable": true,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "bct": [
+              "action_planning_bct"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_to_feel_competent",
+              "psychological_behavioural_capability"
+            ]
+          }
+        }
+      }
+    },
+    "DailyStepsAndWalking": {
+      "Level3": {
+        "move-in-the-afternoon": {
+          "title": "Move in the Afternoon 🚶",
+          "description": "Take a short walk, stretch, or move around for a few minutes in the afternoon instead of reaching straight for a nap.",
+          "isConcurrent": true,
+          "isDividable": true,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/walking-2-8-to-3-4-mph-level-moderate-pace-firm-surface"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "counter_conditioning"
+            ],
+            "bct": [
+              "behavioural_substitution"
+            ],
+            "behaviour_state": [
+              "automatic_behavioural_motivation",
+              "reflective_behavioural_motivation",
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "need_to_feel_competent",
+              "physical_behavioural_capability"
+            ]
+          }
+        }
+      }
+    },
+    "EverydayWellbeingPractices": {
+      "Level1": {
+        "get-morning-light": {
+          "title": "Get Morning Light ☀️",
+          "description": "Soon after waking, open the curtains or step outside for a few minutes. Pair it with a short walk if you can. Avoid scrolling.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 5,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/standing-reading"
+          ],
+          "context_links": {
+            "behaviour_state": [
+              "automatic_behavioural_motivation",
+              "coping_planning",
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "physical_behavioural_capability"
+            ]
+          }
+        }
+      },
+      "Level2": {
+        "mute-non-essential-notifications": {
+          "title": "Mute Non-Essential Notifications 🔕",
+          "description": "Turn off or silence non-essential app notifications for one work, study, or rest block today.",
+          "isConcurrent": true,
+          "isDividable": true,
+          "estimatedDuration": 5,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-tasks-light-effort-e-g-office-work-chemistry-lab-work-light-assembly-repair-watch-repair-reading-desk-work"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation",
+              "stimulus_control"
+            ],
+            "bct": [
+              "prompt_intended_action",
+              "reduce_distraction"
+            ]
+          }
+        }
+      }
+    },
+    "FocusAndPhoneBoundaries": {
+      "Level2": {
+        "make-the-bedroom-screen-free": {
+          "title": "Make the Bedroom Screen-Free 📵",
+          "description": "Move your phone, laptop, or tablet away from the bed tonight. Charge it outside reach if possible.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 5,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-tasks-light-effort-e-g-office-work-chemistry-lab-work-light-assembly-repair-watch-repair-reading-desk-work"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation",
+              "stimulus_control"
+            ],
+            "bct": [
+              "prompt_intended_action",
+              "reduce_distraction"
+            ],
+            "behaviour_state": [
+              "automatic_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "physical_behavioural_opportunity"
+            ]
+          }
+        },
+        "step-outside-for-fresh-air": {
+          "title": "Step Outside for Fresh Air 🌬️",
+          "description": "Spend a few minutes outside today. Walk, sit, or stand somewhere with daylight and leave your phone in your pocket.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 5,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/walking-less-than-2-0-mph-level-strolling-very-slow"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation"
+            ],
+            "behaviour_state": [
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "physical_behavioural_capability"
+            ]
+          }
+        }
+      },
+      "Level3": {
+        "block-distractions": {
+          "title": "Block Distractions 📵",
+          "description": "Choose one app, site, or habit that pulls your attention. Mute it or move it away for one work, study, or rest block today.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 5,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-tasks-light-effort-e-g-office-work-chemistry-lab-work-light-assembly-repair-watch-repair-reading-desk-work"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation",
+              "stimulus_control"
+            ],
+            "bct": [
+              "prompt_intended_action",
+              "reduce_distraction"
+            ],
+            "behaviour_state": [
+              "automatic_behavioural_motivation",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "physical_behavioural_opportunity"
+            ]
+          }
+        }
+      }
+    },
+    "MindfulEating": {
+      "Level2": {
+        "eat-a-lighter-dinner": {
+          "title": "Eat A Lighter Dinner 🍽️",
+          "description": "Plan one lighter evening meal and avoid very heavy portions close to bedtime.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/eating-sitting"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "counter_conditioning"
+            ],
+            "bct": [
+              "action_planning_bct",
+              "behavioural_substitution"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "coping_planning",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "psychological_behavioural_capability"
+            ]
+          }
+        }
+      },
+      "Level4": {
+        "eat-dinner-earlier": {
+          "title": "Eat Dinner Earlier 🗓️",
+          "description": "Plan dinner a bit earlier than usual today. Leave some time between eating and bedtime.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/eating-sitting"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "counter_conditioning",
+              "self_liberation"
+            ],
+            "bct": [
+              "action_planning_bct",
+              "behavioural_substitution"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "psychological_behavioural_capability"
+            ]
+          }
+        }
+      }
+    },
+    "MoodAndMeaningfulActivities": {
+      "Level1": {
+        "write-one-good-thing": {
+          "title": "Write One Good Thing ✍️",
+          "description": "At the end of the day, write one good thing that happened and why it mattered, even if it was small.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 5,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_reevaluation"
+            ],
+            "bct": [
+              "action_planning_bct"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "coping_planning",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_to_feel_competent",
+              "psychological_behavioural_capability"
+            ],
+            "sdt_regulation": [
+              "intrinsic_motivation"
+            ]
+          }
+        },
+        "write-one-small-joy": {
+          "title": "Write One Small Joy ✍️",
+          "description": "Write down one small thing that made you smile today, such as a song, view, smell, joke, or kind moment.",
+          "isConcurrent": true,
+          "isDividable": true,
+          "estimatedDuration": 5,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "consciousness_raising",
+              "self_liberation",
+              "self_reevaluation"
+            ],
+            "bct": [
+              "action_planning_bct"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "reflective_behavioural_motivation",
+              "self_regulation_of_behaviour"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "psychological_behavioural_capability"
+            ],
+            "sdt_regulation": [
+              "intrinsic_motivation"
+            ]
+          }
+        }
+      },
+      "Level3": {
+        "write-one-meaningful-action": {
+          "title": "Write One Meaningful Action ✍️",
+          "description": "Write one small action that connects to something you value, such as nature, care, learning, faith, creativity, or friendship.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_reevaluation",
+              "social_liberation"
+            ],
+            "bct": [
+              "action_planning_bct"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_a_sense_of_belonging_and_attachment",
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "psychological_behavioural_capability",
+              "social_behavioural_opportunity"
+            ],
+            "sdt_regulation": [
+              "identified_regulation"
+            ]
+          }
+        },
+        "write-three-gratitudes": {
+          "title": "Write Three Gratitudes 🙏",
+          "description": "Write three things you are grateful for today. They can be small, ordinary, or unexpected.",
+          "isConcurrent": true,
+          "isDividable": true,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation",
+              "self_reevaluation"
+            ],
+            "behaviour_state": [
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_to_feel_competent",
+              "psychological_behavioural_capability"
+            ],
+            "sdt_regulation": [
+              "intrinsic_motivation"
+            ]
+          }
+        }
+      },
+      "Level4": {
+        "plan-a-low-cost-outing": {
+          "title": "Plan a Low-Cost Outing 🗓️",
+          "description": "Choose one low-cost activity this week, such as a park, museum, gallery, or free local event. Add the time to your calendar.",
+          "isConcurrent": false,
+          "isDividable": true,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation"
+            ],
+            "bct": [
+              "action_planning_bct"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "physical_behavioural_opportunity",
+              "psychological_behavioural_capability"
+            ]
+          }
+        },
+        "schedule-one-enjoyable-activity": {
+          "title": "Schedule One Enjoyable Activity 🗓️",
+          "description": "Choose one simple activity you used to enjoy or still care about, such as music, drawing, walking, tea, or a hobby. Add a short time slot to your calendar.",
+          "isConcurrent": false,
+          "isDividable": true,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_reevaluation"
+            ],
+            "bct": [
+              "action_planning_bct"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "physical_behavioural_opportunity"
+            ],
+            "sdt_regulation": [
+              "intrinsic_motivation"
+            ]
+          }
+        }
+      }
+    },
+    "SleepAndEveningRoutine": {
+      "Level1": {
+        "breathe-before-bed": {
+          "title": "Breathe Before Bed 🧘",
+          "description": "Before sleep, try a few slow rounds of breathing. Inhale for four seconds, pause briefly, and exhale slowly.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 10,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/meditating"
+          ],
+          "context_links": {
+            "bct": [
+              "manage_automatic_responses"
+            ],
+            "behaviour_state": [
+              "automatic_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_to_feel_competent",
+              "psychological_behavioural_capability"
+            ]
+          }
+        },
+        "do-a-short-wind-down": {
+          "title": "Do a Short Wind-Down 😴",
+          "description": "Before bed, spend 10 minutes on a calm routine such as reading, stretching, dimming lights, or preparing tomorrow.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 10,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/lying-quietly-doing-nothing-lying-in-bed-awake-listening-to-music-not-talking-or-reading"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation"
+            ],
+            "bct": [
+              "manage_automatic_responses"
+            ],
+            "behaviour_state": [
+              "automatic_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent"
+            ]
+          }
+        },
+        "plan-sleep-time": {
+          "title": "Plan Sleep Time 💤",
+          "description": "Choose a bedtime and wake-up time that give you enough time in bed. Add the bedtime to your calendar.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 10,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "bct": [
+              "action_planning_bct"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "physical_behavioural_opportunity",
+              "psychological_behavioural_capability"
+            ]
+          }
+        },
+        "prepare-a-sleep-friendly-room": {
+          "title": "Prepare a Sleep-Friendly Room 😴",
+          "description": "Choose one room adjustment before bed, such as dimming lights, reducing noise, clearing clutter, or cooling the room.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 5,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sleeping"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "stimulus_control"
+            ],
+            "bct": [
+              "prompt_intended_action",
+              "reduce_distraction"
+            ],
+            "behaviour_state": [
+              "automatic_behavioural_motivation",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "physical_behavioural_opportunity"
+            ]
+          }
+        }
+      },
+      "Level2": {
+        "filter-blue-light": {
+          "title": "Filter Blue-Light  📵",
+          "description": "Turn on the blue-light filter on your phone or laptop for the evening. Set it to repeat if your device allows it.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 5,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-tasks-light-effort-e-g-office-work-chemistry-lab-work-light-assembly-repair-watch-repair-reading-desk-work"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "stimulus_control"
+            ],
+            "bct": [
+              "prompt_intended_action",
+              "reduce_distraction"
+            ],
+            "behaviour_state": [
+              "behaviour_maintenance_self_efficacy",
+              "coping_planning"
+            ],
+            "capability_opportunity": [
+              "physical_behavioural_opportunity"
+            ]
+          }
+        },
+        "play-calm-sleep-sounds": {
+          "title": "Play Calm Sleep Sounds 🎶",
+          "description": "Put your screen away and play a calm sound, such as rain, waves, or soft white noise. Set a timer so it stops by itself.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 10,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/lying-quietly-doing-nothing-lying-in-bed-awake-listening-to-music-not-talking-or-reading"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "stimulus_control"
+            ],
+            "bct": [
+              "prompt_intended_action"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "automatic_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "physical_behavioural_opportunity"
+            ],
+            "sdt_regulation": [
+              "intrinsic_motivation"
+            ]
+          }
+        },
+        "set-a-repeatable-bedtime": {
+          "title": "Set a Repeatable Bedtime 😴",
+          "description": "Pick a realistic bedtime and wake-up time for the next few days. Keep them close to your normal routine.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 10,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "behaviour_state": [
+              "action_planning",
+              "automatic_behavioural_motivation",
+              "behaviour_maintenance_self_efficacy",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy"
+            ]
+          }
+        },
+        "set-up-a-quiet-bed-reset": {
+          "title": "Set Up a Quiet Bed Reset 😴",
+          "description": "Before bed, place a calm book or quiet activity nearby. If you stay awake for a while, use it outside the bed until you feel sleepy again.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 10,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/lying-quietly-doing-nothing-lying-in-bed-awake-listening-to-music-not-talking-or-reading"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "stimulus_control"
+            ],
+            "bct": [
+              "prompt_intended_action"
+            ],
+            "behaviour_state": [
+              "automatic_behavioural_motivation",
+              "behavioural_recovery_self_efficacy",
+              "coping_planning"
+            ],
+            "capability_opportunity": [
+              "physical_behavioural_opportunity"
+            ]
+          }
+        },
+        "turn-the-clock-away": {
+          "title": "Turn the Clock Away ⏰",
+          "description": "Before bed, turn the clock face away or move it out of sight. Avoid checking the time if you wake up.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 5,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sleeping"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "stimulus_control"
+            ],
+            "bct": [
+              "prompt_intended_action"
+            ],
+            "behaviour_state": [
+              "automatic_behavioural_motivation",
+              "coping_planning"
+            ],
+            "capability_opportunity": [
+              "physical_behavioural_opportunity"
+            ]
+          }
+        }
+      },
+      "Level3": {
+        "make-a-calming-drink": {
+          "title": "Make a Calming Drink ☕",
+          "description": "In the evening, prepare herbal tea, warm milk, or another caffeine-free drink. Pair it with your wind-down routine.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 10,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/kitchen-activity-general-e-g-cooking-washing-dishes-cleaning-up-moderate-effort"
+          ],
+          "context_links": {
+            "bct": [
+              "manage_automatic_responses"
+            ],
+            "behaviour_state": [
+              "automatic_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy"
+            ]
+          }
+        },
+        "stretch-before-bed": {
+          "title": "Stretch Before Bed 😌",
+          "description": "Do a few gentle stretches in the evening. Keep it light, slow, and comfortable.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 5,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/stretching-mild"
+          ],
+          "context_links": {
+            "bct": [
+              "manage_automatic_responses"
+            ],
+            "behaviour_state": [
+              "automatic_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_to_feel_competent",
+              "physical_behavioural_capability"
+            ]
+          }
+        },
+        "take-a-20-minute-nap": {
+          "title": "Take a 20-Minute Nap 😴",
+          "description": "If you need a nap, set a 20-minute timer and take it earlier in the day rather than late afternoon.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 20,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sleeping"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "counter_conditioning"
+            ],
+            "bct": [
+              "behavioural_substitution"
+            ],
+            "behaviour_state": [
+              "coping_planning",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "physical_behavioural_opportunity"
+            ]
+          }
+        },
+        "write-tomorrow-s-list": {
+          "title": "Write Tomorrow's List ✍️",
+          "description": "Before bed, write down tomorrow's tasks or worries for a few minutes. Close the note or notebook when you finish.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 10,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "consciousness_raising",
+              "self_liberation"
+            ],
+            "bct": [
+              "action_planning_bct"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "automatic_behavioural_motivation",
+              "reflective_behavioural_motivation",
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes",
+              "self_regulation_of_behaviour"
+            ],
+            "capability_opportunity": [
+              "psychological_behavioural_capability"
+            ]
+          }
+        }
+      },
+      "Level4": {
+        "set-a-podcast-sleep-timer": {
+          "title": "Set a Podcast Sleep Timer 🎙️",
+          "description": "Choose a calm podcast or audio and set it to stop after about 30 minutes. Put the phone away before you lie down.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/lying-quietly-doing-nothing-lying-in-bed-awake-listening-to-music-not-talking-or-reading"
+          ],
+          "context_links": {
+            "behaviour_state": [
+              "automatic_behavioural_motivation",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "physical_behavioural_opportunity"
+            ]
+          }
+        }
+      }
+    },
+    "SocialConnection": {
+      "Level1": {
+        "list-three-support-people": {
+          "title": "List Three Support People ✍️",
+          "description": "Write down three people who could offer emotional, practical, or friendly support. Pick one person you might contact.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "consciousness_raising",
+              "self_liberation",
+              "social_liberation"
+            ],
+            "bct": [
+              "action_planning_bct"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "reflective_behavioural_motivation",
+              "self_regulation_of_behaviour"
+            ],
+            "capability_opportunity": [
+              "need_for_a_sense_of_belonging_and_attachment",
+              "need_for_autonomy",
+              "psychological_behavioural_capability",
+              "social_behavioural_opportunity"
+            ],
+            "sdt_regulation": [
+              "identified_regulation"
+            ]
+          }
+        },
+        "say-hi-to-someone": {
+          "title": "Say Hi to Someone 😊",
+          "description": "Greet one person you do not usually talk to, such as a neighbour, classmate, or colleague. Keep it short and friendly.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 10,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-talking-in-person-on-the-phone-computer-or-text-messaging-light-effort"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "counter_conditioning",
+              "social_liberation"
+            ],
+            "bct": [
+              "awareness_of_others",
+              "behavioural_substitution"
+            ],
+            "behaviour_state": [
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "need_for_a_sense_of_belonging_and_attachment",
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "social_behavioural_opportunity"
+            ]
+          }
+        },
+        "send-one-family-message": {
+          "title": "Send One Family Message 💬",
+          "description": "Send a kind or practical message to one family member or close person. Keep it simple, such as checking in or sharing a small update.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 10,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-talking-in-person-on-the-phone-computer-or-text-messaging-light-effort"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "social_liberation"
+            ],
+            "bct": [
+              "awareness_of_others"
+            ],
+            "behaviour_state": [
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "need_for_a_sense_of_belonging_and_attachment",
+              "need_to_feel_competent",
+              "social_behavioural_opportunity"
+            ]
+          }
+        }
+      },
+      "Level2": {
+        "care-for-one-friendship": {
+          "title": "Care for One Friendship 🫂",
+          "description": "Remember one friendship you value and send a message, make a small plan, or share something thoughtful.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 10,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-talking-in-person-on-the-phone-computer-or-text-messaging-light-effort"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation",
+              "self_reevaluation",
+              "social_liberation"
+            ],
+            "bct": [
+              "action_planning_bct",
+              "awareness_of_others"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_a_sense_of_belonging_and_attachment",
+              "need_to_feel_competent",
+              "social_behavioural_opportunity"
+            ],
+            "sdt_regulation": [
+              "identified_regulation"
+            ]
+          }
+        },
+        "schedule-one-social-moment": {
+          "title": "Schedule One Social Moment 🗓️",
+          "description": "Plan one short social moment this week, such as a call, coffee, walk, message, or shared meal. Put it in your calendar.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation",
+              "social_liberation",
+              "stimulus_control"
+            ],
+            "bct": [
+              "action_planning_bct",
+              "awareness_of_others",
+              "prompt_intended_action"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_a_sense_of_belonging_and_attachment",
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "physical_behavioural_capability",
+              "physical_behavioural_opportunity",
+              "psychological_behavioural_capability",
+              "social_behavioural_opportunity"
+            ]
+          }
+        },
+        "send-a-friend-check-in": {
+          "title": "Send a Friend Check-In 💬",
+          "description": "Send a short message or make a quick call to ask how someone is doing. Keep it simple and genuine.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 10,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-talking-in-person-on-the-phone-computer-or-text-messaging-light-effort"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "social_liberation"
+            ],
+            "bct": [
+              "awareness_of_others"
+            ],
+            "behaviour_state": [
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "need_for_a_sense_of_belonging_and_attachment",
+              "need_to_feel_competent",
+              "social_behavioural_opportunity"
+            ]
+          }
+        },
+        "share-one-community-message": {
+          "title": "Share One Community Message 💬",
+          "description": "Post one comment, question, or short update in a community space you already use. Keep it kind and low-pressure.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 10,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-talking-in-person-on-the-phone-computer-or-text-messaging-light-effort"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "social_liberation"
+            ],
+            "bct": [
+              "awareness_of_others"
+            ],
+            "capability_opportunity": [
+              "need_for_a_sense_of_belonging_and_attachment",
+              "need_to_feel_competent",
+              "social_behavioural_opportunity"
+            ]
+          }
+        },
+        "start-one-conversation": {
+          "title": "Start One Conversation 💬",
+          "description": "Start one short conversation with a classmate, colleague, neighbour, or someone you see often. Ask one simple question and listen.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 10,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-talking-in-person-on-the-phone-computer-or-text-messaging-light-effort"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation",
+              "social_liberation"
+            ],
+            "bct": [
+              "awareness_of_others"
+            ],
+            "capability_opportunity": [
+              "need_for_a_sense_of_belonging_and_attachment",
+              "need_to_feel_competent",
+              "social_behavioural_opportunity"
+            ]
+          }
+        }
+      },
+      "Level3": {
+        "ask-one-person-for-support": {
+          "title": "Ask One Person for Support 💬",
+          "description": "Choose someone you trust and send a short message asking for support, advice, or a few minutes to talk.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 20,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-talking-in-person-on-the-phone-computer-or-text-messaging-light-effort"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "social_liberation"
+            ],
+            "bct": [
+              "awareness_of_others"
+            ],
+            "behaviour_state": [
+              "reflective_behavioural_motivation",
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "need_for_a_sense_of_belonging_and_attachment",
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "social_behavioural_opportunity"
+            ],
+            "sdt_regulation": [
+              "identified_regulation"
+            ]
+          }
+        },
+        "plan-a-coffee-chat": {
+          "title": "Plan a Coffee Chat ☕",
+          "description": "Invite someone for a relaxed coffee, tea, or short game moment. Pick a time and place that feel easy.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 30,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/eating-sitting"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "social_liberation"
+            ],
+            "bct": [
+              "action_planning_bct",
+              "awareness_of_others"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_a_sense_of_belonging_and_attachment",
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "psychological_behavioural_capability",
+              "social_behavioural_opportunity"
+            ]
+          }
+        }
+      },
+      "Level4": {
+        "message-one-new-contact": {
+          "title": "Message One New Contact 💬",
+          "description": "Reach out to someone outside your usual circle with a short, friendly message. Suggest a simple next step if it feels natural.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 30,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-talking-in-person-on-the-phone-computer-or-text-messaging-light-effort"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "social_liberation"
+            ],
+            "bct": [
+              "awareness_of_others"
+            ],
+            "behaviour_state": [
+              "coping_planning"
+            ],
+            "capability_opportunity": [
+              "need_for_a_sense_of_belonging_and_attachment",
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "social_behavioural_opportunity"
+            ]
+          }
+        }
+      }
+    },
+    "StressAndSupportSkills": {
+      "Level1": {
+        "choose-today-s-top-three": {
+          "title": "Choose Today's Top Three 📋",
+          "description": "Write your tasks for the day and circle the three that matter most. Start with one of them.",
+          "isConcurrent": true,
+          "isDividable": true,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "decisional_balance",
+              "self_liberation"
+            ],
+            "bct": [
+              "action_planning_bct"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "reflective_behavioural_motivation",
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "psychological_behavioural_capability"
+            ]
+          }
+        },
+        "write-control-table": {
+          "title": "Write Control Table ✍️",
+          "description": "Write one stressful situation and separate what you can control, what you can influence, and what you may need to let go.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "decisional_balance"
+            ],
+            "bct": [
+              "action_planning_bct"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "psychological_behavioural_capability"
+            ]
+          }
+        }
+      },
+      "Level2": {
+        "add-one-personal-touch": {
+          "title": "Add One Personal Touch 🪴",
+          "description": "Add one small comfort to your space, such as a plant, blanket, better light, or a tidy corner.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-tasks-light-effort-e-g-office-work-chemistry-lab-work-light-assembly-repair-watch-repair-reading-desk-work"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "physical_behavioural_capability"
+            ]
+          }
+        },
+        "write-about-stressors": {
+          "title": "Write About Stressors ⚡",
+          "description": "Choose one manageable stressor and write the next small action you can take. Make the action specific enough to do today or this week.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation"
+            ],
+            "bct": [
+              "action_planning_bct"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "reflective_behavioural_motivation",
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "psychological_behavioural_capability"
+            ]
+          }
+        }
+      },
+      "Level3": {
+        "practice-one-clear-ask": {
+          "title": "Practice One Clear Ask 🙋",
+          "description": "Use one clear sentence today to ask for what you need or to say what you can offer. Keep it kind and direct.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 10,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-talking-in-person-on-the-phone-computer-or-text-messaging-light-effort"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation"
+            ],
+            "capability_opportunity": [
+              "need_for_a_sense_of_belonging_and_attachment",
+              "need_to_feel_competent"
+            ]
+          }
+        },
+        "use-task-tracker": {
+          "title": "Use Task Tracker 🎯",
+          "description": "Use your notebook or notes app to track today's task. Write the date and one short line when you complete it.",
+          "isConcurrent": true,
+          "isDividable": true,
+          "estimatedDuration": 20,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "consciousness_raising",
+              "self_liberation"
+            ],
+            "bct": [
+              "action_planning_bct"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "reflective_behavioural_motivation",
+              "self_regulation_of_behaviour"
+            ],
+            "capability_opportunity": [
+              "need_to_feel_competent",
+              "psychological_behavioural_capability"
+            ]
+          }
+        }
+      },
+      "Level4": {
+        "write-one-kind-no": {
+          "title": "Write One Kind No ✍️",
+          "description": "Write one polite sentence for saying no to a request that does not fit your time or values.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 10,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_reevaluation"
+            ],
+            "bct": [
+              "action_planning_bct"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "psychological_behavioural_capability"
+            ],
+            "sdt_regulation": [
+              "identified_regulation"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "PhysicalActivity": {
+    "ActiveRoutinesAndChores": {
+      "Level1": {
+        "tidy-up-for-5-minutes": {
+          "title": "Tidy Up for 5 Minutes 🧹",
+          "description": "Set a 5-minute timer and tidy one small area. Walk, bend, reach, and keep moving until the timer ends.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 5,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/multiple-household-tasks-all-at-once-light-effort"
+          ],
+          "context_links": {
+            "capability_opportunity": [
+              "need_to_feel_competent",
+              "physical_behavioural_capability",
+              "physical_behavioural_opportunity"
+            ]
+          }
+        }
+      },
+      "Level2": {
+        "clean-actively-for-10-minutes": {
+          "title": "Clean Actively for 10 Minutes 🧹",
+          "description": "Spend 10 minutes on chores that keep you moving, such as sweeping, wiping counters, folding laundry, or tidying a room.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 10,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/multiple-household-tasks-all-at-once-moderate-effort"
+          ],
+          "context_links": {
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "physical_behavioural_capability"
+            ]
+          }
+        },
+        "clean-actively-for-20-minutes": {
+          "title": "Clean Actively for 20 Minutes 🧹",
+          "description": "Do 20 minutes of whole-body chores, such as sweeping, wiping, lifting laundry, or organising a shelf. Log it when done.",
+          "isConcurrent": false,
+          "isDividable": true,
+          "estimatedDuration": 20,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/multiple-household-tasks-all-at-once-moderate-effort"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "consciousness_raising"
+            ],
+            "behaviour_state": [
+              "self_regulation_of_behaviour"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "physical_behavioural_capability"
+            ]
+          }
+        }
+      },
+      "Level3": {
+        "clean-actively-for-30-minutes": {
+          "title": "Clean Actively for 30 Minutes 🧹",
+          "description": "Do 30 minutes of active chores, such as vacuuming, mopping, scrubbing, laundry, or tidying. Move steadily and take breaks if needed.",
+          "isConcurrent": false,
+          "isDividable": true,
+          "estimatedDuration": 30,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/multiple-household-tasks-all-at-once-vigorous-effort"
+          ],
+          "context_links": {
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "physical_behavioural_capability"
+            ]
+          }
+        }
+      }
+    },
+    "CardioAndStamina": {
+      "Level1": {
+        "do-10-minutes-of-cardio": {
+          "title": "Do 10 Minutes of Cardio 💪",
+          "description": "Choose one cardio activity, such as brisk walking, cycling, swimming, jogging, or a team sport. Keep moving for about 10 minutes at a pace that feels manageable.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 10,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/aerobic-general"
+          ],
+          "context_links": {
+            "behaviour_state": [
+              "reflective_behavioural_motivation",
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "physical_behavioural_capability"
+            ]
+          }
+        },
+        "do-15-minutes-of-cardio": {
+          "title": "Do 15 Minutes of Cardio 💪",
+          "description": "Choose one cardio activity, such as brisk walking, cycling, swimming, jogging, or a team sport. Keep moving for about 15 minutes at a pace that feels manageable.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/aerobic-general"
+          ],
+          "context_links": {
+            "behaviour_state": [
+              "reflective_behavioural_motivation",
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "physical_behavioural_capability"
+            ]
+          }
+        }
+      },
+      "Level2": {
+        "do-20-minutes-of-cardio": {
+          "title": "Do 20 Minutes of Cardio 💪",
+          "description": "Choose one cardio activity, such as brisk walking, cycling, swimming, jogging, or a team sport. Keep moving for about 20 minutes at a pace that feels manageable.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 20,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/aerobic-general"
+          ],
+          "context_links": {
+            "behaviour_state": [
+              "reflective_behavioural_motivation",
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "physical_behavioural_capability"
+            ]
+          }
+        },
+        "move-for-10-minutes": {
+          "title": "Move for 10 Minutes 💪",
+          "description": "Choose one movement you can do today, such as walking, cycling, stretching, or a short home routine. Add it to your calendar and log it.",
+          "isConcurrent": true,
+          "isDividable": true,
+          "estimatedDuration": 10,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/walking-3-5-to-3-9-mph-level-brisk-firm-surface-walking-for-exercise"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "consciousness_raising",
+              "self_liberation"
+            ],
+            "bct": [
+              "action_planning_bct"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "automatic_behavioural_motivation",
+              "reflective_behavioural_motivation",
+              "self_regulation_of_behaviour"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "physical_behavioural_capability",
+              "physical_behavioural_opportunity"
+            ]
+          }
+        }
+      },
+      "Level3": {
+        "do-30-minutes-of-cardio": {
+          "title": "Do 30 Minutes of Cardio 💪",
+          "description": "Choose one cardio activity, such as brisk walking, cycling, swimming, jogging, or a team sport. Keep moving for about 30 minutes at a pace that feels manageable.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 30,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/aerobic-general"
+          ],
+          "context_links": {
+            "behaviour_state": [
+              "reflective_behavioural_motivation",
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "physical_behavioural_capability"
+            ]
+          }
+        }
+      },
+      "Level4": {
+        "do-45-minutes-of-cardio": {
+          "title": "Do 45 Minutes of Cardio 💪",
+          "description": "Choose one cardio activity, such as brisk walking, cycling, swimming, jogging, or a team sport. Keep moving for about 45 minutes at a pace that feels manageable.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 45,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/aerobic-general"
+          ],
+          "context_links": {
+            "behaviour_state": [
+              "reflective_behavioural_motivation",
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "physical_behavioural_capability"
+            ]
+          }
+        }
+      }
+    },
+    "DailyStepsAndWalking": {
+      "Level1": {
+        "log-each-walk": {
+          "title": "Log Each Walk 📒",
+          "description": "After each walk, mark it in your calendar or tracker. Add the time, route, or distance if you know it.",
+          "isConcurrent": true,
+          "isDividable": true,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "consciousness_raising"
+            ],
+            "behaviour_state": [
+              "coping_planning",
+              "self_regulation_of_behaviour"
+            ],
+            "capability_opportunity": [
+              "physical_behavioural_capability",
+              "physical_behavioural_opportunity"
+            ]
+          }
+        },
+        "walk-a-new-route": {
+          "title": "Walk a New Route 🚶",
+          "description": "Choose a different route for one walk this week. Keep the distance comfortable and notice one new thing along the way.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/walking-for-pleasure-taylor-code-010"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "consciousness_raising",
+              "self_liberation"
+            ],
+            "behaviour_state": [
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "physical_behavioural_capability",
+              "psychological_behavioural_capability"
+            ]
+          }
+        },
+        "walk-over-2-000-steps": {
+          "title": "Walk Over 2,000 Steps 🚶",
+          "description": "Add a walk today and aim for more than 2,000 steps. Break it into two short walks if that fits better.",
+          "isConcurrent": false,
+          "isDividable": true,
+          "estimatedDuration": 30,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/walking-2-8-to-3-4-mph-level-moderate-pace-firm-surface"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation"
+            ],
+            "behaviour_state": [
+              "coping_planning"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "physical_behavioural_capability"
+            ]
+          }
+        },
+        "walk-somewhere-nearby": {
+          "title": "Walk Somewhere Nearby 🚶",
+          "description": "Choose a nearby place you would often reach by bike, car, or bus and walk there instead. Keep it realistic for your day.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 30,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/walking-2-8-to-3-4-mph-level-moderate-pace-firm-surface"
+          ],
+          "context_links": {
+            "behaviour_state": [
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "physical_behavioural_capability"
+            ]
+          }
+        },
+        "write-one-movement-step": {
+          "title": "Write One Movement Step ✍️",
+          "description": "Write down one small movement action you will do today, such as a walk, stretch, or two-minute workout. Add when and where you will do it.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 5,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "consciousness_raising",
+              "self_liberation"
+            ],
+            "bct": [
+              "action_planning_bct"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "reflective_behavioural_motivation",
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes",
+              "self_regulation_of_behaviour"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "physical_behavioural_capability",
+              "psychological_behavioural_capability"
+            ]
+          }
+        }
+      },
+      "Level2": {
+        "add-five-walk-minutes": {
+          "title": "Add Five Walk Minutes 🚶",
+          "description": "Take one walk that is a few minutes longer than usual. Keep the pace comfortable.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 15,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/walking-2-8-to-3-4-mph-level-moderate-pace-firm-surface"
+          ],
+          "context_links": {
+            "behaviour_state": [
+              "behaviour_maintenance_self_efficacy",
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "physical_behavioural_capability"
+            ]
+          }
+        },
+        "schedule-a-30-minute-walk": {
+          "title": "Schedule a 30-Minute Walk 🚶",
+          "description": "Plan one 30-minute walk to your calendar this week. Choose the day, time, and starting point now.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 30,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/walking-3-5-to-3-9-mph-level-brisk-firm-surface-walking-for-exercise"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation"
+            ],
+            "bct": [
+              "action_planning_bct"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "physical_behavioural_capability",
+              "physical_behavioural_opportunity",
+              "psychological_behavioural_capability"
+            ]
+          }
+        },
+        "walk-4-000-to-6-000-steps": {
+          "title": "Walk 4,000 to 6,000 Steps 🚶",
+          "description": "Go for 4,000 to 6,000 steps today. Add a walk after a meal or during a study break.",
+          "isConcurrent": false,
+          "isDividable": true,
+          "estimatedDuration": 60,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/walking-3-5-to-3-9-mph-level-brisk-firm-surface-walking-for-exercise"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation",
+              "stimulus_control"
+            ],
+            "bct": [
+              "prompt_intended_action"
+            ],
+            "capability_opportunity": [
+              "physical_behavioural_capability"
+            ]
+          }
+        },
+        "walk-one-routine-route": {
+          "title": "Walk One Routine Route 🚶",
+          "description": "Take a usual route to work, campus, a shop, or a favourite spot on foot. Log the walk after you arrive.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 25,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/walking-2-8-to-3-4-mph-level-moderate-pace-firm-surface"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "consciousness_raising"
+            ],
+            "behaviour_state": [
+              "automatic_behavioural_motivation",
+              "self_regulation_of_behaviour"
+            ],
+            "capability_opportunity": [
+              "physical_behavioural_capability",
+              "physical_behavioural_opportunity"
+            ],
+            "sdt_regulation": [
+              "intrinsic_motivation"
+            ]
+          }
+        }
+      },
+      "Level3": {
+        "make-one-trip-car-free": {
+          "title": "Make One Trip Car-Free 🚶",
+          "description": "Replace one short trip with walking or cycling today. Pick an errand or visit that is close enough to do safely.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 30,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/walking-2-8-to-3-4-mph-level-moderate-pace-firm-surface"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "counter_conditioning",
+              "self_liberation"
+            ],
+            "bct": [
+              "behavioural_substitution"
+            ],
+            "behaviour_state": [
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent"
+            ]
+          }
+        },
+        "try-walk-run-intervals": {
+          "title": "Try Walk-Run Intervals 🏃",
+          "description": "Walk for 3 to 5 minutes, then jog lightly for 1 to 2 minutes. Repeat a few rounds and stop before it feels too much.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 30,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/jog-walk-combination-jogging-component-of-less-than-10-minutes-taylor-code-180"
+          ],
+          "context_links": {
+            "behaviour_state": [
+              "coping_planning",
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "physical_behavioural_capability"
+            ]
+          }
+        },
+        "walk-6-000-to-8-000-steps": {
+          "title": "Walk 6,000 to 8,000 Steps 🚶",
+          "description": "Go for 6,000 to 8,000 steps today. Spread them across errands, breaks, and one planned walk.",
+          "isConcurrent": false,
+          "isDividable": true,
+          "estimatedDuration": 70,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/walking-3-5-to-3-9-mph-level-brisk-firm-surface-walking-for-exercise"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation"
+            ],
+            "behaviour_state": [
+              "action_planning"
+            ],
+            "capability_opportunity": [
+              "physical_behavioural_capability"
+            ]
+          }
+        }
+      },
+      "Level4": {
+        "walk-over-10-000-steps": {
+          "title": "Walk Over 10,000 Steps 🚶",
+          "description": "Go for more than 10,000 steps today. Choose one longer route and add small walks where you can.",
+          "isConcurrent": false,
+          "isDividable": true,
+          "estimatedDuration": 85,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/walking-3-5-to-3-9-mph-level-brisk-firm-surface-walking-for-exercise"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation"
+            ],
+            "behaviour_state": [
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "physical_behavioural_capability"
+            ]
+          }
+        },
+        "walk-over-8-000-steps": {
+          "title": "Walk Over 8,000 Steps 🚶",
+          "description": "Plan enough walking today to pass 8,000 steps. Use a longer route or add two shorter walks.",
+          "isConcurrent": false,
+          "isDividable": true,
+          "estimatedDuration": 70,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/walking-3-5-to-3-9-mph-level-brisk-firm-surface-walking-for-exercise"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation"
+            ],
+            "bct": [
+              "action_planning_bct"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "physical_behavioural_capability"
+            ]
+          }
+        }
+      }
+    },
+    "EverydayMovement": {
+      "Level1": {
+        "do-morning-stretches": {
+          "title": "Do Morning Stretches 🌄",
+          "description": "After waking up, do gentle stretches such as arm circles, neck rolls, or leg swings. Move slowly for a few minutes.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 5,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/stretching-mild"
+          ],
+          "context_links": {
+            "behaviour_state": [
+              "automatic_behavioural_motivation",
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent"
+            ]
+          }
+        },
+        "log-how-movement-felt": {
+          "title": "Log How Movement Felt ✍️",
+          "description": "After one activity, write one line about what you did and how you felt. Keep it quick and honest.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 5,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "consciousness_raising"
+            ],
+            "bct": [
+              "action_planning_bct"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "reflective_behavioural_motivation",
+              "self_regulation_of_behaviour"
+            ],
+            "capability_opportunity": [
+              "physical_behavioural_capability",
+              "psychological_behavioural_capability"
+            ]
+          }
+        }
+      }
+    },
+    "MovementPlanning": {
+      "Level1": {
+        "write-a-backup-plan": {
+          "title": "Write a Backup Plan 🗓️",
+          "description": "Write one simple plan for a likely barrier. For example, if the weather is bad, do a short indoor routine.",
+          "isConcurrent": false,
+          "isDividable": true,
+          "estimatedDuration": 5,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "bct": [
+              "action_planning_bct"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "automatic_behavioural_motivation",
+              "coping_planning",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_to_feel_competent",
+              "psychological_behavioural_capability"
+            ]
+          }
+        }
+      },
+      "Level2": {
+        "plan-sitting-breaks": {
+          "title": "Plan Sitting Breaks 🗓️",
+          "description": "Check your calendar and find the times when you often sit too long and schedule 5-minute movement breaks for those moments.",
+          "isConcurrent": false,
+          "isDividable": true,
+          "estimatedDuration": 5,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "bct": [
+              "action_planning_bct"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "physical_behavioural_capability",
+              "physical_behavioural_opportunity",
+              "psychological_behavioural_capability"
+            ]
+          }
+        },
+        "plan-this-week-s-exercises": {
+          "title": "Plan This Week's Exercises 🗓️",
+          "description": "Add exercise sessions to your calendar with a clear day, time, and place. Keep it short enough to follow.",
+          "isConcurrent": false,
+          "isDividable": true,
+          "estimatedDuration": 30,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation"
+            ],
+            "bct": [
+              "action_planning_bct"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "reflective_behavioural_motivation",
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "need_to_feel_competent",
+              "physical_behavioural_opportunity",
+              "psychological_behavioural_capability"
+            ]
+          }
+        },
+        "prepare-running-gear": {
+          "title": "Prepare Running Gear 👟",
+          "description": "Before your run or aerobic session, set out supportive shoes and comfortable clothes. Put them somewhere visible before the planned time.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 10,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/dressing-undressing-standing-or-sitting"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "stimulus_control"
+            ],
+            "bct": [
+              "prompt_intended_action"
+            ],
+            "capability_opportunity": [
+              "physical_behavioural_capability",
+              "physical_behavioural_opportunity"
+            ]
+          }
+        },
+        "tell-someone-your-plan": {
+          "title": "Tell Someone Your Plan 💬",
+          "description": "Send one message to someone you trust with your planned activity and when you will do it.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 10,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-talking-in-person-on-the-phone-computer-or-text-messaging-light-effort"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "social_liberation"
+            ],
+            "bct": [
+              "action_planning_bct",
+              "awareness_of_others"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "reflective_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_for_a_sense_of_belonging_and_attachment",
+              "social_behavioural_opportunity"
+            ]
+          }
+        }
+      }
+    },
+    "RunningBasics": {
+      "Level1": {
+        "log-run-wins": {
+          "title": "Log Run Wins 🏅",
+          "description": "After run sessions, mark what you completed in your calendar or tracker. Add one short note about what went well.",
+          "isConcurrent": true,
+          "isDividable": true,
+          "estimatedDuration": 5,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "consciousness_raising",
+              "reinforcement_management"
+            ],
+            "behaviour_state": [
+              "self_regulation_of_behaviour"
+            ],
+            "capability_opportunity": [
+              "need_to_feel_competent",
+              "physical_behavioural_capability",
+              "physical_behavioural_opportunity"
+            ]
+          }
+        },
+        "plan-a-short-first-run": {
+          "title": "Plan a Short First Run 🏃",
+          "description": "Plan a simple first run, such as 10 to 15 minutes of easy jogging. Add the time and place to your calendar.",
+          "isConcurrent": false,
+          "isDividable": true,
+          "estimatedDuration": 5,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing"
+          ],
+          "context_links": {
+            "bct": [
+              "action_planning_bct"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "reflective_behavioural_motivation",
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "need_to_feel_competent",
+              "physical_behavioural_capability",
+              "physical_behavioural_opportunity",
+              "psychological_behavioural_capability"
+            ]
+          }
+        }
+      },
+      "Level2": {
+        "go-for-two-running-minutes": {
+          "title": "Go For Two Running Minutes 🏃",
+          "description": "During one easy run, add one or two extra minutes if your body feels ready. Keep the pace comfortable.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 10,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/jogging-general-self-selected-pace"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation"
+            ],
+            "behaviour_state": [
+              "coping_planning",
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "need_to_feel_competent",
+              "physical_behavioural_capability"
+            ]
+          }
+        },
+        "run-with-easy-form": {
+          "title": "Run with Easy Form 🏃",
+          "description": "During this run, keep your shoulders relaxed, posture tall, and pace easy. Slow down when your form starts to slip.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 10,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/jogging-general-self-selected-pace"
+          ],
+          "context_links": {
+            "behaviour_state": [
+              "coping_planning"
+            ],
+            "capability_opportunity": [
+              "need_to_feel_competent",
+              "physical_behavioural_capability"
+            ]
+          }
+        }
+      }
+    },
+    "StrengthAndBodyweightMoves": {
+      "Level1": {
+        "prepare-your-workout-clothes": {
+          "title": "Prepare Your Workout Clothes 👟",
+          "description": "Put comfortable clothes and supportive shoes somewhere visible before your planned activity.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 10,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/dressing-undressing-standing-or-sitting"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "stimulus_control"
+            ],
+            "bct": [
+              "prompt_intended_action"
+            ],
+            "capability_opportunity": [
+              "physical_behavioural_capability",
+              "physical_behavioural_opportunity"
+            ]
+          }
+        },
+        "two-minute-workout": {
+          "title": "Two-Minute Workout 💪",
+          "description": "Start with two minutes of movement, such as squats, marching, stretching, or push-ups against a wall. Stop there or continue if it feels okay.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 2,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/body-weight-resistance-exercises-e-g-squat-lunge-push-up-crunch-general"
+          ],
+          "context_links": {
+            "ttm_process": [
+              "self_liberation"
+            ],
+            "behaviour_state": [
+              "behaviour_maintenance_self_efficacy",
+              "coping_planning",
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "physical_behavioural_capability"
+            ]
+          }
+        }
+      },
+      "Level2": {
+        "7-minute-workout": {
+          "title": "7-Minute Workout 💪",
+          "description": "Set a 7-minute timer and choose simple moves such as squats, planks, push-ups, or jumping jacks. Move at a pace you can keep.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 7,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/calisthenics-e-g-pushups-sit-ups-pull-ups-jumping-jacks-burpees-battling-ropes-vigorous-effort"
+          ],
+          "context_links": {
+            "behaviour_state": [
+              "reflective_behavioural_motivation",
+              "self_efficacy_belief_for_a_behaviour_and_its_associated_outcomes"
+            ],
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "physical_behavioural_capability",
+              "physical_behavioural_opportunity"
+            ]
+          }
+        }
+      },
+      "Level3": {
+        "do-a-bodyweight-circuit": {
+          "title": "Do a Bodyweight Circuit 💪",
+          "description": "Do a short circuit with moves such as squats, jumping jacks, push-ups, crunches, or lunges. Work for about 30 seconds per move and rest when needed.",
+          "isConcurrent": false,
+          "isDividable": false,
+          "estimatedDuration": 30,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/circuit-training-body-weight-exercises"
+          ],
+          "context_links": {
+            "capability_opportunity": [
+              "need_for_autonomy",
+              "need_to_feel_competent",
+              "physical_behavioural_capability"
+            ]
+          }
+        }
+      }
+    },
+    "StretchingAndRecovery": {
+      "Level1": {
+        "stretch-for-5-minutes": {
+          "title": "Stretch for 5 Minutes 🤸",
+          "description": "Set a short timer and stretch your shoulders, back, legs, or neck. Hold each stretch gently and breathe slowly.",
+          "isConcurrent": true,
+          "isDividable": false,
+          "estimatedDuration": 5,
+          "matchedActivity": [
+            "https://w3id.org/calendar-bench/human-activities/activity/stretching-mild"
+          ],
+          "context_links": {
+            "bct": [
+              "manage_automatic_responses"
+            ],
+            "behaviour_state": [
+              "action_planning",
+              "automatic_behavioural_motivation"
+            ],
+            "capability_opportunity": [
+              "need_to_feel_competent",
+              "physical_behavioural_capability",
+              "physical_behavioural_opportunity",
+              "psychological_behavioural_capability"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

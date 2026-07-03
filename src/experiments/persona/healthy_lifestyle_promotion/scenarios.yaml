@@ -1,0 +1,466 @@
+# Progressive Healthy Lifestyle Challenge (PHLC) scenarios.
+# An 8-week simulation where each week generates its own task batch: the count
+# is increased by 4 per week (10 to 38) and the difficulty band rises from Level1
+# toward Level4, and each named domain taking at least 25% of that week's tasks.
+# Weeks 1 to 5 keep their tasks distinct from earlier weeks; weeks 6 to 8 allow reuse.
+# Scenarios cover the blind/informed A/B, the augmenter, evaluator, and task-generator
+# model axes (gpt-4o-mini, gpt-4.1-mini, gpt-5-mini, gpt-5.4-mini, claude-opus-4-8), the
+# prompt-component ablations, and the greedy, PTIME, and DQN baselines, all on the same
+# weekly ramp.
+
+experiment_id: progressive_healthy_lifestyle_promotion
+run_dir: ./output/progressive_healthy_lifestyle_promotion
+output_base: ./output
+
+scenarios:
+  - id: blind_oneshot_gpt_4o_mini
+    label: Context Blind One-Shot (gpt-4o-mini)
+    description: >-
+      Context-blind baseline on the weekly ramp; every stage pinned to
+      gpt-4o-mini and the augmenter sees no context episodes.
+    task_generation: &weekly_ramp
+      - &tg_base
+        week: 1
+        method: graphrag_grounded
+        seed: 20260701
+        num_tasks: 10
+        ontologies: [HealthTasks, HumanActivities]
+        prompt_template: health_improvement
+        filters:
+          - {
+              domains: [NutritionTask, PhysicalActivityTask],
+              difficulty: [Level1, Level2],
+            }
+        max_fetch_retries: 6
+        paraphrase: true
+        paraphrase_similarity_threshold: 0.80
+        paraphrase_max_length_delta_pct: 0.20
+        fetch_top_k: 60
+      - {
+          <<: *tg_base,
+          week: 2,
+          num_tasks: 14,
+          filters:
+            [
+              {
+                domains:
+                  [NutritionTask, PhysicalActivityTask, MentalWellbeingTask],
+                difficulty: [Level1, Level2],
+              },
+            ],
+        }
+      - {
+          <<: *tg_base,
+          week: 3,
+          num_tasks: 18,
+          filters:
+            [
+              {
+                domains: [NutritionTask, MentalWellbeingTask],
+                difficulty: [Level2, Level3],
+              },
+              { domains: [PhysicalActivityTask], difficulty: [Level1, Level2] },
+            ],
+        }
+      - {
+          <<: *tg_base,
+          week: 4,
+          num_tasks: 22,
+          filters:
+            [
+              {
+                domains: [NutritionTask, MentalWellbeingTask],
+                difficulty: [Level2, Level3],
+              },
+              { domains: [PhysicalActivityTask], difficulty: [Level1, Level2] },
+            ],
+        }
+      - {
+          <<: *tg_base,
+          week: 5,
+          num_tasks: 26,
+          filters:
+            [
+              {
+                domains: [NutritionTask, MentalWellbeingTask],
+                difficulty: [Level3, Level4],
+              },
+              { domains: [PhysicalActivityTask], difficulty: [Level2, Level3] },
+            ],
+        }
+      - {
+          <<: *tg_base,
+          week: 6,
+          num_tasks: 30,
+          cross_week_distinct: false,
+          filters:
+            [
+              {
+                domains: [NutritionTask, MentalWellbeingTask],
+                difficulty: [Level3, Level4],
+              },
+              { domains: [PhysicalActivityTask], difficulty: [Level2, Level3] },
+            ],
+        }
+      - {
+          <<: *tg_base,
+          week: 7,
+          num_tasks: 34,
+          cross_week_distinct: false,
+          filters:
+            [
+              {
+                domains: [NutritionTask, MentalWellbeingTask],
+                difficulty: [Level2, Level3, Level4],
+              },
+              { domains: [PhysicalActivityTask], difficulty: [Level3, Level4] },
+            ],
+        }
+      - {
+          <<: *tg_base,
+          week: 8,
+          num_tasks: 38,
+          cross_week_distinct: false,
+          filters:
+            [
+              {
+                domains: [NutritionTask, MentalWellbeingTask],
+                difficulty: [Level2, Level3, Level4],
+              },
+              { domains: [PhysicalActivityTask], difficulty: [Level3, Level4] },
+            ],
+        }
+    task_generator_model:
+      &tg_model { provider: openai, model: gpt-4o-mini, max_retries: 1 }
+    evaluation: &shared_evaluation
+      buffer_minutes: 30
+      merge_threshold: 0.70
+      disp_half_life_days: 2.0
+      divide_duration_tolerance_pct: 0.15
+    evaluator_model:
+      &eval_model { provider: openai, model: gpt-4o-mini, max_retries: 1 }
+    augmentation:
+      - method: llm_agent
+        allow_merge: true
+        merge_threshold: 0.70
+        observation:
+          contexts: []
+          host_flags: []
+          task_flags:
+            &task_flags_full [
+              concurrent_ok,
+              dividable_ok,
+              duration_min,
+              duration_max,
+              intensity,
+              context_recommends,
+            ]
+        llm_agent:
+          &augmenter_4o_mini {
+            provider: openai,
+            model: gpt-4o-mini,
+            max_retries: 1,
+            prompt_template: augment_oneshot,
+          }
+        loss: &shared_loss
+          lambda_cov: 0.16
+          lambda_cal: 0.16
+          lambda_pref: 0.12
+          lambda_disp: 0.16
+          lambda_merge: 0.12
+          lambda_spread: 0.10
+          lambda_divide: 0.08
+          lambda_context_fit: 0.10
+
+  - id: informed_oneshot_gpt_4o_mini
+    label: Context Aware One-Shot (gpt-4o-mini)
+    description: >-
+      Information-budget A/B against the blind baseline; the augmenter reads
+      the five survey context categories.
+    task_generation: *weekly_ramp
+    task_generator_model: *tg_model
+    evaluation: *shared_evaluation
+    evaluator_model: *eval_model
+    augmentation:
+      - method: llm_agent
+        allow_merge: true
+        merge_threshold: 0.70
+        observation: &informed_observation
+          contexts:
+            [
+              weather_environment,
+              behaviour_state,
+              capability_opportunity,
+              goal_intention,
+              sdt_regulation,
+            ]
+          context_detail: summary
+          task_flags: *task_flags_full
+        llm_agent: *augmenter_4o_mini
+        loss: *shared_loss
+
+  - id: informed_oneshot_gpt_4_1_mini
+    label: Context Aware One-Shot (gpt-4.1-mini)
+    description: >-
+      Augmenter-model axis on the informed scenario; the LLM augmenter swaps
+      to gpt-4.1-mini.
+    task_generation: *weekly_ramp
+    task_generator_model: *tg_model
+    evaluation: *shared_evaluation
+    evaluator_model: *eval_model
+    augmentation:
+      - method: llm_agent
+        allow_merge: true
+        merge_threshold: 0.70
+        observation: *informed_observation
+        llm_agent:
+          {
+            provider: openai,
+            model: gpt-4.1-mini,
+            max_retries: 1,
+            prompt_template: augment_oneshot,
+          }
+        loss: *shared_loss
+
+  - id: informed_oneshot_gpt_5_mini
+    label: Context Aware One-Shot (gpt-5-mini)
+    description: >-
+      Augmenter-model axis on the informed scenario; the LLM augmenter swaps
+      to gpt-5-mini.
+    task_generation: *weekly_ramp
+    task_generator_model: *tg_model
+    evaluation: *shared_evaluation
+    evaluator_model: *eval_model
+    augmentation:
+      - method: llm_agent
+        allow_merge: true
+        merge_threshold: 0.70
+        observation: *informed_observation
+        llm_agent:
+          {
+            provider: openai,
+            model: gpt-5-mini,
+            max_retries: 1,
+            prompt_template: augment_oneshot,
+          }
+        loss: *shared_loss
+
+  - id: informed_oneshot_gpt_5_4_mini
+    label: Context Aware One-Shot (gpt-5.4-mini)
+    description: >-
+      Augmenter-model axis on the informed scenario; the LLM augmenter swaps
+      to gpt-5.4-mini.
+    task_generation: *weekly_ramp
+    task_generator_model: *tg_model
+    evaluation: *shared_evaluation
+    evaluator_model: *eval_model
+    augmentation:
+      - method: llm_agent
+        allow_merge: true
+        merge_threshold: 0.70
+        observation: *informed_observation
+        llm_agent:
+          {
+            provider: openai,
+            model: gpt-5.4-mini,
+            max_retries: 1,
+            prompt_template: augment_oneshot,
+          }
+        loss: *shared_loss
+
+  - id: informed_oneshot_opus_4_8
+    label: Context Aware One-Shot (claude-opus-4-8)
+    description: >-
+      Augmenter-model axis on the informed scenario; the LLM augmenter swaps
+      to Anthropic claude-opus-4-8.
+    task_generation: *weekly_ramp
+    task_generator_model: *tg_model
+    evaluation: *shared_evaluation
+    evaluator_model: *eval_model
+    augmentation:
+      - method: llm_agent
+        allow_merge: true
+        merge_threshold: 0.70
+        observation: *informed_observation
+        llm_agent:
+          {
+            provider: anthropic,
+            model: claude-opus-4-8,
+            max_retries: 1,
+            prompt_template: augment_oneshot,
+          }
+        loss: *shared_loss
+
+  - id: informed_eval_gpt_4_1_mini
+    label: Context Aware One-Shot (eval gpt-4.1-mini)
+    description: >-
+      Evaluator-model axis on the informed scenario; the LLM evaluator swaps
+      to gpt-4.1-mini.
+    task_generation: *weekly_ramp
+    task_generator_model: *tg_model
+    evaluation: *shared_evaluation
+    evaluator_model:
+      { provider: openai, model: gpt-4.1-mini, max_retries: 1 }
+    augmentation:
+      - method: llm_agent
+        allow_merge: true
+        merge_threshold: 0.70
+        observation: *informed_observation
+        llm_agent: *augmenter_4o_mini
+        loss: *shared_loss
+
+  - id: informed_taskgen_gpt_4_1_mini
+    label: Context Aware One-Shot (task-gen gpt-4.1-mini)
+    description: >-
+      Task-generation-model axis on the informed scenario; the task generator
+      swaps to gpt-4.1-mini.
+    task_generation: *weekly_ramp
+    task_generator_model:
+      { provider: openai, model: gpt-4.1-mini, max_retries: 1 }
+    evaluation: *shared_evaluation
+    evaluator_model: *eval_model
+    augmentation:
+      - method: llm_agent
+        allow_merge: true
+        merge_threshold: 0.70
+        observation: *informed_observation
+        llm_agent: *augmenter_4o_mini
+        loss: *shared_loss
+
+  - id: fcfs_greedy
+    label: First-come-first-served greedy
+    description: >-
+      Greedy FCFS baseline on the same weekly ramp; parses the observation
+      block but ignores its contents.
+    task_generation: *weekly_ramp
+    task_generator_model: *tg_model
+    evaluation: *shared_evaluation
+    evaluator_model: *eval_model
+    augmentation:
+      - method: greedy
+        allow_merge: true
+        merge_threshold: 0.65
+        observation:
+          contexts:
+            [
+              weather_environment,
+              behaviour_state,
+              capability_opportunity,
+              goal_intention,
+              sdt_regulation,
+            ]
+          task_flags: *task_flags_full
+        greedy:
+          { strategy: preference_first, retry_on_miss: true, max_backtrack: 3 }
+        loss: *shared_loss
+
+  - id: ptime_choquet
+    label: PTIME
+    description: >-
+      PTIME Choquet augmenter on the same weekly ramp; no LLM, no context
+      reads.
+    task_generation: *weekly_ramp
+    task_generator_model: *tg_model
+    evaluation: *shared_evaluation
+    evaluator_model: *eval_model
+    augmentation:
+      - method: ptime
+        observation: { task_flags: *task_flags_full }
+        ptime:
+          candidate_strategy: windows
+          duration_preference: minimum
+          solver: mcs
+          mcs_time_budget_seconds: 10.0
+          importance:
+            { time: 0.40, duration: 0.15, overlap: 0.40, stability: 0.05 }
+          interaction: { duration|time: 0.20, overlap|time: 0.10 }
+        loss: *shared_loss
+
+  - id: dqn_rl_per_person
+    label: DQN RL per person
+    description: >-
+      Online DQN augmenter on the same weekly ramp; learns per person through
+      all eight weeks with a different task batch each week.
+    task_generation: *weekly_ramp
+    task_generator_model: *tg_model
+    evaluation: *shared_evaluation
+    evaluator_model: *eval_model
+    augmentation:
+      - method: rl
+        allow_merge: true
+        merge_threshold: 0.70
+        observation: *informed_observation
+        rl:
+          policy: dqn
+          checkpoint: null
+          train_steps_per_week: 8000
+          learning_rate: 0.0001
+          gamma: 0.95
+          buffer_size: 80000
+          batch_size: 256
+          epsilon_start: 1.0
+          epsilon_end: 0.05
+          epsilon_decay_weeks: 4
+          seed: 20260701
+          bucket_minutes: 60
+          per_step_shaping: 0.5
+          auto_pick_task: true
+          device: cpu
+          parallel_per_worker_gb: 1.5
+          parallel_max_retries: 3
+          parallel_worker_threads: 1
+        loss: *shared_loss
+
+  - id: blind_pb24_ablation
+    label: Context Blind PB-16 ablation
+    description: >-
+      Prompt-component ablation on the blind augmenter; a 16-run
+      Plackett-Burman design varies all 13 ablatable blocks.
+    task_generation: *weekly_ramp
+    task_generator_model: *tg_model
+    evaluation: *shared_evaluation
+    evaluator_model: *eval_model
+    augmentation:
+      - method: llm_agent
+        allow_merge: true
+        merge_threshold: 0.70
+        observation:
+          contexts: []
+          host_flags: []
+          task_flags: *task_flags_full
+        llm_agent:
+          provider: openai
+          model: gpt-4o-mini
+          max_retries: 1
+          prompt_template: augment_oneshot
+          prompt_ablation:
+            design: plackett_burman_16
+            fold: false
+            use_default_placebos: true
+        loss: *shared_loss
+
+  - id: informed_pb24_ablation
+    label: Context Aware PB-16 ablation
+    description: >-
+      Prompt-component ablation on the informed augmenter; a 16-run
+      Plackett-Burman design varies all 13 ablatable blocks, pairing with the
+      blind ablation.
+    task_generation: *weekly_ramp
+    task_generator_model: *tg_model
+    evaluation: *shared_evaluation
+    evaluator_model: *eval_model
+    augmentation:
+      - method: llm_agent
+        allow_merge: true
+        merge_threshold: 0.70
+        observation: *informed_observation
+        llm_agent:
+          provider: openai
+          model: gpt-4o-mini
+          max_retries: 1
+          prompt_template: augment_oneshot
+          prompt_ablation:
+            design: plackett_burman_16
+            fold: false
+            use_default_placebos: true
+        loss: *shared_loss

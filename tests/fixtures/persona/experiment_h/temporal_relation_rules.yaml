@@ -1,0 +1,78 @@
+# LTL + Allen rules. Mixes event-only rules with cross-link rules that
+# reference contexts via `context:<name>` atoms and selector predicates
+# with `kind: context`.
+
+rules:
+  # ----- pure event x event -----
+  - id: no_overlap_sleep_work
+    formula: "G ¬(sleep ∧ office_work)"
+
+  - id: no_overlap_lunch_work
+    formula: "G ¬(lunch ∧ office_work)"
+
+  # ----- event x context exclusions -----
+  - id: no_sleep_when_anxious
+    formula: "G ¬(sleep ∧ context:anxious)"
+
+  - id: no_office_when_tired
+    formula: "G ¬(office_work ∧ context:tired)"
+
+  - id: no_lunch_at_workplace
+    formula: "G ¬(lunch ∧ context:workplace)"
+
+  - id: no_gym_when_tired
+    formula: "G ¬(gym ∧ context:tired)"
+
+  # ----- context x context exclusions -----
+  - id: no_happy_when_anxious
+    formula: "G ¬(context:happy ∧ context:anxious)"
+
+  - id: no_energetic_when_tired
+    formula: "G ¬(context:energetic ∧ context:tired)"
+
+  - id: no_home_at_workplace
+    formula: "G ¬(context:home ∧ context:workplace)"
+
+  # ----- event implies context (post-event state) -----
+  - id: office_work_followed_by_tired
+    formula: "G (office_work → F context:tired)"
+
+  - id: gym_overlaps_energetic
+    formula: "G (gym → F (gym ∧ context:energetic))"
+
+  # ----- weekly count target on a context -----
+  - id: weekly_park_target
+    formula: "weekly_count(context:public_park, ≥, 1)"
+
+  # ----- scoped to a persona characteristic -----
+  - id: high_neuroticism_anxiety_floor
+    formula: "weekly_count(context:anxious, ≥, 2)"
+    applies_to:
+      personas: [h_fulltime]
+
+allen_pair_rules:
+  # Pure event x event: no two intensive activities back to back.
+  - id: intensive_far_from_intensive
+    event_a: { intensity: [3, 4] }
+    event_b: { intensity: [3, 4] }
+    admissible_relations: [p, P]
+
+  # Anxious episodes are kept away from sleep events with a 60-min buffer.
+  - id: anxious_far_from_sleep
+    event_a: { kind: context, name: anxious }
+    event_b: { name: sleep }
+    admissible_relations: [p, P]
+    buffer: 60
+
+  # Tired episodes stay separated from gym sessions.
+  - id: tired_separated_from_gym
+    event_a: { kind: context, name: tired }
+    event_b: { name: gym }
+    admissible_relations: [p, m, M, P]
+    buffer: 30
+
+  # Workplace and lunch must be separated (lunch is a break).
+  - id: workplace_far_from_lunch
+    event_a: { kind: context, name: workplace }
+    event_b: { name: lunch }
+    admissible_relations: [p, m, M, P]

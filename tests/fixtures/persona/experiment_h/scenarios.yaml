@@ -1,0 +1,90 @@
+# Experiment H scenarios.
+# Two side-by-side LLM augmentation methods that share the persona cohort and
+# the same task list, differing only in their `observation:` block. Both
+# scenarios compute L_context_fit against the full persona context trace, so
+# the metric scores OUTCOMES, not what the augmenter happened to see.
+
+experiment_id: experiment_h
+run_dir: ./output/experiment_h
+output_base: ./output
+
+scenarios:
+  - id: context_aware_h
+    description: >-
+      Single scenario with three augmentation methods comparing blind,
+      informed, and greedy placements under the same task list.
+    task_generation: &shared_task_generation
+      method: graphrag_grounded
+      seed: 20260518
+      num_tasks: 8
+      ontologies:
+        - HealthTasks
+        - HumanActivities
+      prompt_template: health_improvement
+      filters:
+        domains:
+          - PhysicalActivityTask
+          - MentalWellbeingTask
+        difficulty:
+          - Level1
+          - Level2
+      max_fetch_retries: 3
+      paraphrase: true
+      paraphrase_similarity_threshold: 0.80
+      paraphrase_max_length_delta_pct: 0.20
+      fetch_top_k: 30
+    task_generator_model: &task_generator_model
+      provider: openai
+      model: gpt-4o-mini
+      max_retries: 1
+    evaluation: &shared_evaluation
+      buffer_minutes:                30
+      merge_threshold:               0.65
+      disp_half_life_days:           2.0
+      divide_duration_tolerance_pct: 0.15
+    evaluator_model: &evaluator_model
+      provider: openai
+      model: gpt-4o-mini
+      max_retries: 1
+    augmentation:
+      - method: llm_agent
+        allow_merge: true
+        merge_threshold: 0.70
+        repeat_per_week: true
+        observation:
+          contexts: []
+          host_flags: []
+        llm_agent: &augmenter_4o_mini
+          provider: openai
+          model: gpt-4o-mini
+          max_retries: 1
+          prompt_template: augment_oneshot
+        loss: &shared_loss
+          lambda_cov:          0.16
+          lambda_cal:          0.16
+          lambda_pref:         0.12
+          lambda_disp:         0.16
+          lambda_merge:        0.12
+          lambda_spread:       0.10
+          lambda_divide:       0.08
+          lambda_context_fit:  0.10
+      - method: llm_agent
+        allow_merge: true
+        merge_threshold: 0.70
+        repeat_per_week: true
+        observation:
+          contexts: [mood_emotion, energy_state, location, weather_environment]
+          context_detail: summary
+        llm_agent: *augmenter_4o_mini
+        loss: *shared_loss
+      - method: greedy
+        allow_merge: true
+        merge_threshold: 0.65
+        repeat_per_week: true
+        observation:
+          contexts: [mood_emotion, energy_state]
+        greedy:
+          strategy: preference_first
+          retry_on_miss: true
+          max_backtrack: 3
+        loss: *shared_loss

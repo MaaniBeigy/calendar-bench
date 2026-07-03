@@ -1,0 +1,33 @@
+seed: 20260518
+experiment_name: "Experiment H: contexts + characteristics smoke"
+horizon:
+  start_date: 2026-05-18 # Monday
+  weeks: 2
+  enable_yearly_pass: false
+  weekly_template: locked
+output:
+  dir: ./output/experiment_h
+  per_person_json: true
+  per_person_ics: true
+  validation_report: true
+solver:
+  step_minutes: 10
+  max_attempts: 25
+  optimize_objective: none
+time_windows:
+  early_morning: [0, 400]
+  morning: [400, 600]
+  afternoon: [600, 960]
+  evening: [960, 1260]
+  night: [1260, 1440]
+# Hard waking-hours window applied uniformly to every augmenter.
+daily_window:
+  wake_minutes: 360       # 06:00
+  sleep_minutes: 1320     # 22:00
+parallelism:
+  workers: 0
+  executor: process
+  chunk_size: 1
+compute:
+  device: cuda
+  cuda_device_index: 0

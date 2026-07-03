@@ -1,0 +1,138 @@
+# Senior-cohort event catalog; per-persona seasonality + trend ramps live in persona_config.yaml.
+
+categories:
+  sleep:
+    events:
+      sleep:
+        intensity: 1
+        is_concurrent: false
+        is_dividable: false
+        per_event_duration: { min: 6, max: 9, unit: hours }
+        total_event_duration: { scale: day, min: 6, max: 9, unit: hours }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+        temporal_patterns:
+          - { mode: fix, details: { within: [night] } }
+
+  eat:
+    events:
+      first_eat:
+        intensity: 1
+        is_concurrent: false
+        is_dividable: false
+        per_event_duration: { min: 10, max: 30, unit: minutes }
+        total_event_duration: { scale: day, min: 10, max: 30, unit: minutes }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+        temporal_patterns:
+          - { mode: fix, details: { within: [early_morning, morning] } }
+      lunch:
+        intensity: 1
+        is_concurrent: true
+        is_dividable: false
+        concurrent_with: [reading]
+        per_event_duration: { min: 30, max: 90, unit: minutes }
+        total_event_duration: { scale: day, min: 30, max: 90, unit: minutes }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+        temporal_patterns:
+          - { mode: fix, details: { within: [afternoon] } }
+      dinner:
+        intensity: 1
+        is_concurrent: true
+        is_dividable: false
+        concurrent_with: [reading]
+        per_event_duration: { min: 30, max: 90, unit: minutes }
+        total_event_duration: { scale: day, min: 30, max: 90, unit: minutes }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+        temporal_patterns:
+          - { mode: fix, details: { within: [evening] } }
+
+  work:
+    events:
+      office_work:
+        requires:
+          occupation_status: { in: [fulltime, parttime] }
+        weekdays: [Mon, Tue, Wed, Thu, Fri]
+        intensity: 3
+        is_concurrent: true
+        is_dividable: true
+        per_event_duration: { min: 1, max: 10, unit: hours }
+        total_event_duration: { scale: day, min: 1, max: 10, unit: hours }
+        total_event_episodes: { scale: day, min: 1, max: 2 }
+
+  sports:
+    events:
+      # Sustained physical activities — concurrent-friendly for
+      # REFINEMENT tasks (intensity / count / style specifications)
+      # that describe how to perform the host activity, e.g.
+      # ``Walk 5,000 Steps`` concurrent with the Walking event.
+      walking:
+        # Ontology refs — researcher-picked "lowest-granular class that
+        # captures the intent". Consumed by the L_pref PreferenceMapper
+        # (literal-IRI tier). Optional fields; events that omit them lose
+        # the ontology-anchored matching tier and fall back to σ.
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/walking-3-5-mph-mod-pace
+        health_task_iri: https://w3id.org/calendar-bench/health/task/schedule-a-30-minute-walk
+        intensity: 2
+        is_concurrent: true
+        is_dividable: true
+        per_event_duration: { min: 15, max: 120, unit: minutes }
+        total_event_duration: { scale: day, min: 15, max: 240, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+      cycling:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/bicycling-12-13-9-mph
+        health_task_iri: https://w3id.org/calendar-bench/health/task/cycle-for-30-minutes
+        intensity: 3
+        is_concurrent: true
+        is_dividable: false
+        per_event_duration: { min: 30, max: 180, unit: minutes }
+        total_event_duration: { scale: day, min: 30, max: 180, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+      yoga:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/yoga-hatha
+        health_task_iri: https://w3id.org/calendar-bench/health/task/practice-yoga
+        intensity: 2
+        is_concurrent: true
+        is_dividable: false
+        per_event_duration: { min: 30, max: 120, unit: minutes }
+        total_event_duration: { scale: day, min: 30, max: 120, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+
+  leisure:
+    events:
+      # Reading is a calm, seated, sustained activity — natural host for
+      # micro-actions like posture check, hydration, breathing exercise.
+      reading:
+        health_task_iri: https://w3id.org/calendar-bench/health/task/read-a-book
+        intensity: 1
+        is_concurrent: true
+        is_dividable: false
+        per_event_duration: { min: 15, max: 240, unit: minutes }
+        total_event_duration: { scale: day, min: 15, max: 240, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+      # Gardening occupies the hands and posture; treat as exclusive.
+      gardening:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/gardening-general
+        intensity: 3
+        is_concurrent: false
+        is_dividable: false
+        per_event_duration: { min: 30, max: 240, unit: minutes }
+        total_event_duration: { scale: day, min: 30, max: 240, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+
+  social:
+    events:
+      # Social commitments are exclusive — habit tasks belong before/after,
+      # never concurrent with the visit.
+      visit_family:
+        intensity: 1
+        is_concurrent: false
+        is_dividable: false
+        per_event_duration: { min: 60, max: 360, unit: minutes }
+        total_event_duration: { scale: week, min: 60, max: 720, unit: minutes }
+        total_event_episodes: { scale: week, min: 0, max: 2 }
+      meet_friends:
+        intensity: 1
+        is_concurrent: false
+        is_dividable: false
+        per_event_duration: { min: 60, max: 360, unit: minutes }
+        total_event_duration: { scale: week, min: 60, max: 720, unit: minutes }
+        total_event_episodes: { scale: week, min: 0, max: 2 }

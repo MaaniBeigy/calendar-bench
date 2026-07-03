@@ -1,0 +1,123 @@
+# 12 persons across student / parttime / fulltime; per-cohort overrides in `event_overrides`.
+
+common:
+  default_jitter:
+    time_minutes: 15
+    duration_minutes: 10
+
+personas:
+  - id: a_student
+    instances: 4
+    characteristics:
+      occupation_status: { type: categorical, values: { student: 1.0 } }
+    stages:
+      - { name: sleep,        time: "23:00",     days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: first_eat,    time: "07:30", duration_minutes: 20, days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: lunch,        time: "12:30", duration_minutes: 45, days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: dinner,       time: "19:00", duration_minutes: 60, days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: study,        time: "09:00",                          days: [Mon, Tue, Wed, Thu, Fri] }
+      - { name: running,      time: "morning",   duration_minutes: 60, days: [Tue, Thu] }
+      - { name: gym,          time: "afternoon", duration_minutes: 75, days: [Sat] }
+      - { name: reading,      time: "evening",   duration_minutes: 60, days: [Mon, Wed, Fri] }
+      - { name: gaming,       time: "evening",   duration_minutes: 120, days: [Sun] }
+      - { name: visit_family, time: "afternoon", duration_minutes: 180, days: [Sun] }
+
+    event_overrides:
+      study:
+        per_event_duration: { min: 2, max: 4, unit: hours }
+        total_event_duration: { scale: day, min: 2, max: 4, unit: hours }
+      running:
+        intensity: 4
+        per_event_duration: { min: 30, max: 60, unit: minutes }
+        total_event_duration: { scale: day, min: 30, max: 60, unit: minutes }
+      gym:
+        intensity: 4
+        per_event_duration: { min: 60, max: 90, unit: minutes }
+        total_event_duration: { scale: day, min: 60, max: 90, unit: minutes }
+      reading:
+        per_event_duration: { min: 30, max: 90, unit: minutes }
+        total_event_duration: { scale: day, min: 30, max: 90, unit: minutes }
+      gaming:
+        per_event_duration: { min: 60, max: 180, unit: minutes }
+        total_event_duration: { scale: day, min: 60, max: 180, unit: minutes }
+      visit_family:
+        per_event_duration: { min: 90, max: 240, unit: minutes }
+        total_event_duration: { scale: week, min: 90, max: 480, unit: minutes }
+        total_event_episodes: { scale: week, min: 0, max: 1 }
+
+  - id: a_parttime
+    instances: 4
+    characteristics:
+      occupation_status: { type: categorical, values: { parttime: 1.0 } }
+    stages:
+      - { name: sleep,      time: "23:00",     days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: first_eat,  time: "08:00", duration_minutes: 20, days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: lunch,      time: "13:00", duration_minutes: 45, days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: dinner,     time: "19:30", duration_minutes: 60, days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: office_work, time: "09:30",                       days: [Mon, Tue, Wed, Thu, Fri] }
+      - { name: cycling,    time: "evening", duration_minutes: 60, days: [Mon, Wed, Fri] }
+      - { name: yoga,       time: "morning", duration_minutes: 60, days: [Sun] }
+      - { name: reading,    time: "evening", duration_minutes: 60, days: [Tue, Thu] }
+      - { name: groceries,  time: "morning", duration_minutes: 60, days: [Sat] }
+
+    event_overrides:
+      office_work:
+        per_event_duration: { min: 3, max: 5, unit: hours }
+        total_event_duration: { scale: day, min: 3, max: 5, unit: hours }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+      cycling:
+        intensity: 3
+        per_event_duration: { min: 30, max: 90, unit: minutes }
+        total_event_duration: { scale: day, min: 30, max: 90, unit: minutes }
+      yoga:
+        intensity: 2
+        per_event_duration: { min: 45, max: 90, unit: minutes }
+        total_event_duration: { scale: day, min: 45, max: 90, unit: minutes }
+      reading:
+        per_event_duration: { min: 30, max: 90, unit: minutes }
+        total_event_duration: { scale: day, min: 30, max: 90, unit: minutes }
+      groceries:
+        per_event_duration: { min: 45, max: 120, unit: minutes }
+        total_event_duration: { scale: week, min: 45, max: 180, unit: minutes }
+        total_event_episodes: { scale: week, min: 0, max: 1 }
+
+  - id: a_fulltime
+    instances: 4
+    characteristics:
+      occupation_status: { type: categorical, values: { fulltime: 1.0 } }
+    stages:
+      - { name: sleep,        time: "22:30",     days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: first_eat,    time: "07:00", duration_minutes: 15, days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: lunch,        time: "13:00", duration_minutes: 30, days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: dinner,       time: "19:30", duration_minutes: 45, days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: office_work,  time: "08:30",                          days: [Mon, Tue, Wed, Thu, Fri] }
+      - { name: gym,          time: "evening",   duration_minutes: 60, days: [Mon, Wed, Fri] }
+      - { name: swimming,     time: "morning",   duration_minutes: 60, days: [Sat] }
+      - { name: gaming,       time: "evening",   duration_minutes: 90, days: [Tue, Thu] }
+      - { name: groceries,    time: "afternoon", duration_minutes: 60, days: [Sat] }
+      - { name: visit_family, time: "afternoon", duration_minutes: 240, days: [Sun] }
+
+    event_overrides:
+      office_work:
+        per_event_duration: { min: 3, max: 5, unit: hours }
+        total_event_duration: { scale: day, min: 3, max: 5, unit: hours }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+      gym:
+        intensity: 4
+        per_event_duration: { min: 60, max: 90, unit: minutes }
+        total_event_duration: { scale: day, min: 60, max: 90, unit: minutes }
+      swimming:
+        intensity: 3
+        per_event_duration: { min: 30, max: 90, unit: minutes }
+        total_event_duration: { scale: day, min: 30, max: 90, unit: minutes }
+      gaming:
+        per_event_duration: { min: 60, max: 120, unit: minutes }
+        total_event_duration: { scale: day, min: 60, max: 120, unit: minutes }
+      groceries:
+        per_event_duration: { min: 45, max: 90, unit: minutes }
+        total_event_duration: { scale: week, min: 45, max: 90, unit: minutes }
+        total_event_episodes: { scale: week, min: 0, max: 1 }
+      visit_family:
+        per_event_duration: { min: 120, max: 360, unit: minutes }
+        total_event_duration: { scale: week, min: 120, max: 480, unit: minutes }
+        total_event_episodes: { scale: week, min: 0, max: 1 }

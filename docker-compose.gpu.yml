@@ -1,0 +1,97 @@
+# Self-contained GPU-enabled compose file. Use it as a drop-in
+# REPLACEMENT for docker-compose.yml on hosts with an NVIDIA driver +
+# NVIDIA Container Toolkit installed (see README §2a):
+#
+#   sudo docker compose -f docker-compose.gpu.yml up -d
+#   sudo docker compose -f docker-compose.gpu.yml run --rm app …
+#
+# Mirrors docker-compose.yml verbatim and adds `deploy.resources` on
+# the `app` service to pass every visible GPU into the container.
+# Keep the two files in sync — any volume / env / healthcheck change
+# in docker-compose.yml must be mirrored here.
+services:
+  # See docker-compose.yml for full notes on the Redis sidecar.
+  redis:
+    image: redis:7-alpine
+    container_name: calendar-bench-redis
+    restart: unless-stopped
+    command: ["redis-server", "--maxmemory", "256mb", "--maxmemory-policy", "allkeys-lru"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  neo4j:
+    image: neo4j:5.20-community
+    container_name: calendar-bench-neo4j
+    restart: unless-stopped
+    ports:
+      - "7474:7474"   # HTTP / Browser
+      - "7687:7687"   # Bolt
+    environment:
+      NEO4J_AUTH: ${NEO4J_USERNAME}/${NEO4J_PASSWORD}
+      NEO4J_PLUGINS: '["apoc", "n10s"]'
+      NEO4J_dbms_security_procedures_unrestricted: "apoc.*,n10s.*"
+      NEO4J_dbms_security_procedures_allowlist: "apoc.*,n10s.*"
+      NEO4J_apoc_import_file_enabled: "true"
+      NEO4J_apoc_export_file_enabled: "true"
+      NEO4J_server_memory_heap_initial__size: "1G"
+      NEO4J_server_memory_heap_max__size: "2G"
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+      - neo4j_plugins:/plugins
+      - ./src/assets/ontologies:/import/ontologies:ro
+      - ./tests/fixtures:/import/test_fixtures:ro
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:7474 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      # Opt into the GPU branch in the Dockerfile; installs the
+      # CUDA-pinned torch wheel from PyTorch's index, then layers
+      # `sentence-transformers` + `requirements-gpu.txt` (which
+      # carries `stable-baselines3`).  Without this arg the image
+      # built from this compose file would be CPU-only and the RL
+      # augmenter would fall back to its random policy.
+      args:
+        INSTALL_CUDA: "1"
+    container_name: calendar-bench-app
+    depends_on:
+      neo4j:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      NEO4J_URI: bolt://neo4j:7687
+      REDIS_URL: redis://redis:6379/0
+    volumes:
+      - ./src:/app/src:ro
+      - ./tests:/app/tests:ro
+      - ./pytest.ini:/app/pytest.ini:ro
+      - ./.coveragerc:/app/.coveragerc:ro
+      - ./src/assets/ontologies:/app/ontologies:rw
+      - ./src/assets/images:/app/src/assets/images:rw
+      - ./htmlcov:/app/htmlcov:rw
+      - ./output:/app/output:rw
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    command: ["python", "-m", "src.scripts.import_ontologies"]
+
+volumes:
+  neo4j_data:
+  neo4j_logs:
+  neo4j_plugins:

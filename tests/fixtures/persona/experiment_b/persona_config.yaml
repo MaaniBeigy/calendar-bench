@@ -1,0 +1,129 @@
+# 12 senior persons, mostly parttime; unemployed→parttime, self-employed→fulltime.
+
+common:
+  default_jitter:
+    time_minutes: 20
+    duration_minutes: 15
+
+personas:
+  - id: b_parttime_morning
+    instances: 4
+    characteristics:
+      occupation_status: { type: categorical, values: { parttime: 1.0 } }
+    stages:
+      - { name: sleep,        time: "22:30",   days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: first_eat,    time: "07:00", duration_minutes: 25, days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: lunch,        time: "12:30", duration_minutes: 60, days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: dinner,       time: "19:00", duration_minutes: 60, days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: office_work,  time: "09:00",                          days: [Mon, Tue, Wed, Thu, Fri] }
+      - { name: walking,      time: "morning", duration_minutes: 45, days: [Mon, Tue, Wed, Thu, Fri] }
+      - { name: walking,      time: "morning", duration_minutes: 60, days: [Sat, Sun] }
+      - { name: reading,      time: "evening",   duration_minutes: 60, days: [Mon, Wed, Fri] }
+      - { name: reading,      time: "afternoon", duration_minutes: 60, days: [Sun] }
+      - { name: visit_family, time: "afternoon", duration_minutes: 180, days: [Sun] }
+
+    event_overrides:
+      office_work:
+        per_event_duration: { min: 3, max: 4, unit: hours }
+        total_event_duration: { scale: day, min: 3, max: 4, unit: hours }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+      walking:
+        intensity: 2
+        per_event_duration: { min: 30, max: 75, unit: minutes }
+        total_event_duration: { scale: day, min: 30, max: 75, unit: minutes }
+        temporal_patterns:
+          - mode: seasonality
+            details: { within: morning, amount: 20, direction: increasing }
+          - mode: seasonality
+            details:
+              within: [Saturday, Sunday]
+              amount: 25
+              direction: increasing
+          - mode: trend
+            # Day-indexed ramp; re-author `end` to `weeks * 7` if horizon.weeks changes.
+            details:
+              scale: day
+              direction: increasing
+              amount: 2
+              start: 1
+              end: 28
+      reading:
+        per_event_duration: { min: 45, max: 90, unit: minutes }
+        total_event_duration: { scale: day, min: 45, max: 90, unit: minutes }
+      visit_family:
+        per_event_duration: { min: 120, max: 240, unit: minutes }
+        total_event_duration: { scale: week, min: 120, max: 480, unit: minutes }
+        total_event_episodes: { scale: week, min: 0, max: 1 }
+
+  - id: b_parttime_evening
+    instances: 4
+    characteristics:
+      occupation_status: { type: categorical, values: { parttime: 1.0 } }
+    stages:
+      - { name: sleep,        time: "23:00",   days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: first_eat,    time: "08:30", duration_minutes: 25, days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: lunch,        time: "12:00", duration_minutes: 60, days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: dinner,       time: "20:00", duration_minutes: 60, days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: office_work,  time: "13:30",                          days: [Mon, Tue, Wed, Thu, Fri] }
+      - { name: walking,      time: "evening",   duration_minutes: 30, days: [Tue, Thu] }
+      - { name: walking,      time: "afternoon", duration_minutes: 60, days: [Sat, Sun] }
+      - { name: yoga,         time: "morning",   duration_minutes: 60, days: [Mon, Fri] }
+      - { name: gardening,    time: "morning",   duration_minutes: 90, days: [Sat, Sun] }
+      - { name: meet_friends, time: "evening",   duration_minutes: 120, days: [Sat] }
+
+    event_overrides:
+      office_work:
+        per_event_duration: { min: 4, max: 5, unit: hours }
+        total_event_duration: { scale: day, min: 4, max: 5, unit: hours }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+      walking:
+        intensity: 2
+        per_event_duration: { min: 20, max: 60, unit: minutes }
+        total_event_duration: { scale: day, min: 20, max: 60, unit: minutes }
+      yoga:
+        intensity: 1
+        per_event_duration: { min: 45, max: 90, unit: minutes }
+        total_event_duration: { scale: day, min: 45, max: 90, unit: minutes }
+      gardening:
+        per_event_duration: { min: 60, max: 120, unit: minutes }
+        total_event_duration: { scale: day, min: 60, max: 120, unit: minutes }
+      meet_friends:
+        per_event_duration: { min: 90, max: 180, unit: minutes }
+        total_event_duration: { scale: week, min: 90, max: 360, unit: minutes }
+        total_event_episodes: { scale: week, min: 0, max: 1 }
+
+  - id: b_fulltime_self_employed
+    instances: 4
+    characteristics:
+      occupation_status: { type: categorical, values: { fulltime: 1.0 } }
+    stages:
+      - { name: sleep,        time: "23:00",   days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: first_eat,    time: "07:30", duration_minutes: 20, days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: lunch,        time: "12:30", duration_minutes: 45, days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: dinner,       time: "19:30", duration_minutes: 45, days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: office_work,  time: "09:00",                          days: [Mon, Tue, Wed, Thu, Fri] }
+      - { name: cycling,      time: "morning",   duration_minutes: 90, days: [Sat] }
+      - { name: walking,      time: "afternoon", duration_minutes: 30, days: [Mon, Wed, Fri] }
+      - { name: reading,      time: "afternoon", duration_minutes: 90, days: [Sun] }
+      - { name: visit_family, time: "afternoon", duration_minutes: 240, days: [Sun] }
+
+    event_overrides:
+      office_work:
+        per_event_duration: { min: 3, max: 5, unit: hours }
+        total_event_duration: { scale: day, min: 3, max: 5, unit: hours }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+      walking:
+        intensity: 2
+        per_event_duration: { min: 20, max: 45, unit: minutes }
+        total_event_duration: { scale: day, min: 20, max: 45, unit: minutes }
+      cycling:
+        intensity: 3
+        per_event_duration: { min: 60, max: 120, unit: minutes }
+        total_event_duration: { scale: day, min: 60, max: 120, unit: minutes }
+      reading:
+        per_event_duration: { min: 60, max: 120, unit: minutes }
+        total_event_duration: { scale: day, min: 60, max: 120, unit: minutes }
+      visit_family:
+        per_event_duration: { min: 180, max: 360, unit: minutes }
+        total_event_duration: { scale: week, min: 180, max: 480, unit: minutes }
+        total_event_episodes: { scale: week, min: 0, max: 1 }

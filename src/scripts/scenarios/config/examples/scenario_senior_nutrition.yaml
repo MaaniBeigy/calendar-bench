@@ -1,0 +1,54 @@
+scenario:
+  id: senior_nutrition_b
+  description: >-
+    Add nutrition and mindful-eating tasks to a leisure-oriented persona.
+    Tasks drawn from Level 1–2 of the HealthTasks ontology,
+    with an LLM agent augmenter that can merge tasks into existing meal events.
+
+  calendar:
+    run_dir: ./output/example_experiment
+    persona_environment: src/experiments/persona/example_experiment/environment.yaml
+    persona_config:     src/experiments/persona/example_experiment/persona_config.yaml
+    persona_events:     src/experiments/persona/example_experiment/event_config.yaml
+    persona_rules:      src/experiments/persona/example_experiment/temporal_relation_rules.yaml
+
+  task_generation:
+    method: graphrag
+    seed: 20260503
+    num_tasks: 3
+    ontologies:
+      - HealthTasks
+    prompt_template: senior_lifestyle
+    filters:
+      domains:
+        - NutritionTask
+        - MentalWellbeingTask
+      difficulty:
+        - Level1
+        - Level2
+
+  augmentation:
+    method: llm_agent
+    allow_merge: true
+    merge_threshold: 0.65
+    llm_agent:
+      provider: anthropic
+      model: claude-sonnet-4-6
+      max_retries: 1
+      prompt_template: augment_oneshot
+
+  loss:
+    # v4: 7 components — lambda_tt merged into lambda_cal; new lambda_divide.
+    lambda_cov:    0.20
+    lambda_cal:    0.15
+    lambda_pref:   0.10
+    lambda_disp:   0.10
+    lambda_merge:  0.25
+    lambda_spread: 0.10
+    lambda_divide: 0.10
+
+  output:
+    dir: ./output/scenario_senior_nutrition_b
+    write_ics: true
+    write_json: true
+    write_report: true

@@ -1,0 +1,125 @@
+# Deterministic event config.
+
+categories:
+  sleep:
+    events:
+      sleep:
+        per_event_duration: { min: 6, max: 9, unit: hours }
+        total_event_duration: { scale: day, min: 6, max: 9, unit: hours }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+        temporal_patterns:
+          - { mode: fix, details: { within: [night] } }
+
+  eat:
+    events:
+      first_eat:
+        per_event_duration: { min: 10, max: 30, unit: minutes }
+        total_event_duration: { scale: day, min: 10, max: 30, unit: minutes }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+        temporal_patterns:
+          - { mode: fix, details: { within: [early_morning, morning] } }
+      lunch:
+        per_event_duration: { min: 30, max: 90, unit: minutes }
+        total_event_duration: { scale: day, min: 30, max: 90, unit: minutes }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+        temporal_patterns:
+          - { mode: fix, details: { within: [afternoon] } }
+      dinner:
+        per_event_duration: { min: 30, max: 90, unit: minutes }
+        total_event_duration: { scale: day, min: 30, max: 90, unit: minutes }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+        temporal_patterns:
+          - { mode: fix, details: { within: [evening] } }
+
+  work:
+    events:
+      office_work:
+        requires:
+          occupation_status: { in: [fulltime, parttime] }
+        weekdays: [Mon, Tue, Wed, Thu, Fri]
+        per_event_duration: { min: 3, max: 8, unit: hours }
+        total_event_duration: { scale: day, min: 3, max: 8, unit: hours }
+        total_event_episodes: { scale: day, min: 1, max: 2 }
+        temporal_patterns:
+          - mode: seasonality
+            details:
+              scale: weekday
+              within: [Mon, Tue, Wed, Thu, Fri]
+              amount: 100
+        calendar_variations:
+          task_labels: [standup, meeting, doing research, external meeting]
+
+  education:
+    events:
+      study:
+        requires:
+          occupation_status: { in: [student] }
+        weekdays: [Mon, Tue, Wed, Thu, Fri]
+        per_event_duration: { min: 2, max: 8, unit: hours }
+        total_event_duration: { scale: day, min: 2, max: 8, unit: hours }
+        total_event_episodes: { scale: day, min: 1, max: 2 }
+        temporal_patterns:
+          - mode: seasonality
+            details:
+              scale: weekday
+              within: [Mon, Tue, Wed, Thu, Fri]
+              amount: 100
+        calendar_variations:
+          task_labels: [lecture, self-study, work lecture, instructions]
+
+  sports:
+    events:
+      padel:
+        intensity: 4
+        per_event_duration: { min: 45, max: 90, unit: minutes }
+        total_event_duration: { scale: day, min: 45, max: 90, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+      running:
+        intensity: 4
+        per_event_duration: { min: 30, max: 120, unit: minutes }
+        total_event_duration: { scale: day, min: 30, max: 120, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+      cycling:
+        intensity: 3
+        per_event_duration: { min: 20, max: 90, unit: minutes }
+        total_event_duration: { scale: day, min: 20, max: 90, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+      swimming:
+        intensity: 3
+        per_event_duration: { min: 20, max: 60, unit: minutes }
+        total_event_duration: { scale: day, min: 20, max: 60, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+      gym:
+        intensity: 4
+        per_event_duration: { min: 30, max: 90, unit: minutes }
+        total_event_duration: { scale: day, min: 30, max: 90, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+
+  leisure:
+    events:
+      reading:
+        per_event_duration: { min: 30, max: 120, unit: minutes }
+        total_event_duration: { scale: day, min: 30, max: 120, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+      gaming:
+        per_event_duration: { min: 60, max: 180, unit: minutes }
+        total_event_duration: { scale: day, min: 60, max: 180, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+
+  social:
+    events:
+      family_time:
+        per_event_duration: { min: 60, max: 240, unit: minutes }
+        total_event_duration: { scale: week, min: 60, max: 480, unit: minutes }
+        total_event_episodes: { scale: week, min: 0, max: 2 }
+      meet_friends:
+        per_event_duration: { min: 60, max: 240, unit: minutes }
+        total_event_duration: { scale: week, min: 60, max: 480, unit: minutes }
+        total_event_episodes: { scale: week, min: 0, max: 3 }
+
+  health:
+    events:
+      dentist:
+        per_event_duration: { min: 15, max: 90, unit: minutes }
+        total_event_duration: { scale: day, min: 15, max: 90, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }

@@ -1,0 +1,84 @@
+services:
+  # Sidecar Redis for the L_pref PreferenceMapper cache (REVISION_PLAN_2.md
+  # Step 10).  Pure in-memory: 256 MB max, allkeys-lru eviction so we never
+  # OOM under heavy scenarios; persistence is intentionally off — the cache
+  # is a derivative store, the source of truth lives in event_config.yaml +
+  # persona_config.yaml + Neo4j.  Set `REDIS_URL=redis://redis:6379/0` in
+  # `.env` (already wired via `app.environment`) to opt into the
+  # sidecar; unset → `PreferenceCache` falls back to `fakeredis`
+  # in-process.
+  redis:
+    image: redis:7-alpine
+    container_name: calendar-bench-redis
+    restart: unless-stopped
+    command: ["redis-server", "--maxmemory", "256mb", "--maxmemory-policy", "allkeys-lru"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  neo4j:
+    image: neo4j:5.20-community
+    container_name: calendar-bench-neo4j
+    restart: unless-stopped
+    ports:
+      - "7474:7474"   # HTTP / Browser
+      - "7687:7687"   # Bolt
+    environment:
+      NEO4J_AUTH: ${NEO4J_USERNAME}/${NEO4J_PASSWORD}
+      NEO4J_PLUGINS: '["apoc", "n10s"]'
+      NEO4J_dbms_security_procedures_unrestricted: "apoc.*,n10s.*"
+      NEO4J_dbms_security_procedures_allowlist: "apoc.*,n10s.*"
+      NEO4J_apoc_import_file_enabled: "true"
+      NEO4J_apoc_export_file_enabled: "true"
+      NEO4J_server_memory_heap_initial__size: "1G"
+      NEO4J_server_memory_heap_max__size: "2G"
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+      - neo4j_plugins:/plugins
+      - ./src/assets/ontologies:/import/ontologies:ro
+      - ./tests/fixtures:/import/test_fixtures:ro
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:7474 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: calendar-bench-app
+    depends_on:
+      neo4j:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      NEO4J_URI: bolt://neo4j:7687
+      # PreferenceMapper cache.  Override in `.env` to point at an
+      # external Redis if desired.
+      REDIS_URL: redis://redis:6379/0
+    volumes:
+      - ./src:/app/src:ro
+      - ./tests:/app/tests:ro
+      - ./pytest.ini:/app/pytest.ini:ro
+      - ./.coveragerc:/app/.coveragerc:ro
+      - ./src/assets/ontologies:/app/ontologies:rw
+      # writable overlay so `coverage-badge` can write the SVG into src/assets/images/
+      - ./src/assets/images:/app/src/assets/images:rw
+      # writable host dir for pytest-cov's HTML report (open htmlcov/index.html in your browser)
+      - ./htmlcov:/app/htmlcov:rw
+      # writable host dir where persona experiment outputs land
+      # (per-person JSON/ICS, index, validation reports, benchmarks, free-time summary)
+      - ./output:/app/output:rw
+    command: ["python", "-m", "src.scripts.import_ontologies"]
+
+volumes:
+  neo4j_data:
+  neo4j_logs:
+  neo4j_plugins:

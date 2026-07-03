@@ -1,0 +1,27 @@
+# Senior cohort, 25 persons, 13-week horizon; morning band starts at 05:00.
+
+seed: 20260601
+horizon:
+  start_date: 2026-06-01 # Monday
+  weeks: 4
+  enable_yearly_pass: true
+  weekly_template: locked
+output:
+  dir: ./output/experiment_c
+  per_person_json: true
+  per_person_ics: true
+  validation_report: true
+solver:
+  step_minutes: 10
+  max_attempts: 25
+  optimize_objective: none
+time_windows:
+  early_morning: [0, 300]
+  morning: [300, 600]
+  afternoon: [600, 960]
+  evening: [960, 1200]
+  night: [1200, 1440]
+parallelism:
+  workers: 0 # 0 = os.cpu_count()
+  executor: process
+  chunk_size: 1

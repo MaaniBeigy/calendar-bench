@@ -1,0 +1,230 @@
+# Population-wide event catalog; per-cohort overrides live in persona_config.yaml.
+#
+# Ontology pins (REVISION_PLAN_2 §3.1):
+#   `health_task_iri`     pins the most-specific HealthTasks sub-task
+#                         class that captures the event's intent
+#                         (https://w3id.org/calendar-bench/health/<SubTaskClass>).
+#                         With `ancestor_max_hops=2`, every instance
+#                         under that branch lands tier 2 at 1 hop
+#                         (instance-label-class → Task class).
+#   `human_activity_iri`  pins the most-generic concrete instance from
+#                         the Compendium of Physical Activities
+#                         (https://w3id.org/calendar-bench/human-activities/activity/<instance>).
+#                         Instance-level so MET-quartile + label match
+#                         resolve at tier 1 for ontology-grounded tasks.
+#
+# Events that have no clean ontology analog (office_work, study,
+# gaming) leave the corresponding side unset rather than fake-pin.
+
+categories:
+  sleep:
+    events:
+      sleep:
+        health_task_iri: https://w3id.org/calendar-bench/health/MentalWellbeingSleepAndEveningRoutineTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/sleeping
+        per_event_duration: { min: 6, max: 9, unit: hours }
+        total_event_duration: { scale: day, min: 6, max: 9, unit: hours }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+        intensity: 1
+        is_concurrent: false
+        is_dividable: false
+        temporal_patterns:
+          - { mode: fix, details: { within: [night] } }
+
+  eat:
+    events:
+      first_eat:
+        health_task_iri: https://w3id.org/calendar-bench/health/NutritionWholegrainChoicesTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/eating-sitting
+        per_event_duration: { min: 10, max: 30, unit: minutes }
+        total_event_duration: { scale: day, min: 10, max: 30, unit: minutes }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+        intensity: 1
+        is_concurrent: false
+        is_dividable: false
+        temporal_patterns:
+          - { mode: fix, details: { within: [early_morning, morning] } }
+      lunch:
+        health_task_iri: https://w3id.org/calendar-bench/health/NutritionVegetablesAndColorfulPlatesTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/eating-sitting
+        per_event_duration: { min: 30, max: 90, unit: minutes }
+        total_event_duration: { scale: day, min: 30, max: 90, unit: minutes }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+        intensity: 1
+        is_concurrent: true
+        is_dividable: false
+        concurrent_with: [reading]
+        temporal_patterns:
+          - { mode: fix, details: { within: [afternoon] } }
+      dinner:
+        health_task_iri: https://w3id.org/calendar-bench/health/MentalWellbeingMindfulEatingTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/eating-sitting
+        per_event_duration: { min: 30, max: 90, unit: minutes }
+        total_event_duration: { scale: day, min: 30, max: 90, unit: minutes }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+        intensity: 1
+        is_concurrent: true
+        is_dividable: false
+        concurrent_with: [reading]
+        temporal_patterns:
+          - { mode: fix, details: { within: [evening] } }
+
+  # Work / study: kept opt-in via `requires`. Per-cohort weekday seasonality
+  # and duration bands move into the personas. No HealthTask analog;
+  # HumanActivities pin is the most descriptive sitting-effort instance.
+  work:
+    events:
+      office_work:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/sitting-tasks-light-effort-e-g-office-work-chemistry-lab-work-light-assembly-repair-watch-repair-reading-desk-work
+        requires:
+          occupation_status: { in: [fulltime, parttime] }
+        weekdays: [Mon, Tue, Wed, Thu, Fri]
+        intensity: 3
+        # Light micro-actions (posture check, hydration sip, short
+        # stretch) can layer onto a sustained seated focus block
+        # without displacing it.
+        is_concurrent: true
+        is_dividable: false
+        per_event_duration: { min: 1, max: 10, unit: hours }
+        total_event_duration: { scale: day, min: 1, max: 10, unit: hours }
+        total_event_episodes: { scale: day, min: 1, max: 2 }
+        calendar_variations:
+          task_labels: [standup, meeting, doing research, external meeting]
+
+  education:
+    events:
+      study:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/sitting-studying-general-including-reading-and-or-writing-light-effort
+        requires:
+          occupation_status: { in: [student] }
+        weekdays: [Mon, Tue, Wed, Thu, Fri]
+        intensity: 2
+        # Same rationale as office_work: light micro-actions can layer
+        # onto a sustained sedentary focus block.
+        is_concurrent: true
+        is_dividable: true
+        per_event_duration: { min: 1, max: 10, unit: hours }
+        total_event_duration: { scale: day, min: 1, max: 10, unit: hours }
+        total_event_episodes: { scale: day, min: 1, max: 2 }
+        calendar_variations:
+          task_labels: [lecture, self-study, work lecture, instructions]
+
+  # Sports: very loose population-wide bounds. Per-persona overrides tighten
+  # them to the cohort's intent (e.g. students run 30-60 min, fulltime
+  # workers run 60-90).
+  sports:
+    events:
+      running:
+        health_task_iri: https://w3id.org/calendar-bench/health/PhysicalActivityRunningBasicsTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/jogging-general-self-selected-pace
+        intensity: 4
+        is_concurrent: false
+        is_dividable: true
+        per_event_duration: { min: 15, max: 180, unit: minutes }
+        total_event_duration: { scale: day, min: 15, max: 180, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+      cycling:
+        health_task_iri: https://w3id.org/calendar-bench/health/PhysicalActivityCardioAndStaminaTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/bicycling-general
+        intensity: 3
+        is_concurrent: false
+        is_dividable: false
+        per_event_duration: { min: 15, max: 180, unit: minutes }
+        total_event_duration: { scale: day, min: 15, max: 180, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+      swimming:
+        health_task_iri: https://w3id.org/calendar-bench/health/PhysicalActivityCardioAndStaminaTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/swimming-leisurely-not-lap-swimming-general
+        intensity: 3
+        is_concurrent: false
+        is_dividable: false
+        per_event_duration: { min: 15, max: 180, unit: minutes }
+        total_event_duration: { scale: day, min: 15, max: 180, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+      gym:
+        health_task_iri: https://w3id.org/calendar-bench/health/PhysicalActivityStrengthAndBodyweightMovesTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/circuit-training-body-weight-exercises
+        intensity: 4
+        is_concurrent: false
+        is_dividable: false
+        per_event_duration: { min: 15, max: 180, unit: minutes }
+        total_event_duration: { scale: day, min: 15, max: 180, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+      yoga:
+        health_task_iri: https://w3id.org/calendar-bench/health/PhysicalActivityStretchingAndRecoveryTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/yoga-general
+        intensity: 2
+        is_concurrent: false
+        is_dividable: false
+        per_event_duration: { min: 15, max: 180, unit: minutes }
+        total_event_duration: { scale: day, min: 15, max: 180, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+
+  leisure:
+    events:
+      reading:
+        health_task_iri: https://w3id.org/calendar-bench/health/MentalWellbeingCalmBreathingAndMindfulnessTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/sitting-reading-book-newspaper-magazine
+        intensity: 1
+        is_concurrent: true
+        is_dividable: true
+        concurrent_with: [lunch, dinner]
+        per_event_duration: { min: 15, max: 180, unit: minutes }
+        total_event_duration: { scale: day, min: 15, max: 180, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+      gaming:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/video-game-handheld-controller-light-effort
+        intensity: 1
+        is_concurrent: false
+        is_dividable: false
+        per_event_duration: { min: 30, max: 240, unit: minutes }
+        total_event_duration: { scale: day, min: 30, max: 240, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+
+  wellbeing:
+    events:
+      # Quiet writing / reflection block; concurrent host for journaling,
+      # planning, logging, and gratitude-style HealthTasks.
+      journaling:
+        health_task_iri: https://w3id.org/calendar-bench/health/MentalWellbeingMoodAndMeaningfulActivitiesTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing
+        per_event_duration: { min: 10, max: 30, unit: minutes }
+        total_event_duration: { scale: day, min: 10, max: 30, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+        intensity: 1
+        is_concurrent: true
+        is_dividable: false
+        temporal_patterns:
+          - { mode: fix, details: { within: [evening, night] } }
+          # Longer reflective sessions are preferred on the weekend.
+          - mode: seasonality
+            details:
+              target: duration
+              scale: weekday
+              within: [Sat, Sun]
+              direction: increasing
+              amount: 50
+
+  chores:
+    events:
+      groceries:
+        health_task_iri: https://w3id.org/calendar-bench/health/NutritionMealPlanningAndShoppingTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/food-shopping-with-or-without-a-grocery-cart-carrying-a-10-lb-bag-standing-or-walking
+        intensity: 2
+        is_concurrent: false
+        is_dividable: false
+        per_event_duration: { min: 30, max: 180, unit: minutes }
+        total_event_duration: { scale: week, min: 30, max: 360, unit: minutes }
+        total_event_episodes: { scale: week, min: 0, max: 2 }
+
+  social:
+    events:
+      visit_family:
+        health_task_iri: https://w3id.org/calendar-bench/health/MentalWellbeingSocialConnectionTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/retreat-family-reunion-activities-involving-sitting-relaxing-talking-eating
+        intensity: 1
+        is_concurrent: false
+        is_dividable: false
+        per_event_duration: { min: 60, max: 360, unit: minutes }
+        total_event_duration: { scale: week, min: 60, max: 720, unit: minutes }
+        total_event_episodes: { scale: week, min: 0, max: 2 }

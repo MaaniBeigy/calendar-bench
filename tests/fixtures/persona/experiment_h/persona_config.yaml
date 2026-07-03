@@ -1,0 +1,314 @@
+# Experiment H: rich smoke fixture combining experiment_f characteristics
+# and events with a `contexts:` block spanning all 11 catalog categories.
+
+common:
+  default_jitter:
+    time_minutes: 15
+    duration_minutes: 10
+
+personas:
+  - id: h_fulltime
+    instances: 6
+    characteristics:
+      occupation_status:
+        type: categorical
+        values: { fulltime: 1.0 }
+      gender:
+        type: categorical
+        values: { female: 0.50, male: 0.40, non_binary: 0.10 }
+      socioeconomic_status:
+        type: categorical
+        values: { low: 0.30, middle: 0.50, high: 0.20 }
+      has_kids:
+        type: boolean
+        p_true: 0.30
+      age:
+        type: norm
+        params: { loc: 40, scale: 9 }
+        clip: { min: 22, max: 65 }
+        dtype: int
+      neuroticism:
+        type: norm
+        params: { loc: 0.5, scale: 0.18 }
+        clip: { min: 0, max: 1 }
+      extraversion:
+        type: norm
+        params: { loc: 0.5, scale: 0.18 }
+        clip: { min: 0, max: 1 }
+      weekly_workouts:
+        type: poisson
+        params: { mu: 3 }
+      annual_income_eur:
+        type: lognorm
+        params: { s: 0.55, scale: 38000 }
+        dtype: int
+
+    stages:
+      - { name: sleep,        time: "22:30",     days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: first_eat,    time: "07:00", duration_minutes: 15, days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: lunch,        time: "13:00", duration_minutes: 30, days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: dinner,       time: "19:30", duration_minutes: 45, days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: office_work,  time: "08:30",                       days: [Mon, Tue, Wed, Thu, Fri] }
+      - { name: gym,          time: "evening",   duration_minutes: 60, days: [Mon, Wed, Fri] }
+      - { name: swimming,     time: "morning",   duration_minutes: 60, days: [Sat] }
+      - { name: running,      time: "morning",   duration_minutes: 30, days: [Tue, Thu, Sat] }
+
+    event_overrides:
+      office_work:
+        per_event_duration: { min: 3, max: 5, unit: hours }
+        total_event_duration: { scale: day, min: 3, max: 5, unit: hours }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+      gym:
+        intensity: 4
+        per_event_duration: { min: 60, max: 90, unit: minutes }
+        total_event_duration: { scale: day, min: 60, max: 90, unit: minutes }
+      swimming:
+        intensity: 3
+        per_event_duration: { min: 30, max: 90, unit: minutes }
+        total_event_duration: { scale: day, min: 30, max: 90, unit: minutes }
+      # Running seasonality: weekday-morning bias plus a per-week count
+      # ramp across the horizon. `weekly_template: per_week` in environment
+      # would let the trend take effect; the seasonality fires regardless.
+      running:
+        intensity: 3
+        per_event_duration: { min: 20, max: 60, unit: minutes }
+        total_event_duration: { scale: day, min: 0, max: 60, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+        temporal_patterns:
+          - mode: fix
+            details: { within: [morning] }
+          - mode: seasonality
+            details:
+              target: episodes
+              scale: weekday
+              within: [Tue, Thu, Sat]
+              direction: increasing
+              amount: 50
+          - mode: seasonality
+            details:
+              target: duration
+              scale: weekday
+              within: [Sat]
+              direction: increasing
+              amount: 30
+
+    contexts:
+      mood_emotion:
+        mutually_exclusive: true
+        members:
+          happy:
+            per_event_duration:   { min: 15, max: 90, unit: minutes }
+            total_event_duration: { scale: day, min: 30, max: 180, unit: minutes }
+            total_event_episodes: { scale: day, min: 0, max: 3 }
+            ontology_uri: http://purl.obolibrary.org/obo/MFOEM_000042
+            temporal_patterns:
+              - mode: seasonality
+                details: { within: [morning, afternoon], amount: 30, direction: increasing }
+          calm:
+            per_event_duration:   { min: 30, max: 120, unit: minutes }
+            total_event_duration: { scale: day, min: 30, max: 240, unit: minutes }
+            total_event_episodes: { scale: day, min: 0, max: 3 }
+            ontology_uri: http://purl.obolibrary.org/obo/MFOEM_000107
+          anxious:
+            per_event_duration:   { min: 10, max: 60, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 90, unit: minutes }
+            total_event_episodes: { scale: day, min: 0, max: 2 }
+            ontology_uri: http://purl.obolibrary.org/obo/MFOEM_000028
+            requires:
+              neuroticism: { ge: 0.6 }
+
+      energy_state:
+        mutually_exclusive: true
+        members:
+          energetic:
+            per_event_duration:   { min: 30, max: 120, unit: minutes }
+            total_event_duration: { scale: day, min: 60, max: 240, unit: minutes }
+            total_event_episodes: { scale: day, min: 1, max: 3 }
+            ontology_uri: http://purl.obolibrary.org/obo/MFOEM_000109
+            temporal_patterns:
+              - mode: fix
+                details: { within: [morning] }
+          tired:
+            per_event_duration:   { min: 30, max: 120, unit: minutes }
+            total_event_duration: { scale: day, min: 30, max: 180, unit: minutes }
+            total_event_episodes: { scale: day, min: 1, max: 3 }
+            ontology_uri: http://purl.obolibrary.org/obo/MFOEM_000080
+            temporal_patterns:
+              - mode: fix
+                details: { within: [evening, night] }
+
+      physiological:
+        members:
+          hungry:
+            per_event_duration:   { min: 15, max: 60, unit: minutes }
+            total_event_duration: { scale: day, min: 30, max: 180, unit: minutes }
+            total_event_episodes: { scale: day, min: 1, max: 3 }
+            ontology_uri: http://purl.obolibrary.org/obo/MFOEM_000205
+
+      stress:
+        members:
+          stress_episode:
+            per_event_duration:   { min: 10, max: 45, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 90, unit: minutes }
+            total_event_episodes: { scale: day, min: 0, max: 2 }
+            ontology_uri: http://www.ebi.ac.uk/efo/EFO_0005230
+
+      location:
+        mutually_exclusive: true
+        members:
+          home:
+            per_event_duration:   { min: 60, max: 480, unit: minutes }
+            total_event_duration: { scale: day, min: 8, max: 14, unit: hours }
+            total_event_episodes: { scale: day, min: 1, max: 3 }
+            ontology_uri: https://github.com/EBehaviourChange-COPPER/ontology/blob/main/COPPER_2014
+          workplace:
+            per_event_duration:   { min: 60, max: 480, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 8, unit: hours }
+            total_event_episodes: { scale: day, min: 0, max: 1 }
+            ontology_uri: http://purl.obolibrary.org/obo/OMRSE_00000078
+          public_park:
+            per_event_duration:   { min: 30, max: 90, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 90, unit: minutes }
+            total_event_episodes: { scale: day, min: 0, max: 1 }
+            ontology_uri: http://purl.obolibrary.org/obo/ENVO_03500002
+
+      social_context:
+        mutually_exclusive: true
+        members:
+          alone:
+            per_event_duration:   { min: 60, max: 360, unit: minutes }
+            total_event_duration: { scale: day, min: 2, max: 8, unit: hours }
+            total_event_episodes: { scale: day, min: 1, max: 3 }
+            ontology_uri: https://github.com/EBehaviourChange-COPPER/ontology/blob/main/COPPER_2004
+          with_family:
+            per_event_duration:   { min: 30, max: 240, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 6, unit: hours }
+            total_event_episodes: { scale: day, min: 0, max: 3 }
+            ontology_uri: http://humanbehaviourchange.org/ontology/BCIO_006002
+
+      weather_environment:
+        mutually_exclusive: true
+        members:
+          suitable_for_outdoor:
+            per_event_duration:   { min: 60, max: 360, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 6, unit: hours }
+            total_event_episodes: { scale: day, min: 0, max: 1 }
+            ontology_uri: https://github.com/EBehaviourChange-COPPER/ontology/blob/main/COPPER_3019
+          raining_or_snowing:
+            per_event_duration:   { min: 30, max: 240, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 4, unit: hours }
+            total_event_episodes: { scale: day, min: 0, max: 1 }
+            ontology_uri: https://github.com/EBehaviourChange-COPPER/ontology/blob/main/COPPER_3127
+
+      behaviour_state:
+        members:
+          action_planning:
+            per_event_duration:   { min: 5, max: 30, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 60, unit: minutes }
+            total_event_episodes: { scale: day, min: 0, max: 2 }
+            ontology_uri: http://humanbehaviourchange.org/ontology/BCIO_050844
+            theory_mappings:
+              tdf_domain: [Goals, Behavioural regulation]
+              comb: reflective_motivation
+              hapa: action_planning
+
+      capability_opportunity:
+        members:
+          physical_opportunity:
+            per_event_duration:   { min: 30, max: 240, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 4, unit: hours }
+            total_event_episodes: { scale: day, min: 0, max: 2 }
+            ontology_uri: http://humanbehaviourchange.org/ontology/BCIO_006089
+            theory_mappings:
+              tdf_domain: [Environmental context and resources]
+              comb: physical_opportunity
+
+      goal_intention:
+        members:
+          intend_to_walk:
+            per_event_duration:   { min: 5, max: 30, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 60, unit: minutes }
+            total_event_episodes: { scale: day, min: 0, max: 2 }
+            ontology_uri: http://humanbehaviourchange.org/ontology/BCIO_050683
+
+      trait_state:
+        mutually_exclusive: true
+        members:
+          extraverted_state:
+            dimension: extraversion
+            polarity: high
+            instrument: BFI
+            ontology_uri: http://www.ebi.ac.uk/efo/EFO_0004317
+            per_event_duration:   { min: 30, max: 240, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 6, unit: hours }
+            total_event_episodes: { scale: day, min: 0, max: 3 }
+            requires:
+              extraversion: { ge: 0.55 }
+          introverted_state:
+            dimension: extraversion
+            polarity: low
+            instrument: BFI
+            ontology_uri: https://w3id.org/calendar-bench/context#trait/ExtraversionLow
+            per_event_duration:   { min: 30, max: 480, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 10, unit: hours }
+            total_event_episodes: { scale: day, min: 0, max: 3 }
+            requires:
+              extraversion: { lt: 0.55 }
+
+      # ---- Behaviour-change theory layers (BCIO) ----
+      # These categories complete the catalog coverage so the smoke run
+      # touches every entry in context_iris.json. Local member slugs
+      # (e.g. `stimulus_control`) are decorative; the binding to the
+      # IRI dictionary is by `ontology_uri` only.
+      ttm_process:
+        members:
+          stimulus_control:
+            ontology_uri: https://w3id.org/calendar-bench/context#ttm_process/StimulusControl
+            per_event_duration:   { min: 5, max: 30, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 60, unit: minutes }
+            total_event_episodes: { scale: day, min: 0, max: 2 }
+          self_liberation:
+            ontology_uri: https://w3id.org/calendar-bench/context#ttm_process/SelfLiberation
+            per_event_duration:   { min: 5, max: 30, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 45, unit: minutes }
+            total_event_episodes: { scale: day, min: 0, max: 1 }
+
+      bct:
+        members:
+          action_planning_bct:
+            ontology_uri: http://humanbehaviourchange.org/ontology/BCIO_007010
+            per_event_duration:   { min: 5, max: 20, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 40, unit: minutes }
+            total_event_episodes: { scale: day, min: 0, max: 2 }
+          prompt_intended_action:
+            ontology_uri: http://humanbehaviourchange.org/ontology/BCIO_007080
+            per_event_duration:   { min: 1, max: 10, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 30, unit: minutes }
+            total_event_episodes: { scale: day, min: 0, max: 3 }
+
+      sdt_regulation:
+        mutually_exclusive: true
+        members:
+          intrinsic_motivation:
+            ontology_uri: http://humanbehaviourchange.org/ontology/BCIO_006136
+            per_event_duration:   { min: 15, max: 120, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 4, unit: hours }
+            total_event_episodes: { scale: day, min: 0, max: 3 }
+          external_regulation:
+            ontology_uri: http://humanbehaviourchange.org/ontology/BCIO_006086
+            per_event_duration:   { min: 15, max: 120, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 3, unit: hours }
+            total_event_episodes: { scale: day, min: 0, max: 2 }
+
+      delivery_style:
+        members:
+          default:
+            ontology_uri: https://w3id.org/calendar-bench/context#delivery_style/Default
+            per_event_duration:   { min: 1, max: 10, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 20, unit: minutes }
+            total_event_episodes: { scale: day, min: 0, max: 2 }
+          reinforcement:
+            ontology_uri: https://w3id.org/calendar-bench/context#delivery_style/Reinforcement
+            per_event_duration:   { min: 1, max: 10, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 20, unit: minutes }
+            total_event_episodes: { scale: day, min: 0, max: 2 }

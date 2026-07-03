@@ -1,0 +1,27 @@
+# Cross-event LTL rules. Formulas use Unicode syntax; ASCII glosses are
+# provided as comments for editor-friendliness.
+
+rules:
+  # always not (sleep and office_work)
+  - id: no_overlap_sleep_work
+    formula: "G ¬(sleep ∧ office_work)"
+
+  # always not (sleep and study)
+  - id: no_overlap_sleep_study
+    formula: "G ¬(sleep ∧ study)"
+
+  # always not (lunch and office_work)
+  - id: no_overlap_lunch_work
+    formula: "G ¬(lunch ∧ office_work)"
+
+  # always (dinner implies eventually (dinner and reading))
+  # only personas that have reading scheduled
+  - id: reading_after_dinner
+    formula: "G (dinner → F (dinner ∧ reading))"
+    min_fraction: 1.0
+
+  # weekly_count(running, >=, 1): applies only to occupations that schedule it
+  - id: weekly_running_target
+    formula: "weekly_count(running, ≥, 1)"
+    applies_to:
+      occupation_status: [student, fulltime, parttime]

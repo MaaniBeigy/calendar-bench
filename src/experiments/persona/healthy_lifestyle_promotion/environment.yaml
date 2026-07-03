@@ -1,0 +1,32 @@
+seed: 20260701 # RNG seed for instance jitter and sampling
+experiment_name: "Progressive Healthy Lifestyle Challenge (PHLC)-2026.06"
+horizon:
+  start_date: 2026-07-06 # Monday
+  weeks: 8 # horizon length of the simulation in weeks
+  enable_yearly_pass: false # we set no one-off appointments; no fixed obstacles
+  weekly_template: per_week # to allow non-stationary patterns mode & seasonality
+output:
+  dir: ./output/progressive_healthy_lifestyle_promotion
+  per_person_json: true # write <person_id>.json per person
+  per_person_ics: true # write <person_id>.ics per person
+  validation_report: true # write the LTL + Allen violation report
+solver:
+  step_minutes: 10 # Z3 placement grid, in minutes
+  max_attempts: 50 # solver retries per person before giving up and allowing violations
+  optimize_objective: none # none; legacy
+time_windows: # named [start, end] ranges, in minutes from midnight
+  early_morning: [240, 390] # 04:00 - 06:30
+  morning: [390, 720] # 06:30 - 12:00
+  afternoon: [720, 1050] # 12:00 - 17:30
+  evening: [1050, 1290] # 17:30 - 21:30
+  night: [1290, 1440] # 21:30 - 24:00
+daily_window: # waking time bracket for scenario-task placement
+  wake_minutes: 360 # 06:00
+  sleep_minutes: 1320 # 22:00
+parallelism:
+  workers: 0 # uses os.cpu_count()
+  executor: process # `thread` is useful on GIL-free; CPython uses `process`
+  chunk_size: 1 # persons per worker batch
+compute:
+  device: cuda # useful when EMBEDDING_PROVIDER=local
+  cuda_device_index: 0 # which GPU when more than one is installed

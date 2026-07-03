@@ -1,0 +1,27 @@
+# Senior leisure cohort, 4-week horizon; scaled down from 25 persons × 13 weeks for fast iteration.
+
+seed: 20260601
+horizon:
+  start_date: 2026-06-01 # Monday
+  weeks: 4
+  enable_yearly_pass: true
+  weekly_template: locked
+output:
+  dir: ./output/experiment_b
+  per_person_json: true
+  per_person_ics: true
+  validation_report: true
+solver:
+  step_minutes: 10
+  max_attempts: 25
+  optimize_objective: none
+time_windows:
+  early_morning: [0, 400]
+  morning: [400, 600]
+  afternoon: [600, 960]
+  evening: [960, 1260]
+  night: [1260, 1440]
+parallelism:
+  workers: 0 # 0 = os.cpu_count()
+  executor: process
+  chunk_size: 1

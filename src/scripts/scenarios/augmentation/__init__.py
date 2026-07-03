@@ -1,0 +1,1 @@
+"""Pluggable calendar augmentation strategies."""

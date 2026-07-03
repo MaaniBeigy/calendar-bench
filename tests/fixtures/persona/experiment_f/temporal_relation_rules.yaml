@@ -1,0 +1,60 @@
+# LTL rules + selector-driven Allen pair rules. See CONFIG.md §4 for the selector grammar.
+
+rules:
+  # always not (sleep and office_work)
+  - id: no_overlap_sleep_work
+    formula: "G ¬(sleep ∧ office_work)"
+
+  # always not (sleep and study)
+  - id: no_overlap_sleep_study
+    formula: "G ¬(sleep ∧ study)"
+
+  # always not (lunch and office_work)
+  - id: no_overlap_lunch_work
+    formula: "G ¬(lunch ∧ office_work)"
+
+  # weekly_count(running, >=, 1) for personas that schedule running
+  - id: weekly_running_target
+    formula: "weekly_count(running, ≥, 1)"
+    applies_to:
+      occupation_status: [student]
+
+  # weekly_count(gym, >=, 2) for fulltime personas
+  - id: weekly_gym_target_fulltime
+    formula: "weekly_count(gym, ≥, 2)"
+    applies_to:
+      occupation_status: [fulltime]
+
+# Allen-pair rules: consumed only by the scenarios evaluation layer.
+# Selector grammar (REVISION_PLAN.md v4 D1):
+#   * literal name → {name: <str>}        (auto-promoted by the loader)
+#   * dict form    → predicates over name / intensity / domain / met_*
+# Multi-rule match → intersection of admissible relation sets.
+allen_pair_rules:
+  # No high-intensity activity may sit next to another high-intensity one.
+  # Catches the experiment_f failure where cardio meets walk-10k.
+  - id: intensive_far_from_intensive
+    event_a: { intensity: [3, 4] }
+    event_b: { intensity: [3, 4] }
+    admissible_relations: [p, P]
+
+  # Lunch must not be followed by anything at intensity ≥ 2 (no walks
+  # immediately after eating).  Buffer override: 60 min instead of the
+  # global 30 — meals deserve a longer settle period.
+  - id: lunch_far_from_intensive
+    event_a: { name: lunch }
+    event_b: { intensity: [2, 3, 4] }
+    admissible_relations: [p, P]
+    buffer: 60
+
+  # Reading next to lunch: meet/met-by or precede/follow — no overlap.
+  - id: reading_adjacent_to_lunch
+    event_a: { name: reading }
+    event_b: { name: lunch }
+    admissible_relations: [p, m, M, P]
+
+  # Sleep is always separated from running.
+  - id: sleep_separates_from_running
+    event_a: { name: sleep }
+    event_b: { name: running }
+    admissible_relations: [p, m, M, P]

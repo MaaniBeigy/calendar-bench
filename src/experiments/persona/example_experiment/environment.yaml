@@ -1,0 +1,36 @@
+# CoopIS 2026 example benchmark.
+seed: 20260601
+experiment_name: "example benchmark"
+horizon:
+  start_date: 2026-06-01 # Monday
+  weeks: 8
+  enable_yearly_pass: false
+  weekly_template: per_week
+output:
+  dir: ./output/example_experiment
+  per_person_json: true
+  per_person_ics: true
+  validation_report: true
+solver:
+  step_minutes: 10
+  max_attempts: 50
+  optimize_objective: none
+time_windows:
+  early_morning: [0, 400]
+  morning: [400, 600]
+  afternoon: [600, 960]
+  evening: [960, 1260]
+  night: [1260, 1440]
+# Hard waking-hours bracket applied to every augmenter.
+daily_window:
+  wake_minutes: 360       # 06:00
+  sleep_minutes: 1320     # 22:00
+# Persona generation only (CPU-bound Z3 placement). 8 persons on 8 cores,
+# one person per worker. The scenarios augment pool is set per stage on the CLI
+parallelism:
+  workers: 8
+  executor: process
+  chunk_size: 1
+compute:
+  device: cuda
+  cuda_device_index: 0

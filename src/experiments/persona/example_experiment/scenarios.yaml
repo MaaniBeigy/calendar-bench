@@ -1,0 +1,516 @@
+# Example benchmark scenarios (CoopIS 2026).
+
+experiment_id: example_experiment
+run_dir: ./output/example_experiment
+output_base: ./output
+
+scenarios:
+  - id: blind_oneshot_gpt_4o_mini
+    label: Context Blind One-Shot (gpt-4o-mini)
+    description: >-
+      Baseline. Every stage pinned to gpt-4o-mini; augmenter sees no
+      context episodes.
+    task_generation: &shared_task_generation
+      method: graphrag_grounded
+      seed: 20260601
+      num_tasks: 20
+      ontologies:
+        - HealthTasks
+        - HumanActivities
+      prompt_template: health_improvement
+      filters:
+        domains:
+          - PhysicalActivityTask
+          - MentalWellbeingTask
+        difficulty:
+          - Level2
+          - Level3
+      max_fetch_retries: 3
+      paraphrase: true
+      paraphrase_similarity_threshold: 0.80
+      paraphrase_max_length_delta_pct: 0.20
+      fetch_top_k: 40
+    task_generator_model: &task_generator_model_4o_mini
+      provider: openai
+      model: gpt-4o-mini
+      max_retries: 1
+    evaluation: &shared_evaluation
+      buffer_minutes: 30
+      merge_threshold: 0.70
+      disp_half_life_days: 2.0
+      divide_duration_tolerance_pct: 0.15
+    evaluator_model: &evaluator_model_4o_mini
+      provider: openai
+      model: gpt-4o-mini
+      max_retries: 1
+    augmentation:
+      - method: llm_agent
+        allow_merge: true
+        merge_threshold: 0.70
+        repeat_per_week: true
+        observation:
+          contexts: []
+          host_flags: []
+          task_flags:
+            &task_flags_full [
+              concurrent_ok,
+              dividable_ok,
+              duration_min,
+              duration_max,
+              intensity,
+              context_recommends,
+            ]
+        llm_agent: &augmenter_4o_mini
+          provider: openai
+          model: gpt-4o-mini
+          max_retries: 1
+          prompt_template: augment_oneshot
+        loss: &shared_loss
+          lambda_cov: 0.16
+          lambda_cal: 0.16
+          lambda_pref: 0.12
+          lambda_disp: 0.16
+          lambda_merge: 0.12
+          lambda_spread: 0.10
+          lambda_divide: 0.08
+          lambda_context_fit: 0.10
+
+  - id: informed_oneshot_gpt_4o_mini
+    label: Context Aware One-Shot (gpt-4o-mini)
+    description: >-
+      Information-budget A/B against the blind baseline; augmenter reads
+      behaviour_state and capability_opportunity episodes only.
+    task_generation: *shared_task_generation
+    task_generator_model: *task_generator_model_4o_mini
+    evaluation: *shared_evaluation
+    evaluator_model: *evaluator_model_4o_mini
+    augmentation:
+      - method: llm_agent
+        allow_merge: true
+        merge_threshold: 0.70
+        repeat_per_week: true
+        observation:
+          contexts:
+            [
+              weather_environment,
+              behaviour_state,
+              capability_opportunity,
+              goal_intention,
+              sdt_regulation,
+            ]
+          context_detail: summary
+          task_flags: *task_flags_full
+        llm_agent: *augmenter_4o_mini
+        loss: *shared_loss
+
+  - id: informed_oneshot_gpt_4_1_mini
+    label: Context Aware One-Shot (gpt-4.1-mini)
+    description: >-
+      Augmenter-model axis on top of the informed scenario. Same task
+      generator and evaluator as the baseline; LLM augmenter swaps to
+      gpt-4.1-mini.
+    task_generation: *shared_task_generation
+    task_generator_model: *task_generator_model_4o_mini
+    evaluation: *shared_evaluation
+    evaluator_model: *evaluator_model_4o_mini
+    augmentation:
+      - method: llm_agent
+        allow_merge: true
+        merge_threshold: 0.70
+        repeat_per_week: true
+        observation:
+          contexts:
+            [
+              weather_environment,
+              behaviour_state,
+              capability_opportunity,
+              goal_intention,
+              sdt_regulation,
+            ]
+          context_detail: summary
+          task_flags: *task_flags_full
+        llm_agent:
+          provider: openai
+          model: gpt-4.1-mini
+          max_retries: 1
+          prompt_template: augment_oneshot
+        loss: *shared_loss
+
+  - id: informed_oneshot_gpt_5_mini
+    label: Context Aware One-Shot (gpt-5-mini)
+    description: >-
+      Augmenter-model axis on the informed scenario; the LLM augmenter
+      swaps to gpt-5-mini.
+    task_generation: *shared_task_generation
+    task_generator_model: *task_generator_model_4o_mini
+    evaluation: *shared_evaluation
+    evaluator_model: *evaluator_model_4o_mini
+    augmentation:
+      - method: llm_agent
+        allow_merge: true
+        merge_threshold: 0.70
+        repeat_per_week: true
+        observation:
+          contexts:
+            [
+              weather_environment,
+              behaviour_state,
+              capability_opportunity,
+              goal_intention,
+              sdt_regulation,
+            ]
+          context_detail: summary
+          task_flags: *task_flags_full
+        llm_agent:
+          provider: openai
+          model: gpt-5-mini
+          max_retries: 1
+          prompt_template: augment_oneshot
+        loss: *shared_loss
+
+  - id: informed_oneshot_gpt_5_4_mini
+    label: Context Aware One-Shot (gpt-5.4-mini)
+    description: >-
+      Augmenter-model axis on the informed scenario; the LLM augmenter
+      swaps to gpt-5.4-mini.
+    task_generation: *shared_task_generation
+    task_generator_model: *task_generator_model_4o_mini
+    evaluation: *shared_evaluation
+    evaluator_model: *evaluator_model_4o_mini
+    augmentation:
+      - method: llm_agent
+        allow_merge: true
+        merge_threshold: 0.70
+        repeat_per_week: true
+        observation:
+          contexts:
+            [
+              weather_environment,
+              behaviour_state,
+              capability_opportunity,
+              goal_intention,
+              sdt_regulation,
+            ]
+          context_detail: summary
+          task_flags: *task_flags_full
+        llm_agent:
+          provider: openai
+          model: gpt-5.4-mini
+          max_retries: 1
+          prompt_template: augment_oneshot
+        loss: *shared_loss
+
+  - id: informed_oneshot_opus_4_8
+    label: Context Aware One-Shot (claude-opus-4-8)
+    description: >-
+      Augmenter-model axis on the informed scenario; the LLM augmenter
+      swaps to Anthropic claude-opus-4-8.
+    task_generation: *shared_task_generation
+    task_generator_model: *task_generator_model_4o_mini
+    evaluation: *shared_evaluation
+    evaluator_model: *evaluator_model_4o_mini
+    augmentation:
+      - method: llm_agent
+        allow_merge: true
+        merge_threshold: 0.70
+        repeat_per_week: true
+        observation:
+          contexts:
+            [
+              weather_environment,
+              behaviour_state,
+              capability_opportunity,
+              goal_intention,
+              sdt_regulation,
+            ]
+          context_detail: summary
+          task_flags: *task_flags_full
+        llm_agent:
+          provider: anthropic
+          model: claude-opus-4-8
+          max_retries: 1
+          prompt_template: augment_oneshot
+        loss: *shared_loss
+
+  - id: informed_eval_gpt_4_1_mini
+    label: Context Aware One-Shot (eval gpt-4.1-mini)
+    description: >-
+      Evaluator-model axis on top of the informed scenario. Same task
+      generator and augmenter as the baseline; LLM eval swaps to
+      gpt-4.1-mini.
+    task_generation: *shared_task_generation
+    task_generator_model: *task_generator_model_4o_mini
+    evaluation: *shared_evaluation
+    evaluator_model:
+      provider: openai
+      model: gpt-4.1-mini
+      max_retries: 1
+    augmentation:
+      - method: llm_agent
+        allow_merge: true
+        merge_threshold: 0.70
+        repeat_per_week: true
+        observation:
+          contexts:
+            [
+              weather_environment,
+              behaviour_state,
+              capability_opportunity,
+              goal_intention,
+              sdt_regulation,
+            ]
+          context_detail: summary
+          task_flags: *task_flags_full
+        llm_agent: *augmenter_4o_mini
+        loss: *shared_loss
+
+  - id: informed_taskgen_gpt_4_1_mini
+    label: Context Aware One-Shot (task-gen gpt-4.1-mini)
+    description: >-
+      Task-generation axis on top of the informed scenario. Same
+      augmenter and evaluator as the baseline; task generator swaps to
+      gpt-4.1-mini.
+    task_generation: *shared_task_generation
+    task_generator_model:
+      provider: openai
+      model: gpt-4.1-mini
+      max_retries: 1
+    evaluation: *shared_evaluation
+    evaluator_model: *evaluator_model_4o_mini
+    augmentation:
+      - method: llm_agent
+        allow_merge: true
+        merge_threshold: 0.70
+        repeat_per_week: true
+        observation:
+          contexts:
+            [
+              weather_environment,
+              behaviour_state,
+              capability_opportunity,
+              goal_intention,
+              sdt_regulation,
+            ]
+          context_detail: summary
+          task_flags: *task_flags_full
+        llm_agent: *augmenter_4o_mini
+        loss: *shared_loss
+
+  - id: fcfs_greedy
+    label: First-come-first-served greedy
+    description: >-
+      Greedy FCFS baseline. Greedy parses the observation block for
+      cross-method consistency but ignores its contents; scored on the
+      same loss legs so its L_context_fit is directly comparable.
+    task_generation: *shared_task_generation
+    task_generator_model: *task_generator_model_4o_mini
+    evaluation: *shared_evaluation
+    evaluator_model: *evaluator_model_4o_mini
+    augmentation:
+      - method: greedy
+        allow_merge: true
+        merge_threshold: 0.65
+        repeat_per_week: true
+        observation:
+          contexts:
+            [
+              weather_environment,
+              behaviour_state,
+              capability_opportunity,
+              goal_intention,
+              sdt_regulation,
+            ]
+          task_flags: *task_flags_full
+        greedy:
+          strategy: preference_first
+          retry_on_miss: true
+          max_backtrack: 3
+        loss: *shared_loss
+
+  - id: ptime_choquet
+    label: PTIME
+    description: >-
+      PTIME augmenter (2-order Choquet integral + MCS branch-and-bound)
+      on the same cohort and task list. No LLM, no context reads;
+      uses time_windows, Allen rules, and the task duration band.
+    task_generation: *shared_task_generation
+    task_generator_model: *task_generator_model_4o_mini
+    evaluation: *shared_evaluation
+    evaluator_model: *evaluator_model_4o_mini
+    augmentation:
+      - method: ptime
+        repeat_per_week: true
+        observation:
+          task_flags: *task_flags_full
+        ptime:
+          candidate_strategy: windows
+          duration_preference: maximum
+          solver: mcs
+          mcs_time_budget_seconds: 10.0
+          importance:
+            time: 0.40
+            duration: 0.15
+            overlap: 0.40
+            stability: 0.05
+          interaction:
+            duration|time: 0.20
+            overlap|time: 0.10
+          learning:
+            enabled: true
+            alpha: 0.6
+            negative_samples_per_event: 2
+            negative_shift_minutes: 120
+            regularization: 1.0
+            seed: 20260601
+        loss: *shared_loss
+
+  - id: dqn_rl_per_person
+    label: DQN RL per person
+    description: >-
+      Online DQN augmenter. Trains per-person across all 8 weeks; the
+      reward is the full weighted scheduling gain on the week's slice.
+      Same 5 context categories as the informed LLM scenarios; the only
+      augmenter that learns.
+    task_generation: *shared_task_generation
+    task_generator_model: *task_generator_model_4o_mini
+    evaluation: *shared_evaluation
+    evaluator_model: *evaluator_model_4o_mini
+    augmentation:
+      - method: rl
+        allow_merge: true
+        merge_threshold: 0.70
+        repeat_per_week: true
+        observation:
+          contexts:
+            [
+              weather_environment,
+              behaviour_state,
+              capability_opportunity,
+              goal_intention,
+              sdt_regulation,
+            ]
+          context_detail: summary
+          task_flags: *task_flags_full
+        rl:
+          policy: dqn
+          # Null checkpoint keeps each person's DQN strictly isolated
+          # (no warm-start from a prior person's weights); set a path
+          # here to enable cohort-level weight sharing instead.
+          checkpoint: null
+          # 8000/week * 8 weeks = 64k transitions; with auto_pick_task
+          # the Q-network has 336 outputs (~190 samples per output).
+          # Iter 5 confirmed that 16k/week over-trained and entrenched
+          # pessimistic Q-values, so 8k is the sweet spot.
+          train_steps_per_week: 8000
+          learning_rate: 0.0001
+          gamma: 0.95
+          # Hold all 8 weeks of transitions (~64k) without overwriting.
+          buffer_size: 80000
+          # Larger batch lowers gradient variance, helps Q-value stability
+          # under the noisy bimodal-reward regime we observe at
+          # batch_size=64.
+          batch_size: 256
+          epsilon_start: 1.0
+          epsilon_end: 0.05
+          epsilon_decay_weeks: 4
+          seed: 20260601
+          # 60-min buckets shrink the per-state action space from
+          # 20*7*96*2 = 26880 to 20*7*24*2 = 6720, so DQN gets ~4x
+          # more effective gradient signal per output Q-value.
+          bucket_minutes: 60
+          # Each valid placement adds 0.5/n_tasks to env.step reward;
+          # 20 placements sums to 0.5. Combined with the terminal
+          # gain (~0.55 for fully-placed schedule), a good episode
+          # totals ~1.05 vs a lazy episode's ~0.42. Widens the
+          # learning signal beyond the gamma^N-decayed terminal-only
+          # reward to break the bimodal-policy oscillation.
+          per_step_shaping: 0.5
+          # Hide task_idx from the agent; env auto-picks the next
+          # unscheduled task each step. Shrinks action space from
+          # 20*7*24*2 = 6720 to 7*24*2 = 336 (~20x), giving the
+          # Q-network meaningful sample density per output even
+          # with our small per-person training budget.
+          auto_pick_task: true
+          # Pin DQN to CPU so it does not contend with Qwen3 for the
+          # 7 GB H200 slice. The Q-network is small (~28 MB) and trains
+          # fast on CPU; the GPU stays reserved for the semantic
+          # embedder (~2.5 GB). Without this, DQN's backward pass
+          # cublas allocation overruns the slice.
+          device: cpu
+          # Parallel-pool knobs (only used with `augment --executor process`).
+          # Each worker reserves ~1.5 GB host RAM; a crashed person retries
+          # as we set; one torch thread per worker avoids core oversubscription.
+          parallel_per_worker_gb: 1.5
+          parallel_max_retries: 3
+          parallel_worker_threads: 1
+        loss: *shared_loss
+
+  - id: blind_pb24_ablation
+    label: Context Blind PB-16 ablation
+    description: >-
+      Prompt-component ablation over the blind augmenter. PB-16
+      (16-run Hadamard) over all 13 ablatable blocks; each block's
+      main effect is unconfounded with the others. Pairs with
+      informed_pb24_ablation so each block's main effect can be
+      compared with and without context visibility.
+    task_generation: *shared_task_generation
+    task_generator_model: *task_generator_model_4o_mini
+    evaluation: *shared_evaluation
+    evaluator_model: *evaluator_model_4o_mini
+    augmentation:
+      - method: llm_agent
+        allow_merge: true
+        merge_threshold: 0.70
+        repeat_per_week: true
+        observation:
+          contexts: []
+          host_flags: []
+          task_flags: *task_flags_full
+        llm_agent:
+          provider: openai
+          model: gpt-4o-mini
+          max_retries: 1
+          prompt_template: augment_oneshot
+          prompt_ablation:
+            design: plackett_burman_16
+            fold: false
+            use_default_placebos: true
+        loss: *shared_loss
+
+  - id: informed_pb24_ablation
+    label: Context Aware PB-16 ablation
+    description: >-
+      Prompt-component ablation over the informed augmenter. PB-16
+      (16-run Hadamard) over all 13 ablatable blocks; each block's
+      main effect is unconfounded with the others, so context_block
+      separates cleanly from split_dividable_tasks.
+    task_generation: *shared_task_generation
+    task_generator_model: *task_generator_model_4o_mini
+    evaluation: *shared_evaluation
+    evaluator_model: *evaluator_model_4o_mini
+    augmentation:
+      - method: llm_agent
+        allow_merge: true
+        merge_threshold: 0.70
+        repeat_per_week: true
+        observation:
+          contexts:
+            [
+              weather_environment,
+              behaviour_state,
+              capability_opportunity,
+              goal_intention,
+              sdt_regulation,
+            ]
+          context_detail: summary
+          task_flags: *task_flags_full
+        llm_agent:
+          provider: openai
+          model: gpt-4o-mini
+          max_retries: 1
+          prompt_template: augment_oneshot
+          prompt_ablation:
+            design: plackett_burman_16
+            fold: false
+            use_default_placebos: true
+        loss: *shared_loss

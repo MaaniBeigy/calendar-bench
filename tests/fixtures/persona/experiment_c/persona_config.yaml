@@ -1,0 +1,174 @@
+# 25 senior persons (47-62), 13-week horizon; unemployed/parttime/fulltime distribution.
+
+common:
+  default_jitter:
+    time_minutes: 20
+    duration_minutes: 15
+
+personas:
+  # c_unemployed: "quitting smoking" cohort (smoking 6-ramp arc lives
+  # in event_overrides.smoking.temporal_patterns).
+  - id: c_unemployed
+    instances: 4
+    characteristics:
+      occupation_status: { type: categorical, values: { parttime: 1.0 } }
+    stages:
+      - { name: sleep,     time: "22:30",   days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: first_eat, time: "07:30", duration_minutes: 25, days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: lunch,     time: "12:30", duration_minutes: 60, days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: dinner,    time: "19:00", duration_minutes: 60, days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: walking,   time: "morning", duration_minutes: 45, days: [Mon, Tue, Wed, Thu, Fri] }
+      - { name: walking,   time: "morning", duration_minutes: 60, days: [Sat, Sun] }
+      - { name: stress,    time: "afternoon", duration_minutes: 20, days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: smoking,   time: "evening",   duration_minutes: 10, days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+
+    event_overrides:
+      walking:
+        intensity: 2
+        per_event_duration: { min: 30, max: 60, unit: minutes }
+        total_event_duration: { scale: day, min: 30, max: 240, unit: minutes }
+        temporal_patterns:
+          - mode: seasonality
+            details: { within: morning, amount: 20, direction: increasing }
+          - mode: seasonality
+            details:
+              within: [Saturday, Sunday]
+              amount: 25
+              direction: increasing
+          - mode: trend
+            details:
+              { scale: day, direction: increasing, amount: 2, start: 1, end: 80 }
+
+      stress:
+        per_event_duration: { min: 10, max: 30, unit: minutes }
+        total_event_duration: { scale: day, min: 10, max: 240, unit: minutes }
+        temporal_patterns:
+          - mode: seasonality
+            details: { within: morning, amount: 20, direction: increasing }
+          - mode: trend
+            details:
+              { scale: day, direction: increasing, amount: 3, start: 1, end: 20 }
+          - mode: trend
+            details:
+              { scale: day, direction: decreasing, amount: 4, start: 21, end: 71 }
+          - mode: trend
+            details:
+              { scale: day, direction: decreasing, amount: 1, start: 75, end: 85 }
+
+      smoking:
+        per_event_duration: { min: 10, max: 10, unit: minutes }
+        total_event_duration: { scale: day, min: 0, max: 220, unit: minutes }
+        # Legacy "quitting" trajectory: six accumulating ramps.
+        temporal_patterns:
+          - mode: seasonality
+            details: { within: morning, amount: 20, direction: increasing }
+          - mode: seasonality
+            details:
+              within: [Saturday, Sunday]
+              amount: 10
+              direction: increasing
+          - mode: trend
+            details:
+              { scale: day, direction: decreasing, amount: 10, start: 1, end: 7 }
+          - mode: trend
+            details:
+              { scale: day, direction: decreasing, amount: 3, start: 8, end: 15 }
+          - mode: trend
+            details:
+              { scale: day, direction: increasing, amount: 5, start: 16, end: 18 }
+          - mode: trend
+            details:
+              { scale: day, direction: decreasing, amount: 4, start: 20, end: 22 }
+          - mode: trend
+            details:
+              { scale: day, direction: increasing, amount: 2, start: 30, end: 33 }
+          - mode: trend
+            details:
+              { scale: day, direction: decreasing, amount: 2, start: 35, end: 38 }
+
+  # c_parttime: morning shift, no smoking, mild stress trajectory.
+  - id: c_parttime
+    instances: 4
+    characteristics:
+      occupation_status: { type: categorical, values: { parttime: 1.0 } }
+    stages:
+      - { name: sleep,       time: "22:30",   days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: first_eat,   time: "07:00", duration_minutes: 25, days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: lunch,       time: "12:30", duration_minutes: 60, days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: dinner,      time: "19:00", duration_minutes: 60, days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: office_work, time: "09:00",                          days: [Mon, Tue, Wed, Thu, Fri] }
+      - { name: walking,     time: "afternoon", duration_minutes: 45, days: [Mon, Wed, Fri] }
+      - { name: walking,     time: "morning",   duration_minutes: 60, days: [Sat, Sun] }
+      - { name: stress,      time: "evening",   duration_minutes: 20, days: [Mon, Tue, Wed, Thu, Fri] }
+
+    event_overrides:
+      office_work:
+        per_event_duration: { min: 3, max: 4, unit: hours }
+        total_event_duration: { scale: day, min: 3, max: 4, unit: hours }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+
+      walking:
+        intensity: 2
+        per_event_duration: { min: 30, max: 60, unit: minutes }
+        total_event_duration: { scale: day, min: 30, max: 240, unit: minutes }
+        temporal_patterns:
+          - mode: seasonality
+            details: { within: morning, amount: 15, direction: increasing }
+          - mode: seasonality
+            details:
+              within: [Saturday, Sunday]
+              amount: 20
+              direction: increasing
+          - mode: trend
+            details:
+              { scale: day, direction: increasing, amount: 1, start: 1, end: 80 }
+
+      stress:
+        per_event_duration: { min: 10, max: 30, unit: minutes }
+        total_event_duration: { scale: day, min: 10, max: 240, unit: minutes }
+        temporal_patterns:
+          - mode: trend
+            details:
+              { scale: day, direction: increasing, amount: 2, start: 1, end: 21 }
+          - mode: trend
+            details:
+              { scale: day, direction: decreasing, amount: 2, start: 22, end: 60 }
+
+  # c_fulltime: full work day, evening walks, sustained stress.
+  - id: c_fulltime
+    instances: 4
+    characteristics:
+      occupation_status: { type: categorical, values: { fulltime: 1.0 } }
+    stages:
+      - { name: sleep,       time: "23:00",   days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: first_eat,   time: "07:30", duration_minutes: 20, days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: lunch,       time: "12:30", duration_minutes: 45, days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: dinner,      time: "19:30", duration_minutes: 45, days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] }
+      - { name: office_work, time: "09:00",                          days: [Mon, Tue, Wed, Thu, Fri] }
+      - { name: walking,     time: "evening", duration_minutes: 30, days: [Mon, Wed, Fri] }
+      - { name: walking,     time: "morning", duration_minutes: 60, days: [Sat, Sun] }
+      - { name: stress,      time: "evening", duration_minutes: 30, days: [Mon, Tue, Wed, Thu, Fri] }
+
+    event_overrides:
+      office_work:
+        per_event_duration: { min: 4, max: 5, unit: hours }
+        total_event_duration: { scale: day, min: 4, max: 5, unit: hours }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+
+      walking:
+        intensity: 2
+        per_event_duration: { min: 20, max: 45, unit: minutes }
+        total_event_duration: { scale: day, min: 20, max: 240, unit: minutes }
+        temporal_patterns:
+          - mode: seasonality
+            details:
+              within: [Saturday, Sunday]
+              amount: 25
+              direction: increasing
+
+      stress:
+        per_event_duration: { min: 10, max: 30, unit: minutes }
+        total_event_duration: { scale: day, min: 10, max: 240, unit: minutes }
+        temporal_patterns:
+          - mode: seasonality
+            details: { within: morning, amount: 20, direction: increasing }

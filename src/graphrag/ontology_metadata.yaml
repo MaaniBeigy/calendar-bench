@@ -1,0 +1,235 @@
+# Catalog of ontologies imported into the GraphRAG system.
+#
+# Each entry is downloaded on demand by src/scripts/download_ontologies.py into
+# src/assets/ontologies/, then imported into Neo4j by
+# src/scripts/import_ontologies.py via the n10s plugin. Loaded by
+# ontology_metadata.py into the OntologySpec catalog.
+#
+# download_url may contain the placeholder {apikey}, substituted with
+# BIOPORTAL_API_KEY from .env at download time. URLs without that placeholder
+# (e.g. OBO Foundry purls) need no credentials.
+ontologies:
+- key: BCIO
+  file: bcio.owl
+  title: Behaviour Change Intervention Ontology
+  rdf_format: RDF/XML
+  download_url: https://data.bioontology.org/ontologies/BCIO/download?apikey={apikey}&download_format=rdf
+  description: Upper-level ontology covering everything one may want to refer to
+    when describing behavior change interventions and their evaluations. Currently
+    covers intervention content and delivery, engagement, target populations, delivery
+    settings, contextual events, target behaviors, outcomes, mechanisms of action,
+    and study designs evaluating those interventions.
+- key: BCTT
+  file: BCTT.xrdf
+  title: Behaviour Change Technique Taxonomy v1
+  rdf_format: RDF/XML
+  download_url: https://data.bioontology.org/ontologies/BCTT/download?apikey={apikey}&download_format=rdf
+  description: Cross-domain hierarchically structured taxonomy of 93 distinct behavior
+    change techniques (BCTs), each with a label, definition and examples. Used to
+    consistently describe and compare intervention components across studies.
+- key: BNO
+  file: BNO.xrdf
+  title: Bionutrition Ontology
+  rdf_format: RDF/XML
+  download_url: https://data.bioontology.org/ontologies/BNO/download?apikey={apikey}&download_format=rdf
+  description: Concepts and terminologies used for human nutrition in clinical and
+    biomedical settings. Acts as a controlled vocabulary for standardizing nutrition
+    data and supporting more consistent annotation and integration of nutrition knowledge.
+- key: COPPER
+  file: COPPER.xrdf
+  title: COntextualised and Personalised Physical activity and Exercise Recommendations
+  rdf_format: RDF/XML
+  download_url: https://data.bioontology.org/ontologies/COPPER/download?apikey={apikey}&download_format=rdf
+  description: Ontology supporting action and coping planning for physical activity
+    promotion. Provides personalized recommendations about activities, contexts,
+    barriers and coping strategies for context-aware decision support in primary
+    prevention.
+- key: EBP
+  file: EBP.xrdf
+  title: EmpowerBP
+  rdf_format: RDF/XML
+  download_url: https://data.bioontology.org/ontologies/EBP/download?apikey={apikey}&download_format=rdf
+  description: Models knowledge from hypertension clinical-practice guidelines, behavior
+    change theories and associated behavior change strategies. Backed a proof-of-concept
+    ontology-based mobile decision-support application for hypertension self-management
+    with personalized recommendations.
+- key: PersonasOnto
+  file: personasonto.owl
+  title: PersonasOnto
+  rdf_format: RDF/XML
+  download_url: https://data.bioontology.org/ontologies/PERSONASONTO/download?apikey={apikey}&download_format=rdf
+  description: Ontology for representing personas as user archetypes that guide decisions
+    about product features, navigation, interaction design and visual design. Formalizes
+    persona-related concepts and properties so persona information can be modelled
+    consistently and reconciled with other design knowledge.
+- key: FoodGroupNHNS
+  file: FoodGroupNHNS.xrdf
+  title: Food Group NHNS
+  rdf_format: RDF/XML
+  download_url: https://data.bioontology.org/ontologies/FOODGROUPNHNS/download?apikey={apikey}&download_format=rdf
+  description: Ontology of food groups from Japan's National Health and Nutrition
+    Examination Survey (NHNS), issued by the Ministry of Health, Labour and Welfare.
+    Organizes foods into major, medium and minor categories and records English and
+    Japanese names for the minor-category foods.
+- key: ONS
+  file: ONS.xrdf
+  title: Ontology for Nutritional Studies
+  rdf_format: RDF/XML
+  download_url: https://data.bioontology.org/ontologies/ONS/download?apikey={apikey}&download_format=rdf
+  description: Formal ontology framework providing a common, standardized language
+    for describing nutritional studies. Harmonizes existing ontologies with nutrition-
+    and health-related terminology so that nutritional studies can be more consistently
+    conducted, described, stored, integrated and searched.
+- key: SATO
+  file: SATO.xrdf
+  title: SATO (IDEAS expAnded wiTh BCIO)
+  rdf_format: RDF/XML
+  download_url: https://data.bioontology.org/ontologies/SATO/download?apikey={apikey}&download_format=rdf
+  description: Ontology and workflow model for designing patient-centered mobile-health
+    behavior change intervention applications. Couples Behavior Change Intervention
+    Ontology (BCIO) entities with workflow steps and extends the IDEAS framework
+    with explicit support for customization and personalisation during intervention
+    design.
+- key: QUANTUM-MIND
+  file: QUANTUM-MIND.xrdf
+  title: QUANTUM-MIND
+  rdf_format: RDF/XML
+  download_url: https://data.bioontology.org/ontologies/QUANTUM-MIND/download?apikey={apikey}&download_format=rdf
+  description: Formal ontology of the psychodynamic architecture of consciousness,
+    based on the Quantum Mindfulness source material. Models the sequential process
+    from Observation to the emergence of a final Mental State and includes concepts
+    related to belief formation and mental-state transitions.
+- key: MFOEM
+  file: mfoem.owl
+  title: Emotion Ontology (Mental Functioning Ontology — Emotion)
+  rdf_format: RDF/XML
+  download_url: http://purl.obolibrary.org/obo/mfoem.owl
+  description: Ontology of affective phenomena — emotions, moods, appraisals and
+    subjective feelings — built on the Basic Formal Ontology (BFO) and the Mental
+    Functioning Ontology (MF). Provides stable IRIs for discrete emotions (happiness,
+    sadness, anger, fear, anxiety, disgust, surprise, guilt, shame, satisfaction)
+    and for bodily / appraisal feelings (hunger, pain, feeling tired, energetic,
+    exhausted, nervous, at ease). Used as the reference vocabulary for mood and energy-state
+    context features in persona simulations.
+- key: EFO
+  file: efo.owl
+  title: Experimental Factor Ontology
+  rdf_format: RDF/XML
+  download_url: http://www.ebi.ac.uk/efo/efo.owl
+  description: Application-focused ontology maintained by EBI to describe variables
+    in GWAS, ENCODE and cohort studies. Ships stable IRIs for personality, the extraversion
+    trait, the Temperament and Character Inventory, and for anxiety / wellbeing /
+    depression measurements. Used in persona-based simulations to ground momentary
+    trait-expression context features (`trait_state` block in context_features.yaml).
+- key: OPE
+  file: OPE.xrdf
+  title: Ontology of Physical Exercises
+  rdf_format: RDF/XML
+  download_url: https://data.bioontology.org/ontologies/OPE/download?apikey={apikey}&download_format=rdf
+  description: Reference model for describing physical exercises in terms of functional
+    movements, engaged musculoskeletal system parts, equipment or monitoring devices,
+    intended health outcomes and target ailments. Supports structured representation
+    of exercise knowledge for treatment, prevention and reuse in health-related applications.
+- key: HeLiFit
+  file: HeLiFit.xrdf
+  title: Health, Lifestyle and Fitness
+  rdf_format: RDF/XML
+  download_url: https://data.bioontology.org/ontologies/HELIFIT/download?apikey={apikey}&download_format=rdf
+  description: Domain ontology providing unified, event-based models for representing
+    physical activity and related health and lifestyle information aligned with WHO
+    guidance. Used as a foundation for health knowledge graphs and rule-based reasoning
+    in digital coaching and lifestyle support systems.
+- key: ENVO
+  file: envo.owl
+  title: Environment Ontology
+  rdf_format: RDF/XML
+  download_url: http://purl.obolibrary.org/obo/envo.owl
+  description: Community ontology for the concise, controlled description of environments
+    (biomes, environmental features, environmental materials and the processes occurring
+    within them). Used as supplementary context for situating behavior-change interventions
+    in their physical setting.
+- key: OCHV
+  file: OCHV.xrdf
+  title: Open-Access Consumer Health Vocabulary
+  rdf_format: RDF/XML
+  download_url: https://data.bioontology.org/ontologies/OCHV/download?apikey={apikey}&download_format=rdf
+  description: Open-Access Consumer Health Vocabulary; it maps consumer-friendly
+    health expressions to formal medical terminology, bridging the lay vocabulary
+    used by patients and the public to clinical terminologies such as SNOMED CT,
+    MeSH and ICD. Useful for consumer-facing health applications, patient-physician
+    communication tools and NLP over patient-generated text.
+- key: LSFO
+  file: LSFO.xrdf
+  title: Lifestyle Factors Ontology
+  rdf_format: RDF/XML
+  download_url: https://data.bioontology.org/ontologies/LSFO/download?apikey={apikey}&download_format=rdf
+  description: Controlled vocabulary capturing lifestyle-related concepts and behavioral
+    risk factors relevant to chronic disease prevention and management (diet, physical
+    activity, sleep, smoking, alcohol use and other modifiable behaviors). Supports
+    harmonizing lifestyle data across studies and integrating behavior-change research.
+- key: FOODON
+  file: foodon.owl
+  title: FoodOn — Food Ontology
+  rdf_format: RDF/XML
+  download_url: http://purl.obolibrary.org/obo/foodon.owl
+  description: Comprehensive ontology built to interoperate with the BFO and OBO
+    Foundry ecosystem, covering the entire food production chain (raw biological
+    source materials through processing, packaging and consumption). Standardizes
+    food types, food products, food sources, parts of plants and animals used as
+    food, food processing operations and dietary categories.
+- key: HSPO
+  file: HSPO.xrdf
+  title: Health Services Provision Ontology
+  rdf_format: RDF/XML
+  download_url: https://data.bioontology.org/ontologies/HSPO/download?apikey={apikey}&download_format=rdf
+  description: Ontology representing knowledge of social determinants and contextual
+    factors influencing health services provision and personalized health care. Captures
+    demographics, socioeconomic status, social environment, behavioral factors and
+    access-to-care concepts — supporting population health analysis and patient stratification
+    for personalized interventions.
+- key: HealthTasks
+  file: HealthTasks_2026.05.19.ttl
+  title: Calendar-Bench Health Tasks ontology
+  rdf_format: Turtle
+  download_url: ''
+  local: true
+  uri_namespaces:
+  - https://w3id.org/calendar-bench/health/task/
+  description: Author-developed ontology shipped with calendar-bench. Health-task
+    benchmark organized as Intervention -> Challenge -> Difficulty -> Task in an
+    OWL class hierarchy under https://w3id.org/calendar-bench/health/. Branches cover
+    NutritionTask, MentalWellbeingTask and PhysicalActivityTask, each split into
+    challenge subclasses and graded difficulty levels (Level1 = lowest effortless
+    ... Level4 = demanding).
+- key: HumanActivities
+  file: HumanActivities_2026.05.03.ttl
+  title: Calendar-Bench Human Activities ontology
+  rdf_format: Turtle
+  download_url: ''
+  local: true
+  uri_namespaces:
+  - https://w3id.org/calendar-bench/human-activities/
+  description: Author-enhanced OWL hierarchy of the Compendium of Physical Activities
+    (1210 rows) from https://pacompendium.com/ and under https://w3id.org/calendar-bench/human-activities/.
+    Organized by the seven top-level event categories (Sports/Exercise/Workout, Work,
+    Social, Education, Everyday Tasks, Health, Leisure). Each Activity Description
+    is a named activity with its numeric Activity Code and MET (Metabolic Equivalent
+    of Task) value preserved verbatim.
+- key: Context
+  file: Context_2026.05.26.ttl
+  title: Calendar-Bench Context IRI dictionary
+  rdf_format: Turtle
+  download_url: ''
+  local: true
+  uri_namespaces:
+  - https://w3id.org/calendar-bench/context#
+  description: Author-developed dictionary of user context IRIs for persona-based
+    simulation, shipped with calendar-bench. Organizes 535 entries across 15 categories
+    (mood_emotion, energy_state, physiological, stress, location, social_context,
+    weather_environment, behaviour_state, capability_opportunity, goal_intention,
+    trait_state, ttm_process, bct, sdt_regulation, delivery_style) under https://w3id.org/calendar-bench/context/.
+    Pulls canonical IRIs from MFOEM, BCIO, ENVO, OMRSE, COPPER, EFO, OCHV, ADDICTO
+    and Bergram 2022; uses a local cb-namespace for trait states, TTM processes,
+    SDT amotivation, and cross-category secondaries (which carry owl:sameAs back
+    to the canonical IRI). behaviour_state and capability_opportunity entries carry
+    theory_mappings linking each IRI to TDF, COM-B, HAPA, TTM and SDT.

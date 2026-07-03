@@ -1,0 +1,547 @@
+common:
+  default_jitter:
+    time_minutes: 15
+    duration_minutes: 5
+
+personas:
+  - id: i_fulltime
+    instances: 8
+    characteristics:
+      occupation_status:
+        type: categorical
+        values: { fulltime: 1.0 }
+      gender:
+        type: categorical
+        values: { female: 0.50, male: 0.40, non_binary: 0.10 }
+      socioeconomic_status:
+        type: categorical
+        values: { low: 0.30, middle: 0.50, high: 0.20 }
+      has_kids:
+        type: boolean
+        p_true: 0.30
+      age:
+        type: norm
+        params: { loc: 40, scale: 9 }
+        clip: { min: 22, max: 65 }
+        dtype: int
+      neuroticism:
+        type: norm
+        params: { loc: 0.5, scale: 0.18 }
+        clip: { min: 0, max: 1 }
+      extraversion:
+        type: norm
+        params: { loc: 0.5, scale: 0.18 }
+        clip: { min: 0, max: 1 }
+      conscientiousness:
+        type: norm
+        params: { loc: 0.55, scale: 0.18 }
+        clip: { min: 0, max: 1 }
+      weekly_workouts:
+        type: poisson
+        params: { mu: 3 }
+      annual_income_eur:
+        type: lognorm
+        params: { s: 0.55, scale: 38000 }
+        dtype: int
+
+    stages:
+      - name: sleep
+        time: "22:30"
+        days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun]
+        health_task_iri: https://w3id.org/calendar-bench/health/MentalWellbeingSleepAndEveningRoutineTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/sleeping
+      - name: first_eat
+        time: "07:00"
+        duration_minutes: 15
+        days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun]
+        health_task_iri: https://w3id.org/calendar-bench/health/NutritionWholegrainChoicesTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/eating-sitting
+      - name: lunch
+        time: "13:00"
+        duration_minutes: 30
+        days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun]
+        health_task_iri: https://w3id.org/calendar-bench/health/NutritionVegetablesAndColorfulPlatesTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/eating-sitting
+      - name: dinner
+        time: "19:30"
+        duration_minutes: 45
+        days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun]
+        health_task_iri: https://w3id.org/calendar-bench/health/MentalWellbeingMindfulEatingTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/eating-sitting
+      - name: office_work
+        time: "08:30"
+        days: [Mon, Tue, Wed, Thu, Fri]
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/sitting-tasks-light-effort-e-g-office-work-chemistry-lab-work-light-assembly-repair-watch-repair-reading-desk-work
+      - name: meeting
+        time: "morning"
+        duration_minutes: 30
+        days: [Mon, Tue, Wed, Thu, Fri]
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/sitting-meetings-light-effort-general-and-or-with-talking-involved-e-g-eating-at-a-business-meeting
+      - name: walking
+        time: "morning"
+        duration_minutes: 30
+        days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun]
+        health_task_iri: https://w3id.org/calendar-bench/health/PhysicalActivityDailyStepsAndWalkingTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/walking-3-5-mph-mod-pace-firm-surface-walking-for-exercise
+      - name: gym
+        time: "evening"
+        duration_minutes: 60
+        days: [Mon, Wed, Fri]
+        health_task_iri: https://w3id.org/calendar-bench/health/PhysicalActivityStrengthAndBodyweightMovesTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/circuit-training-body-weight-exercises
+      - name: swimming
+        time: "morning"
+        duration_minutes: 60
+        days: [Sat]
+        health_task_iri: https://w3id.org/calendar-bench/health/PhysicalActivityCardioAndStaminaTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/swimming-leisurely-not-lap-swimming-general
+      - name: running
+        time: "morning"
+        duration_minutes: 30
+        days: [Tue, Thu]
+        health_task_iri: https://w3id.org/calendar-bench/health/PhysicalActivityRunningBasicsTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/jogging-general-self-selected-pace
+      - name: journaling
+        time: "21:00"
+        duration_minutes: 20
+        days: [Mon, Tue, Wed, Thu, Fri, Sat, Sun]
+        health_task_iri: https://w3id.org/calendar-bench/health/MentalWellbeingMoodAndMeaningfulActivitiesTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing
+
+    event_overrides:
+      office_work:
+        per_event_duration: { min: 1, max: 9, unit: hours }
+        total_event_duration: { scale: day, min: 1, max: 9, unit: hours }
+        total_event_episodes: { scale: day, min: 1, max: 2 }
+        temporal_patterns:
+          - mode: seasonality
+            details:
+              target: episodes
+              scale: weekday
+              within: [Tue, Wed]
+              direction: increasing
+              amount: 1
+          - mode: trend
+            details:
+              target: duration
+              scale: week
+              direction: increasing
+              amount: 30
+              start: 1
+              end: 2
+      meeting:
+        per_event_duration: { min: 5, max: 120, unit: minutes }
+        total_event_duration: { scale: day, min: 5, max: 720, unit: minutes }
+        total_event_episodes: { scale: day, min: 1, max: 4 }
+        temporal_patterns:
+          - { mode: fix, details: { within: [morning, afternoon] } }
+          - mode: trend
+            details:
+              target: episodes
+              scale: week
+              direction: increasing
+              amount: 2
+              start: 1
+              end: 2
+          - mode: trend
+            details:
+              target: duration
+              scale: week
+              direction: increasing
+              amount: 30
+              start: 1
+              end: 2
+      walking:
+        intensity: 2
+        per_event_duration: { min: 1, max: 240, unit: minutes }
+        total_event_duration: { scale: day, min: 1, max: 240, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 3 }
+        temporal_patterns:
+          - { mode: fix, details: { within: [morning] } }
+          - mode: seasonality
+            details:
+              target: duration
+              within: [Sat, Sun]
+              direction: increasing
+              amount: 15
+          - mode: trend
+            details:
+              target: duration
+              scale: week
+              direction: increasing
+              amount: 30
+              start: 1
+              end: 2
+      gym:
+        intensity: 4
+        per_event_duration: { min: 60, max: 240, unit: minutes }
+        total_event_duration: { scale: day, min: 60, max: 240, unit: minutes }
+        temporal_patterns:
+          - { mode: fix, details: { within: [evening] } }
+          - mode: seasonality
+            details:
+              target: duration
+              within: [Sat]
+              direction: increasing
+              amount: 30
+          - mode: trend
+            details:
+              target: duration
+              scale: week
+              direction: increasing
+              amount: 30
+              start: 1
+              end: 2
+      swimming:
+        intensity: 3
+        per_event_duration: { min: 30, max: 90, unit: minutes }
+        total_event_duration: { scale: day, min: 30, max: 90, unit: minutes }
+      running:
+        intensity: 3
+        per_event_duration: { min: 20, max: 45, unit: minutes }
+        total_event_duration: { scale: day, min: 0, max: 45, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+        temporal_patterns:
+          - { mode: fix, details: { within: [morning, afternoon] } }
+      journaling:
+        per_event_duration: { min: 5, max: 90, unit: minutes }
+        total_event_duration: { scale: day, min: 5, max: 90, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+
+    contexts:
+      mood_emotion:
+        mutually_exclusive: true
+        members:
+          happy:
+            per_event_duration:   { min: 5, max: 90, unit: minutes }
+            total_event_duration: { scale: day, min: 30, max: 180, unit: minutes }
+            total_event_episodes: { scale: day, min: 0, max: 3 }
+            ontology_uri: http://purl.obolibrary.org/obo/MFOEM_000042
+            temporal_patterns:
+              - mode: seasonality
+                details: { within: [morning, afternoon], amount: 30, direction: increasing }
+          calm:
+            per_event_duration:   { min: 5, max: 45, unit: minutes }
+            total_event_duration: { scale: day, min: 30, max: 90, unit: minutes }
+            total_event_episodes: { scale: day, min: 2, max: 3 }
+            ontology_uri: http://purl.obolibrary.org/obo/MFOEM_000107
+            temporal_patterns:
+              - { mode: fix, details: { within: [evening, night] } }
+              - mode: seasonality
+                details:
+                  target: duration
+                  within: [Sat, Sun]
+                  direction: increasing
+                  amount: 30
+          anxious:
+            per_event_duration:   { min: 5, max: 60, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 90, unit: minutes }
+            total_event_episodes: { scale: day, min: 0, max: 2 }
+            ontology_uri: http://purl.obolibrary.org/obo/MFOEM_000028
+            requires:
+              neuroticism: { ge: 0.6 }
+            temporal_patterns:
+              - { mode: fix, details: { within: [morning, afternoon] } }
+
+      energy_state:
+        mutually_exclusive: true
+        members:
+          energetic:
+            per_event_duration:   { min: 120, max: 180, unit: minutes }
+            total_event_duration: { scale: day, min: 270, max: 720, unit: minutes }
+            total_event_episodes: { scale: day, min: 3, max: 4 }
+            ontology_uri: http://purl.obolibrary.org/obo/MFOEM_000109
+            temporal_patterns:
+              - { mode: fix, details: { within: [morning, afternoon, evening] } }
+              - mode: seasonality
+                details:
+                  target: episodes
+                  scale: weekday
+                  within: [Mon, Tue, Wed, Thu, Fri]
+                  direction: increasing
+                  amount: 1
+          tired:
+            per_event_duration:   { min: 5, max: 30, unit: minutes }
+            total_event_duration: { scale: day, min: 5, max: 60, unit: minutes }
+            total_event_episodes: { scale: day, min: 2, max: 2 }
+            ontology_uri: http://purl.obolibrary.org/obo/MFOEM_000080
+            temporal_patterns:
+              - { mode: fix, details: { within: [night] } }
+              - mode: seasonality
+                details:
+                  target: duration
+                  scale: weekday
+                  within: [Thu, Fri]
+                  direction: increasing
+                  amount: 20
+
+      physiological:
+        members:
+          hungry:
+            per_event_duration:   { min: 15, max: 60, unit: minutes }
+            total_event_duration: { scale: day, min: 30, max: 180, unit: minutes }
+            total_event_episodes: { scale: day, min: 1, max: 3 }
+            ontology_uri: http://purl.obolibrary.org/obo/MFOEM_000205
+            temporal_patterns:
+              - { mode: fix, details: { within: [early_morning, morning] } }
+
+      stress:
+        members:
+          stress_episode:
+            per_event_duration:   { min: 10, max: 45, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 90, unit: minutes }
+            total_event_episodes: { scale: day, min: 0, max: 2 }
+            ontology_uri: http://www.ebi.ac.uk/efo/EFO_0005230
+
+      location:
+        mutually_exclusive: true
+        members:
+          home:
+            per_event_duration:   { min: 60, max: 480, unit: minutes }
+            total_event_duration: { scale: day, min: 8, max: 14, unit: hours }
+            total_event_episodes: { scale: day, min: 1, max: 3 }
+            ontology_uri: https://github.com/EBehaviourChange-COPPER/ontology/blob/main/COPPER_2014
+            temporal_patterns:
+              - { mode: fix, details: { within: [early_morning, morning, evening, night] } }
+              - mode: seasonality
+                details:
+                  target: duration
+                  scale: weekday
+                  within: [Sat, Sun]
+                  direction: increasing
+                  amount: 60
+          workplace:
+            per_event_duration:   { min: 60, max: 480, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 8, unit: hours }
+            total_event_episodes: { scale: day, min: 0, max: 1 }
+            ontology_uri: http://purl.obolibrary.org/obo/OMRSE_00000078
+            temporal_patterns:
+              - { mode: fix, details: { within: [morning, afternoon] } }
+              - mode: seasonality
+                details:
+                  target: episodes
+                  scale: weekday
+                  within: [Mon, Tue, Wed, Thu, Fri]
+                  direction: increasing
+                  amount: 1
+          public_park:
+            per_event_duration:   { min: 30, max: 90, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 90, unit: minutes }
+            total_event_episodes: { scale: day, min: 0, max: 1 }
+            ontology_uri: http://purl.obolibrary.org/obo/ENVO_03500002
+            temporal_patterns:
+              - mode: seasonality
+                details:
+                  target: episodes
+                  scale: weekday
+                  within: [Sat, Sun]
+                  direction: increasing
+                  amount: 1
+
+      social_context:
+        mutually_exclusive: true
+        members:
+          alone:
+            per_event_duration:   { min: 60, max: 360, unit: minutes }
+            total_event_duration: { scale: day, min: 2, max: 8, unit: hours }
+            total_event_episodes: { scale: day, min: 1, max: 3 }
+            ontology_uri: https://github.com/EBehaviourChange-COPPER/ontology/blob/main/COPPER_2004
+          with_family:
+            per_event_duration:   { min: 30, max: 240, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 6, unit: hours }
+            total_event_episodes: { scale: day, min: 0, max: 3 }
+            ontology_uri: http://humanbehaviourchange.org/ontology/BCIO_006002
+
+      weather_environment:
+        mutually_exclusive: true
+        members:
+          suitable_for_outdoor:
+            per_event_duration:   { min: 60, max: 360, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 6, unit: hours }
+            total_event_episodes: { scale: day, min: 0, max: 3 }
+            ontology_uri: https://github.com/EBehaviourChange-COPPER/ontology/blob/main/COPPER_3019
+            temporal_patterns:
+              - { mode: fix, details: { within: [morning, afternoon, evening] } }
+          raining_or_snowing:
+            per_event_duration:   { min: 30, max: 240, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 4, unit: hours }
+            total_event_episodes: { scale: day, min: 0, max: 3 }
+            ontology_uri: https://github.com/EBehaviourChange-COPPER/ontology/blob/main/COPPER_3127
+
+      # -------- Behaviour-change theory layers  ---------
+      behaviour_state:
+        members:
+          action_planning:
+            per_event_duration:   { min: 5, max: 30, unit: minutes }
+            total_event_duration: { scale: day, min: 10, max: 60, unit: minutes }
+            total_event_episodes: { scale: day, min: 1, max: 2 }
+            ontology_uri: http://humanbehaviourchange.org/ontology/BCIO_050844
+            theory_mappings:
+              tdf_domain: [Goals, Behavioural regulation]
+              comb: reflective_motivation
+              hapa: action_planning
+            temporal_patterns:
+              - { mode: fix, details: { within: [early_morning] } }
+          # Morning window so running sessions (Tue/Thu) can overlap
+          # the intention episode under the shape (2) co-occurrence
+          # rule `F (running AND intention_to_enact_a_behaviour)`.
+          intention_to_enact_a_behaviour:
+            per_event_duration:   { min: 10, max: 45, unit: minutes }
+            total_event_duration: { scale: day, min: 20, max: 120, unit: minutes }
+            total_event_episodes: { scale: day, min: 2, max: 3 }
+            ontology_uri: https://w3id.org/calendar-bench/context#behaviour_state/IntentionToEnactABehaviour
+            theory_mappings:
+              tdf_domain: [Goals]
+              comb: reflective_motivation
+              hapa: motivational_intention
+            temporal_patterns:
+              - { mode: fix, details: { within: [morning] } }
+          # Avoidance episode (e.g. user skipping gym today); fires
+          # later in the day when fatigue or neuroticism takes over.
+          intention_not_to_enact_a_behaviour:
+            per_event_duration:   { min: 10, max: 45, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 60, unit: minutes }
+            total_event_episodes: { scale: day, min: 0, max: 2 }
+            ontology_uri: https://w3id.org/calendar-bench/context#behaviour_state/IntentionNotToEnactABehaviour
+            requires:
+              neuroticism: { ge: 0.55 }
+            temporal_patterns:
+              - { mode: fix, details: { within: [afternoon, evening] } }
+          # Evening routine block. No `requires` so every person has
+          # at least one habit episode firing; this keeps the
+          # `F (gym AND context:habitual_behaviour)` rule reachable
+          # for the whole cohort.
+          habitual_behaviour:
+            per_event_duration:   { min: 30, max: 90, unit: minutes }
+            total_event_duration: { scale: day, min: 60, max: 240, unit: minutes }
+            total_event_episodes: { scale: day, min: 2, max: 3 }
+            ontology_uri: http://humanbehaviourchange.org/ontology/BCIO_006158
+            temporal_patterns:
+              - { mode: fix, details: { within: [evening] } }
+          # Evening window saturated by 5 medium-length episodes so
+          # every gym session overlaps at least one belief episode.
+          # behaviour_state is not mutually-exclusive so episodes are
+          # free to share minutes; the random placer reliably covers
+          # the gym slot when episodes pile up.
+          self_efficacy_belief_for_a_behaviour:
+            per_event_duration:   { min: 60, max: 120, unit: minutes }
+            total_event_duration: { scale: day, min: 150, max: 300, unit: minutes }
+            total_event_episodes: { scale: day, min: 5, max: 5 }
+            ontology_uri: http://humanbehaviourchange.org/ontology/BCIO_006154
+            temporal_patterns:
+              - { mode: fix, details: { within: [evening] } }
+          # Coping planning fires after stress hits; afternoon/evening.
+          coping_planning:
+            per_event_duration:   { min: 5, max: 20, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 40, unit: minutes }
+            total_event_episodes: { scale: day, min: 0, max: 2 }
+            ontology_uri: http://humanbehaviourchange.org/ontology/BCIO_050624
+            temporal_patterns:
+              - { mode: fix, details: { within: [afternoon, evening] } }
+
+      capability_opportunity:
+        members:
+          # Daytime opportunity window saturated by 6 longer episodes
+          # so the morning walking event and any daytime activity
+          # overlap at least one opportunity slot.
+          physical_behavioural_opportunity:
+            per_event_duration:   { min: 120, max: 180, unit: minutes }
+            total_event_duration: { scale: day, min: 480, max: 960, unit: minutes }
+            total_event_episodes: { scale: day, min: 6, max: 6 }
+            ontology_uri: http://humanbehaviourchange.org/ontology/BCIO_006089
+            theory_mappings:
+              tdf_domain: [Environmental context and resources]
+              comb: physical_opportunity
+            temporal_patterns:
+              - { mode: fix, details: { within: [morning, afternoon, evening] } }
+          # Daytime social opportunity with broad coverage so meetings
+          # (morning) and any other daytime social event have at least
+          # one overlap somewhere in the horizon.
+          social_behavioural_opportunity:
+            per_event_duration:   { min: 60, max: 180, unit: minutes }
+            total_event_duration: { scale: day, min: 120, max: 360, unit: minutes }
+            total_event_episodes: { scale: day, min: 2, max: 3 }
+            ontology_uri: http://humanbehaviourchange.org/ontology/BCIO_006090
+            theory_mappings:
+              tdf_domain: [Social influences]
+              comb: social_opportunity
+            temporal_patterns:
+              - { mode: fix, details: { within: [morning, afternoon, evening] } }
+          # Workday focus block saturated by 4 episodes spanning
+          # morning + afternoon so every office_work session overlaps
+          # at least one capability slot.
+          psychological_behavioural_capability:
+            per_event_duration:   { min: 90, max: 150, unit: minutes }
+            total_event_duration: { scale: day, min: 240, max: 480, unit: minutes }
+            total_event_episodes: { scale: day, min: 4, max: 4 }
+            ontology_uri: http://humanbehaviourchange.org/ontology/BCIO_050325
+            theory_mappings:
+              tdf_domain: [Memory attention and decision processes]
+              comb: psychological_capability
+            temporal_patterns:
+              - { mode: fix, details: { within: [morning, afternoon] } }
+          # Constraint window: weather, transport, or location blocks
+          # the physical opportunity. Fires after daylight, when the
+          # opposite member is no longer active.
+          low_physical_opportunity_to_enact_a_behaviour:
+            per_event_duration:   { min: 30, max: 240, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 4, unit: hours }
+            total_event_episodes: { scale: day, min: 0, max: 2 }
+            ontology_uri: http://humanbehaviourchange.org/ontology/BCIO_050700
+            temporal_patterns:
+              - { mode: fix, details: { within: [night] } }
+          # Late-workday energy slump for high-neuroticism persons;
+          # afternoon window avoids the night `self_efficacy` block so
+          # the bipolar non-overlap LTL rule passes.
+          low_self_efficacy:
+            per_event_duration:   { min: 15, max: 45, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 90, unit: minutes }
+            total_event_episodes: { scale: day, min: 0, max: 2 }
+            ontology_uri: http://humanbehaviourchange.org/ontology/BCIO_050701
+            requires:
+              neuroticism: { ge: 0.55 }
+            temporal_patterns:
+              - { mode: fix, details: { within: [afternoon] } }
+          # Self-directed choice window; supports intrinsic_motivation.
+          need_for_autonomy:
+            per_event_duration:   { min: 15, max: 60, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 90, unit: minutes }
+            total_event_episodes: { scale: day, min: 0, max: 2 }
+            ontology_uri: http://humanbehaviourchange.org/ontology/BCIO_006065
+            temporal_patterns:
+              - { mode: fix, details: { within: [morning, afternoon, evening] } }
+
+      # ---- Goals / motivation (visible only to the evaluator) ----
+      goal_intention:
+        members:
+          # Intent to walk fires in the morning before the walk event.
+          # Fires before the morning walking window so walking always
+          # follows.
+          intend_to_walk:
+            per_event_duration:   { min: 5, max: 30, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 60, unit: minutes }
+            total_event_episodes: { scale: day, min: 0, max: 2 }
+            ontology_uri: http://humanbehaviourchange.org/ontology/BCIO_050683
+            temporal_patterns:
+              - { mode: fix, details: { within: [early_morning] } }
+          disposition_to_attend_to_one_s_goals:
+            per_event_duration:   { min: 5, max: 30, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 60, unit: minutes }
+            total_event_episodes: { scale: day, min: 0, max: 2 }
+            ontology_uri: http://humanbehaviourchange.org/ontology/BCIO_050630
+            temporal_patterns:
+              - { mode: fix, details: { within: [morning, afternoon] } }
+
+      sdt_regulation:
+        mutually_exclusive: true
+        members:
+          intrinsic_motivation:
+            ontology_uri: http://humanbehaviourchange.org/ontology/BCIO_006136
+            per_event_duration:   { min: 15, max: 120, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 4, unit: hours }
+            total_event_episodes: { scale: day, min: 0, max: 3 }
+          external_regulation:
+            ontology_uri: http://humanbehaviourchange.org/ontology/BCIO_006086
+            per_event_duration:   { min: 15, max: 120, unit: minutes }
+            total_event_duration: { scale: day, min: 0, max: 3, unit: hours }
+            total_event_episodes: { scale: day, min: 0, max: 2 }

@@ -1,0 +1,157 @@
+# Population-wide event catalog; per-cohort overrides live in persona_config.yaml.
+
+categories:
+  sleep:
+    events:
+      sleep:
+        per_event_duration: { min: 6, max: 9, unit: hours }
+        total_event_duration: { scale: day, min: 6, max: 9, unit: hours }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+        intensity: 1
+        is_concurrent: false
+        is_dividable: false
+        temporal_patterns:
+          - { mode: fix, details: { within: [night] } }
+
+  eat:
+    events:
+      first_eat:
+        per_event_duration: { min: 10, max: 30, unit: minutes }
+        total_event_duration: { scale: day, min: 10, max: 30, unit: minutes }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+        intensity: 1
+        is_concurrent: false
+        is_dividable: false
+        temporal_patterns:
+          - { mode: fix, details: { within: [early_morning, morning] } }
+      lunch:
+        per_event_duration: { min: 30, max: 90, unit: minutes }
+        total_event_duration: { scale: day, min: 30, max: 90, unit: minutes }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+        intensity: 1
+        is_concurrent: true
+        is_dividable: false
+        concurrent_with: [reading]
+        temporal_patterns:
+          - { mode: fix, details: { within: [afternoon] } }
+      dinner:
+        per_event_duration: { min: 30, max: 90, unit: minutes }
+        total_event_duration: { scale: day, min: 30, max: 90, unit: minutes }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+        intensity: 1
+        is_concurrent: true
+        is_dividable: false
+        concurrent_with: [reading]
+        temporal_patterns:
+          - { mode: fix, details: { within: [evening] } }
+
+  # Work / study: kept opt-in via `requires`. Per-cohort weekday seasonality
+  # and duration bands move into the personas.
+  work:
+    events:
+      office_work:
+        requires:
+          occupation_status: { in: [fulltime, parttime] }
+        weekdays: [Mon, Tue, Wed, Thu, Fri]
+        intensity: 3
+        is_concurrent: false
+        is_dividable: false
+        per_event_duration: { min: 1, max: 10, unit: hours }
+        total_event_duration: { scale: day, min: 1, max: 10, unit: hours }
+        total_event_episodes: { scale: day, min: 1, max: 2 }
+        calendar_variations:
+          task_labels: [standup, meeting, doing research, external meeting]
+
+  education:
+    events:
+      study:
+        requires:
+          occupation_status: { in: [student] }
+        weekdays: [Mon, Tue, Wed, Thu, Fri]
+        intensity: 2
+        is_concurrent: false
+        is_dividable: true
+        per_event_duration: { min: 1, max: 10, unit: hours }
+        total_event_duration: { scale: day, min: 1, max: 10, unit: hours }
+        total_event_episodes: { scale: day, min: 1, max: 2 }
+        calendar_variations:
+          task_labels: [lecture, self-study, work lecture, instructions]
+
+  # Sports: very loose population-wide bounds. Per-persona overrides tighten
+  # them to the cohort's intent (e.g. students run 30-60 min, fulltime
+  # workers run 60-90).
+  sports:
+    events:
+      running:
+        intensity: 4
+        is_concurrent: false
+        is_dividable: true
+        per_event_duration: { min: 15, max: 180, unit: minutes }
+        total_event_duration: { scale: day, min: 15, max: 180, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+      cycling:
+        intensity: 3
+        is_concurrent: false
+        is_dividable: false
+        per_event_duration: { min: 15, max: 180, unit: minutes }
+        total_event_duration: { scale: day, min: 15, max: 180, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+      swimming:
+        intensity: 3
+        is_concurrent: false
+        is_dividable: false
+        per_event_duration: { min: 15, max: 180, unit: minutes }
+        total_event_duration: { scale: day, min: 15, max: 180, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+      gym:
+        intensity: 4
+        is_concurrent: false
+        is_dividable: false
+        per_event_duration: { min: 15, max: 180, unit: minutes }
+        total_event_duration: { scale: day, min: 15, max: 180, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+      yoga:
+        intensity: 2
+        is_concurrent: false
+        is_dividable: false
+        per_event_duration: { min: 15, max: 180, unit: minutes }
+        total_event_duration: { scale: day, min: 15, max: 180, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+
+  leisure:
+    events:
+      reading:
+        intensity: 1
+        is_concurrent: true
+        is_dividable: true
+        concurrent_with: [lunch, dinner]
+        per_event_duration: { min: 15, max: 180, unit: minutes }
+        total_event_duration: { scale: day, min: 15, max: 180, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+      gaming:
+        intensity: 1
+        is_concurrent: false
+        is_dividable: false
+        per_event_duration: { min: 30, max: 240, unit: minutes }
+        total_event_duration: { scale: day, min: 30, max: 240, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+
+  chores:
+    events:
+      groceries:
+        intensity: 2
+        is_concurrent: false
+        is_dividable: false
+        per_event_duration: { min: 30, max: 180, unit: minutes }
+        total_event_duration: { scale: week, min: 30, max: 360, unit: minutes }
+        total_event_episodes: { scale: week, min: 0, max: 2 }
+
+  social:
+    events:
+      visit_family:
+        intensity: 1
+        is_concurrent: false
+        is_dividable: false
+        per_event_duration: { min: 60, max: 360, unit: minutes }
+        total_event_duration: { scale: week, min: 60, max: 720, unit: minutes }
+        total_event_episodes: { scale: week, min: 0, max: 2 }

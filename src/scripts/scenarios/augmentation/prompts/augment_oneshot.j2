@@ -1,0 +1,310 @@
+# SCHEDULING PROTOCOL: placing recommended tasks into one person's calendar.
+
+## INPUT WINDOW
+schedule_start_date : {{ week_start }}
+schedule_end_date   : {{ week_end }}
+waking_window       : {{ wake_start }}–{{ sleep_start }}  # no scheduling outside this window
+
+## DEFAULT PATH (read this first)
+
+{% block default_path %}
+For each task, ACTIVELY try a CONCURRENT placement when the task is conceptually
+compatible with a busy event and can run in parallel with it; otherwise place it
+STANDALONE in a free gap. Pick the BETTER of standalone vs a proper concurrent fit,
+not standalone by default. Every persona has at least 50% of the day free, so a
+STANDALONE gap is always there as the fallback.
+
+CONCURRENT placement is ENCOURAGED, but use it ONLY when the "task" is a 
+PROPER CONCURRENT FIT with user's planned "event" OR a "context" i.e. the two activities 
+can genuinely be performed AT THE SAME TIME or because they are COMPLEMENTARY or is 
+CONTEXTUALLY FIT.
+
+When a day already has a busy event that is a PROPER CONCURRENT FIT for a task, prefer
+placing the task CONCURRENT inside that event over opening a separate free gap; scan the
+day's busy events for such a fit FIRST, then fall back to STANDALONE when none fits. For a
+`dividable_ok: true` task, still prefer SPLITTING it over one concurrent block.
+{% endblock %}
+
+{% block fit_examples %}
+Examples of PROPER concurrent fits:
+  • task::"mindful eating" AND event::"Lunch": the person eats and pays attention to 
+    the food AT THE SAME TIME (i.e., not watching movies while eating)
+  • (task::"Doing 5 Squats", task::"Hydration Sip", or task::"Looking Outside") AND 
+    event::"Office Work": micro-breaks DURING or AT THE SAME TIME as prolonged seated 
+    activity.
+  • (task::"Breathing Exercise" or task::Meditation) AND context::stress::anxiety:
+    CONTEXTUALLY FIT
+  • task::"Plan Sitting Breaks" AND context::behaviour_state::action_planning:
+    CONTEXTUALLY FIT
+  • (task::"Drink a Bottle of Water" or task::"Short Rest Break") AND
+    (event::"Meeting" or event::"Office Work"): a sip or a brief pause DURING seated
+    work, AT THE SAME TIME.
+  • (task::"Breathing Exercise" or task::"Calm Stretch") AND
+    (event::"Reading" or event::"Journaling"): a calm micro-activity DURING a calm
+    seated slot.
+
+
+Examples that are NOT proper fits:
+  • task::"Light Stretching" AND event::"Grocery Shopping"; the body is doing the chore
+  • task::"Lower-Sugar Drink" AND context::ttm_process::self_liberation; the proper context
+    for such task is counter_conditioning not self_liberation (domain context links
+    and definitions are given for recommended tasks)
+  • Any task AND (event::Gaming or event::Gardening); hands and attention are occupied
+  • Any intensive task (e.g., Running, Cycling, Cardio) AND event::eating (e.g, Lunch,
+    Dinner): you cannot eat a meal while doing such intensive activities.
+  • (task::"Meal Preparation" OR task::"Cooking") AND event::eating (e.g, Lunch,
+    Dinner): preparation is sequential i.e., happens BEFORE the meal, not during it.
+{% endblock %}
+
+{% block rule_of_thumb_1 %}
+RULE OF THUMB 1: "during X", "while X", "with X" in a task title or description is a
+HINT, not a rule. Apply the proper-fit question above and ASK YOURSELF Can/should a 
+human being who is in (context::X or event::Y) do (task::Z)? When the answer to this
+question is "NO", choose STANDALONE in a free gap on the same day.
+{% endblock %}
+
+{% block rule_of_thumb_2 %}
+RULE OF THUMB 2: a task title meaning Preparation (e.g., "prepare X", "before X", 
+"ready for X", "for X") describes work that happens BEFORE the user's event, not during
+it.  Place it STANDALONE in the free gap IMMEDIATELY PRECEDING the relevant user's event.
+
+Examples:
+  • task::"Prepare a Salad" is STANDALONE in the free gap before event::eating
+    (e.g, Lunch, Dinner).
+  • task::"Light Dinner Preparation" is STANDALONE in the free gap before event::Dinner 
+    (e.g. 18:30–18:50 if Dinner starts 19:20).
+  • task::"Get Ready for Bed" is STANDALONE before event::Sleep.
+{% endblock %}
+
+{% block rule_of_thumb_3 %}
+RULE OF THUMB 3: when a task title literally CONTAINS the name of a user event OR 
+describes the SAME activity with only minor changes in intensity, duration, count, 
+style, or pace, the task should be placed CONCURRENT with the user's event, i.e.,
+the task says HOW to do the activity that the user already scheduled, so they 
+happen simultaneously by being the same activity. Containment math still applies i.e.,
+the task's `[start, end]` must sit inside the user's interval.
+
+Examples:
+  • task::"Eat Mindfully" AND event::Lunch are CONCURRENT: same activity (eating); the
+    task says HOW to eat during the meal.
+  • task::"Read Something Calm" AND event::Reading are CONCURRENT: same reading activity
+    with a specified focus, inside the existing slot.
+  • (task::"Write One Difficult Thought" or task::"Write Three Gratitudes") AND 
+    event::Journaling are CONCURRENT: Same reflective-writing with a specified topic
+    (particular thoughts).
+  • task::"Plan This Week's Meals" AND event::Journaling are CONCURRENT: Same sedentary
+    writing activity with a specified topic.
+
+Counter-cases: the event and task title share words but the activities are NOT the same:
+  • task::"Plan Tomorrow's Lunch" AND event::Lunch are NOT concurrent: The task is
+    planning, the user event is eating the food.
+  • task::"Walk With Family" AND event::Visit Family are NOT CONCURRENT: The task is a
+    separate walk; should be STANDALONE on a free gap.
+When uncertain, choose STANDALONE.
+{% endblock %}
+
+{% block split_dividable_tasks %}
+DIVIDE-FRIENDLY TASKS: when a task carries `dividable_ok: true`, prefer to SPLIT it 
+into TWO OR MORE shorter easier sibling sessions across the week instead of placing it
+as one long block. Schedule these as a `pieces` array inside that task's output entry.
+
+INSTRUCTIONS to SPLIT:
+  • `dividable_ok == true` is the only gate. Tasks without this flag MUST stay as ONE
+    placement (use the top-level `date` / `start` / `end` fields);
+  • Splitting is most useful for longer tasks (e.g. `duration_max >= 30`), where two or
+    three short sessions feel more feasible than one long block.
+  • Place the pieces on DIFFERENT DAYS, or at least in DIFFERENT free gaps on the same
+    day; never back-to-back inside one gap.
+
+PER-PIECE CONSTRAINTS (each piece is its own placement)
+  • `duration_min ≤ (piece.end − piece.start) < duration_max`.
+    STRICT upper bound: every piece must be SHORTER than the
+    original `duration_max`; a piece equal to `duration_max` is
+    not credited as a divide.
+  • Each piece must satisfy the WAKING-WINDOW INEQUALITIES
+    (`{{ wake_start }} ≤ piece.start` and `piece.end ≤
+    {{ sleep_start }}`).
+  • Each piece may be STANDALONE in a free gap or CONCURRENT with a user's event, 
+    independently of the other pieces.
+
+WHOLE-SPLIT TARGET
+  • The pieces are sessions of ONE weekly habit, so TOGETHER they should add up to about
+    its FULL `duration_max`, not just `duration_min`. Aim the total near `duration_max`.
+  • Three 20-minute pieces sum to 60 ≈ `duration_max=60`; two 35-minute pieces sum
+    to 70 ≈ `duration_max=60`. Two 10-minute pieces (sum 20) fall far short; two 50-minute
+    pieces (sum 100) run too long.
+
+OUTPUT FORMAT FOR A SPLIT
+  Use the `pieces` array INSTEAD of the top-level
+  `date` / `start` / `end` / `concurrent_with_event` fields:
+
+    {
+      "task_index": 7,
+      "task_title": "Walk 6,000 Steps",
+      "scheduled": true,
+      "pieces": [
+        {"date": "2026-05-04", "start": "07:30", "end": "07:50",
+         "concurrent_with_event": null},
+        {"date": "2026-05-06", "start": "18:00", "end": "18:20",
+         "concurrent_with_event": null},
+        {"date": "2026-05-08", "start": "12:30", "end": "12:50",
+         "concurrent_with_event": null}
+      ]
+    }
+
+  Per-piece `concurrent_with_event` follows the standard rule
+  (user's event label VERBATIM or null). Splitting is OPTIONAL; if a
+  single placement is more natural for a `dividable_ok: true`
+  task, the standard top-level form is still valid.
+{% endblock %}
+
+## STEP 1: DAY TIMELINES (already built for you, USE AS GROUND TRUTH)
+
+Each day below is a strictly ordered JSON array of intervals.
+Interval types:
+  - "busy" : an existing calendar event with `label`, `start`, `end`.
+             Apply the proper-fit test from above to decide whether this event can host
+             a task concurrently.
+  - "free" : open time. Use these for STANDALONE placement whenever the gap's 
+             `duration_min` ≥ the task's `duration_min`.
+  - "done" : a task already placed in an earlier week (slot is taken).
+
+Use the interval's `label` field VERBATIM whenever you reference it in your
+response.
+
+{{ calendar_summary }}
+
+{% block context_block %}{{ context_summary|default('') }}{% endblock %}
+
+## STEP 2: RECOMMENDED TASKS ({{ num_tasks }} total)
+
+Each task carries a `task_index`. Use that EXACT number in your response.
+Read `task_title` and `description` carefully as they tell you what the habit is.
+These tasks are defined dynamically, do not assume any fixed event vocabulary.
+
+{{ tasks_list }}
+
+## STEP 3: RULES for PLACEMENT of RECOMMENDED TASKS  
+
+For EACH recommended task choose ONE placement approach: 
+
+(1) STANDALONE placement:
+  Walk the day's timeline and pick the FIRST `free` interval whose
+  `duration_min` ≥ the task's `duration_min`. Inside that gap, choose
+  `[start, end]` with `end − start` between `duration_min` and
+  `duration_max`. Set "concurrent_with_event": null.
+
+{% block worked_example_standalone %}
+    Worked example: task::"Do Light Stretching", duration_min=10, duration_max=20.
+    Day timeline includes: {"type":"free","start":"07:07","end":"08:40","duration_min":93}:
+    93 ≥ 10 and the gap is wide enough -> PLACE STANDALONE
+    start="07:30", end="07:45" (15 min, comfortably inside the gap).
+{% endblock %}
+
+(2) CONCURRENT placement
+  All conditions must hold STRICTLY:
+    1. recommended task `concurrent_ok` == true
+    2. PROPER CONCURRENT FIT: the task and the user's event and context match
+       (based on DEFAULT PATH instructions)
+    3. CONTAINMENT (read carefully; most rejections come from this):
+         (i)   busy.start ≤ task.start
+         (ii)  task.end ≤ busy.end
+         (iii) task.start < task.end
+         (iv)  duration_min ≤ (task.end − task.start) ≤ duration_max
+       The task's end-time MUST NOT exceed the user's event end-time.
+
+{% block worked_example_concurrent %}
+    Worked example: user's event::"Reading" planned 20:00–20:30 (a 30-minute event),
+    task::"Reading something calm" duration band is 10–20 minutes.
+        VALID:  20:00–20:20 or 20:05–20:25 or 20:10–20:30 or 20:00–20:30
+        INVALID: 20:30–20:50 (starts at user's event end, runs past it)
+        INVALID: 20:25–20:45 (ends 15 min past user's event end)
+        INVALID: 19:55–20:15 (starts 5 min before user's event)
+{% endblock %}
+
+  Set "concurrent_with_event" to the busy interval's `label` value VERBATIM.
+
+{% block hard_constraints %}
+HARD CONSTRAINTS (any violation mandates choosing a different slot):
+  - duration_min ≤ (end − start) ≤ duration_max (in MINUTES)
+  - WAKING-WINDOW INEQUALITIES (BOTH must hold):
+       {{ wake_start }} ≤ task.start
+       task.end ≤ {{ sleep_start }}
+{% block worked_example_waking %}
+    Worked example: waking_window {{ wake_start }}–{{ sleep_start }}:
+        VALID:   06:30–06:45 or 21:30–21:55 or {{ wake_start }}–06:30 or
+                 21:40–{{ sleep_start }}
+        INVALID: 04:22–04:32 (starts before wake)
+        INVALID: 21:55–22:05 (ends 5 min past sleep)
+        INVALID: 22:00–22:10 (starts at sleep boundary)
+        INVALID: 05:55–06:10 (starts before wake)
+{% endblock %}
+  - Two tasks you place may NOT overlap each other on the SAME DAY, EXCEPT when each 
+    is concurrent with a DIFFERENT busy interval.
+  - Each busy interval HOSTS AT MOST ONE concurrent task in this response.
+  - At most one task with intensity ≥ 4 per calendar date.
+{% endblock %}
+
+{% block do_not_drop %}
+SCHEDULE EVERY TASK. Leave NO task unscheduled.
+  Every persona has enough free time, so every task fits somewhere this week.
+  If no obvious slot exists, choose ANY free gap on ANY day that satisfies the
+  duration band, even if it is not a "perfect" fit. Setting `scheduled: false`
+  drops the task and is almost never justified.
+  The ONLY acceptable reason is: every free interval on every day in the week is
+  shorter than task::`duration_min` AND no busy interval is a proper-fit host.
+{% endblock %}
+
+{% block self_verify %}
+SELF-VERIFY (do this silently inside your reasoning, NOT in the output) BEFORE finalizing 
+  the JSON array, walk through every entry where `scheduled` is true and re-check ALL
+  numeric constraints in your head:
+    • waking-window inequalities ({{ wake_start }} ≤ task.start AND task.end ≤ 
+      {{ sleep_start }})
+    • duration band (duration_min ≤ end − start ≤ duration_max)
+    • when concurrent: STRICT user's event containment (event.start ≤ task.start AND task.end 
+      ≤ event.end)
+    • when `context_recommends` is non-empty for the task: at least one recommended-category
+      episode in the chosen day's CONTEXT block must overlap `[task.start, task.end]`;
+      if no episode of those categories exists on the chosen day, the requirement is
+      vacuously satisfied (there is nothing to align with). Hard rules above still win
+      when they conflict.
+  If any check fails, FIX that entry BEFORE writing it out. This self-check is part of
+  the same response, do NOT mention it, the reasoning, or the corrections in the output.
+{% endblock %}
+
+## STEP 4: OUTPUT (STRICT)
+
+Return ONLY a valid JSON array. Exactly {{ num_tasks }} objects, one per `task_index`,
+in any order. No markdown fences, no commentary, no chain-of-thought.
+
+A task entry takes ONE of three shapes: single placement, split into pieces (only when
+`dividable_ok: true`), or unscheduled.
+
+[
+  {
+    "task_index": 1,
+    "task_title": "<copy of task_title>",
+    "scheduled": true,
+    "date": "YYYY-MM-DD",
+    "start": "HH:MM",
+    "end": "HH:MM",
+    "concurrent_with_event": "<busy label or null>"
+  },
+  {
+    "task_index": 2,
+    "task_title": "<copy of task_title>",
+    "scheduled": true,
+    "pieces": [
+      {"date": "YYYY-MM-DD", "start": "HH:MM", "end": "HH:MM",
+       "concurrent_with_event": "<busy label or null>"},
+      {"date": "YYYY-MM-DD", "start": "HH:MM", "end": "HH:MM",
+       "concurrent_with_event": "<busy label or null>"}
+    ]
+  },
+  {
+    "task_index": 3,
+    "task_title": "...",
+    "scheduled": false
+  }
+]

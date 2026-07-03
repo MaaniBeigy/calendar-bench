@@ -1,0 +1,158 @@
+# Model A/B across the three LLM stages (task gen, augmenter, evaluator) plus one PB-24 ablation.
+
+experiment_id: experiment_f
+run_dir: ./output/experiment_f
+output_base: ./output
+
+scenarios:
+  - id: oneshot_gpt_4o_mini
+    description: >-
+      Baseline. Every stage pinned to gpt-4o-mini.
+    task_generation: &shared_task_generation
+      method: graphrag_grounded
+      seed: 20260518
+      # 20 tasks per week so dividable + long-duration tasks have
+      # enough room to show up across the horizon.
+      num_tasks: 20
+      ontologies:
+        - HealthTasks
+        - HumanActivities
+      prompt_template: health_improvement
+      # PhysicalActivityTask + MentalWellbeingTask at Level3+Level4 is
+      # the candidate pool with the highest dividable share (~37%) and
+      # the most long+dividable items (>=30min) in the HealthTasks
+      # ontology; exercises L_divide end-to-end. NutritionTask L3+L4 has
+      # near-zero dividable items so it is dropped here.
+      filters:
+        domains:
+          - PhysicalActivityTask
+          - MentalWellbeingTask
+        difficulty:
+          - Level3
+          - Level4
+      max_fetch_retries: 3
+      paraphrase: true
+      paraphrase_similarity_threshold: 0.80
+      paraphrase_max_length_delta_pct: 0.20
+      fetch_top_k: 40
+    task_generator_model: &task_generator_model_4o_mini
+      provider: openai
+      model: gpt-4o-mini
+      max_retries: 1
+    evaluation: &shared_evaluation
+      buffer_minutes:         30
+      merge_threshold:        0.65
+      disp_half_life_days:    2.0
+    evaluator_model: &evaluator_model_4o_mini
+      provider: openai
+      model: gpt-4o-mini
+      max_retries: 1
+    augmentation:
+      - method: llm_agent
+        allow_merge: true
+        merge_threshold: 0.70
+        repeat_per_week: true
+        llm_agent: &augmenter_4o_mini
+          provider: openai
+          model: gpt-4o-mini
+          max_retries: 1
+          prompt_template: augment_oneshot
+        loss: &shared_loss
+          lambda_cov:    0.18
+          lambda_cal:    0.18
+          lambda_pref:   0.13
+          lambda_disp:   0.18
+          lambda_merge:  0.13
+          lambda_spread: 0.10
+          lambda_divide: 0.10
+      - method: greedy
+        allow_merge: true
+        merge_threshold: 0.65
+        repeat_per_week: true
+        greedy:
+          strategy: preference_first
+          retry_on_miss: true
+          max_backtrack: 3
+        loss: *shared_loss
+
+  - id: oneshot_gpt_4_1_mini
+    description: >-
+      Augmenter axis A/B. Same task generator and evaluator as the
+      baseline; the augmenter swaps to gpt-4.1-mini.
+    task_generation: *shared_task_generation
+    task_generator_model: *task_generator_model_4o_mini
+    evaluation: *shared_evaluation
+    evaluator_model: *evaluator_model_4o_mini
+    augmentation:
+      - method: llm_agent
+        allow_merge: true
+        merge_threshold: 0.70
+        repeat_per_week: true
+        llm_agent:
+          provider: openai
+          model: gpt-4.1-mini
+          max_retries: 1
+          prompt_template: augment_oneshot
+        loss: *shared_loss
+
+  - id: eval_gpt_4_1_mini
+    description: >-
+      Evaluator axis A/B. Same task generator and augmenter as the
+      baseline; the LLM judge swaps to gpt-4.1-mini.
+    task_generation: *shared_task_generation
+    task_generator_model: *task_generator_model_4o_mini
+    evaluation: *shared_evaluation
+    evaluator_model:
+      provider: openai
+      model: gpt-4.1-mini
+      max_retries: 1
+    augmentation:
+      - method: llm_agent
+        allow_merge: true
+        merge_threshold: 0.70
+        repeat_per_week: true
+        llm_agent: *augmenter_4o_mini
+        loss: *shared_loss
+
+  - id: taskgen_gpt_4_1_mini
+    description: >-
+      Task-generation axis A/B. Same augmenter and evaluator as the
+      baseline; the task generator swaps to gpt-4.1-mini.
+    task_generation: *shared_task_generation
+    task_generator_model:
+      provider: openai
+      model: gpt-4.1-mini
+      max_retries: 1
+    evaluation: *shared_evaluation
+    evaluator_model: *evaluator_model_4o_mini
+    augmentation:
+      - method: llm_agent
+        allow_merge: true
+        merge_threshold: 0.70
+        repeat_per_week: true
+        llm_agent: *augmenter_4o_mini
+        loss: *shared_loss
+
+  - id: ablation_pb24_oneshot_gpt_4o_mini
+    description: >-
+      Prompt-component ablation over the gpt-4o-mini baseline. Folded
+      Plackett-Burman over all 12 ablatable blocks, 24 variants.
+    task_generation: *shared_task_generation
+    task_generator_model: *task_generator_model_4o_mini
+    evaluation: *shared_evaluation
+    evaluator_model: *evaluator_model_4o_mini
+    augmentation:
+      - method: llm_agent
+        allow_merge: true
+        merge_threshold: 0.70
+        repeat_per_week: true
+        llm_agent:
+          provider: openai
+          model: gpt-4o-mini
+          max_retries: 1
+          prompt_template: augment_oneshot
+          prompt_ablation:
+            design: plackett_burman_24
+            fold: true
+            use_default_placebos: true
+        loss: *shared_loss

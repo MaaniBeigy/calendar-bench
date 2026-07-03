@@ -1,0 +1,14 @@
+# GPU / RL optional dependencies installed by the Dockerfile only
+# when built with `--build-arg INSTALL_CUDA=1` (the build path used by
+# `docker-compose.gpu.yml`).  Keeping these out of the base
+# `requirements.txt` stops the CPU image from pulling the
+# multi-gigabyte `torch` + `cuda-toolkit` + `nvidia-*` cascade
+# that `stable-baselines3` drags in transitively.
+#
+# Production CPU consumers (persona pipeline, scenarios pipeline,
+# greedy + llm_agent augmenters, GraphRAG retrieval against OpenAI
+# embeddings) do NOT need anything from this file.  The RL augmenter
+# (`src/scripts/scenarios/augmentation/rl/agent.py`) guards the SB3
+# import via `_SB3_AVAILABLE` and degrades to the random policy when
+# missing, so the CPU image still passes its unit tests.
+stable-baselines3>=2.3.0

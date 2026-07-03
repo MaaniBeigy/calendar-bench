@@ -1,0 +1,212 @@
+categories:
+  sleep:
+    events:
+      sleep:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/sleeping
+        per_event_duration: { min: 6, max: 9, unit: hours }
+        total_event_duration: { scale: day, min: 6, max: 9, unit: hours }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+        intensity: 1
+        is_concurrent: false
+        is_dividable: false
+        temporal_patterns:
+          - { mode: fix, details: { within: [night] } }
+
+  eat:
+    events:
+      first_eat:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/eating-sitting
+        per_event_duration: { min: 10, max: 30, unit: minutes }
+        total_event_duration: { scale: day, min: 10, max: 30, unit: minutes }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+        intensity: 1
+        is_concurrent: false
+        is_dividable: false
+        temporal_patterns:
+          - { mode: fix, details: { within: [early_morning, morning] } }
+      lunch:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/eating-sitting
+        per_event_duration: { min: 10, max: 60, unit: minutes }
+        total_event_duration: { scale: day, min: 10, max: 60, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+        intensity: 1
+        is_concurrent: true
+        is_dividable: false
+        concurrent_with: [reading]
+        temporal_patterns:
+          - { mode: fix, details: { within: [afternoon] } }
+      dinner:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/eating-sitting
+        per_event_duration: { min: 30, max: 90, unit: minutes }
+        total_event_duration: { scale: day, min: 30, max: 90, unit: minutes }
+        total_event_episodes: { scale: day, min: 1, max: 1 }
+        intensity: 1
+        is_concurrent: true
+        is_dividable: false
+        concurrent_with: [reading]
+        temporal_patterns:
+          - { mode: fix, details: { within: [evening] } }
+
+  work:
+    events:
+      office_work:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/sitting-tasks-light-effort-e-g-office-work-chemistry-lab-work-light-assembly-repair-watch-repair-reading-desk-work
+        requires:
+          occupation_status: { in: [fulltime, parttime] }
+        weekdays: [Mon, Tue, Wed, Thu, Fri]
+        intensity: 3
+        is_concurrent: true
+        is_dividable: true
+        per_event_duration: { min: 1, max: 8, unit: hours }
+        total_event_duration: { scale: day, min: 1, max: 8, unit: hours }
+        total_event_episodes: { scale: day, min: 1, max: 3 }
+        calendar_variations:
+          task_labels: [standup, doing research, external meeting]
+      meeting:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/sitting-meetings-light-effort-general-and-or-with-talking-involved-e-g-eating-at-a-business-meeting
+        requires:
+          occupation_status: { in: [fulltime, parttime] }
+        weekdays: [Mon, Tue, Wed, Thu, Fri]
+        intensity: 2
+        is_concurrent: true
+        is_dividable: true
+        per_event_duration: { min: 5, max: 120, unit: minutes }
+        total_event_duration: { scale: day, min: 5, max: 480, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 4 }
+
+  education:
+    events:
+      study:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/sitting-studying-general-including-reading-and-or-writing-light-effort
+        requires:
+          occupation_status: { in: [student] }
+        weekdays: [Mon, Tue, Wed, Thu, Fri]
+        intensity: 2
+        is_concurrent: true
+        is_dividable: true
+        per_event_duration: { min: 1, max: 8, unit: hours }
+        total_event_duration: { scale: day, min: 0, max: 8, unit: hours }
+        total_event_episodes: { scale: day, min: 0, max: 3 }
+        calendar_variations:
+          task_labels: [lecture, self-study, work lecture, instructions]
+
+  sports:
+    events:
+      running:
+        health_task_iri: https://w3id.org/calendar-bench/health/PhysicalActivityRunningBasicsTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/jogging-general-self-selected-pace
+        intensity: 4
+        is_concurrent: false
+        is_dividable: true
+        per_event_duration: { min: 5, max: 180, unit: minutes }
+        total_event_duration: { scale: day, min: 5, max: 180, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 3 }
+      cycling:
+        health_task_iri: https://w3id.org/calendar-bench/health/PhysicalActivityCardioAndStaminaTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/bicycling-general
+        intensity: 3
+        is_concurrent: false
+        is_dividable: false
+        per_event_duration: { min: 5, max: 60, unit: minutes }
+        total_event_duration: { scale: day, min: 5, max: 180, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 3 }
+      swimming:
+        health_task_iri: https://w3id.org/calendar-bench/health/PhysicalActivityCardioAndStaminaTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/swimming-leisurely-not-lap-swimming-general
+        intensity: 3
+        is_concurrent: false
+        is_dividable: false
+        per_event_duration: { min: 5, max: 180, unit: minutes }
+        total_event_duration: { scale: day, min: 5, max: 180, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+      gym:
+        health_task_iri: https://w3id.org/calendar-bench/health/PhysicalActivityStrengthAndBodyweightMovesTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/circuit-training-body-weight-exercises
+        intensity: 4
+        is_concurrent: false
+        is_dividable: false
+        per_event_duration: { min: 15, max: 180, unit: minutes }
+        total_event_duration: { scale: day, min: 15, max: 180, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 1 }
+      yoga:
+        health_task_iri: https://w3id.org/calendar-bench/health/PhysicalActivityStretchingAndRecoveryTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/yoga-general
+        intensity: 2
+        is_concurrent: false
+        is_dividable: false
+        per_event_duration: { min: 5, max: 180, unit: minutes }
+        total_event_duration: { scale: day, min: 5, max: 180, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 3 }
+      walking:
+        health_task_iri: https://w3id.org/calendar-bench/health/PhysicalActivityDailyStepsAndWalkingTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/walking-3-5-mph-mod-pace-firm-surface-walking-for-exercise
+        intensity: 2
+        is_concurrent: false
+        is_dividable: true
+        per_event_duration: { min: 1, max: 60, unit: minutes }
+        total_event_duration: { scale: day, min: 1, max: 60, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 3 }
+
+  leisure:
+    events:
+      reading:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/sitting-reading-book-newspaper-magazine
+        intensity: 1
+        is_concurrent: true
+        is_dividable: true
+        concurrent_with: [lunch, dinner]
+        per_event_duration: { min: 5, max: 180, unit: minutes }
+        total_event_duration: { scale: day, min: 5, max: 180, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 3 }
+      gaming:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/video-game-handheld-controller-light-effort
+        intensity: 1
+        is_concurrent: false
+        is_dividable: true
+        per_event_duration: { min: 5, max: 60, unit: minutes }
+        total_event_duration: { scale: day, min: 5, max: 240, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 3 }
+
+  wellbeing:
+    events:
+      journaling:
+        health_task_iri: https://w3id.org/calendar-bench/health/MentalWellbeingMoodAndMeaningfulActivitiesTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/sitting-writing-desk-work-typing
+        per_event_duration: { min: 1, max: 30, unit: minutes }
+        total_event_duration: { scale: day, min: 1, max: 120, unit: minutes }
+        total_event_episodes: { scale: day, min: 0, max: 3 }
+        intensity: 1
+        is_concurrent: true
+        is_dividable: false
+        temporal_patterns:
+          - { mode: fix, details: { within: [evening, night] } }
+          - mode: seasonality
+            details:
+              target: duration
+              scale: weekday
+              within: [Sat, Sun]
+              direction: increasing
+              amount: 50
+
+  chores:
+    events:
+      groceries:
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/food-shopping-with-or-without-a-grocery-cart-carrying-a-10-lb-bag-standing-or-walking
+        intensity: 2
+        is_concurrent: false
+        is_dividable: true
+        per_event_duration: { min: 30, max: 180, unit: minutes }
+        total_event_duration: { scale: week, min: 30, max: 360, unit: minutes }
+        total_event_episodes: { scale: week, min: 0, max: 2 }
+
+  social:
+    events:
+      visit_family:
+        health_task_iri: https://w3id.org/calendar-bench/health/MentalWellbeingSocialConnectionTask
+        human_activity_iri: https://w3id.org/calendar-bench/human-activities/activity/retreat-family-reunion-activities-involving-sitting-relaxing-talking-eating
+        intensity: 1
+        is_concurrent: false
+        is_dividable: false
+        per_event_duration: { min: 5, max: 360, unit: minutes }
+        total_event_duration: { scale: week, min: 5, max: 720, unit: minutes }
+        total_event_episodes: { scale: week, min: 0, max: 3 }
