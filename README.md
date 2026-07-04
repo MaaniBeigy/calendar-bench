@@ -3,7 +3,7 @@
 [![Python](https://img.shields.io/badge/Python-3.14-3776AB?style=flat&logo=python&logoColor=white)](https://www.python.org/)
 [![Code license: MIT](https://img.shields.io/badge/Code-MIT-3DA639?style=flat&logo=opensourceinitiative&logoColor=white)](LICENSE)
 [![Paper license: CC BY 4.0](https://img.shields.io/badge/Paper-CC%20BY%204.0-blue?style=flat&logo=creativecommons&logoColor=white)](paper/LICENSE)
-[![Coverage](src/assets/images/coverage.svg)](CONTRIBUTING.md#coverage)
+[![Coverage](src/assets/images/coverage.svg)](.logs/coverage.txt)
 [![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)](docker-compose.yml)
 
 [![Neo4j](https://img.shields.io/badge/Neo4j-5.20-4581C3?style=flat&logo=neo4j&logoColor=white)](https://neo4j.com/)
