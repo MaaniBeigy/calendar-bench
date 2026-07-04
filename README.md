@@ -5,11 +5,14 @@
 [![Paper license: CC BY 4.0](https://img.shields.io/badge/Paper-CC%20BY%204.0-blue?style=flat&logo=creativecommons&logoColor=white)](paper/LICENSE)
 [![Coverage](src/assets/images/coverage.svg)](.logs/coverage.txt)
 [![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)](docker-compose.yml)
+[![Contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](CONTRIBUTING.md)
+[!["Buy Me A Coffee"](https://img.shields.io/badge/-buy_me_a%C2%A0coffee-gray?logo=buy-me-a-coffee)](https://buymeacoffee.com/maani)
 
 [![Neo4j](https://img.shields.io/badge/Neo4j-5.20-4581C3?style=flat&logo=neo4j&logoColor=white)](https://neo4j.com/)
 [![Redis](https://img.shields.io/badge/Redis-7-FF4438?style=flat&logo=redis&logoColor=white)](https://redis.io/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=flat&logo=pytorch&logoColor=white)](https://pytorch.org/)
 [![Z3](https://img.shields.io/badge/Z3-SMT%20solver-1857A4?style=flat)](https://github.com/Z3Prover/z3)
+[![CUDA](https://img.shields.io/badge/CUDA-optional-76B900?style=flat&logo=nvidia&logoColor=white)](#2a-optional-gpu-accelerated-image)
 
 A configurable benchmark framework for personal scheduling in the wild. It couples an ontology-backed **GraphRAG** system (curated behavior-change, nutrition, and physical-activity ontologies; catalog in [src/graphrag/ontology_metadata.py](src/graphrag/ontology_metadata.py)) with a persona-based simulator of a user's calendar and context trace, then augments and scores schedules with a multi-objective human-centric metric.
 
