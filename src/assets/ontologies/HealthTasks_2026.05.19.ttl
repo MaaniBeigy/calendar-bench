@@ -17,6 +17,7 @@
 <https://w3id.org/calendar-bench/health/> a owl:Ontology ;
     dcterms:title       "Calendar-Bench Health Tasks ontology"@en ;
     dcterms:description "Health task benchmark organised as Domain, Challenge, Difficulty, Task. Each task carries title, description, isConcurrent, isDividable, estimatedDurationMinutes, matchedActivity (Compendium of Physical Activities bridge) and contextLink edges into the curated context IRI dictionary (mood, energy, location, weather, behaviour-theory categories)."@en ;
+    dcterms:license     <https://creativecommons.org/licenses/by/4.0/> ;
     owl:versionInfo     "2026.05.19" .
 
 

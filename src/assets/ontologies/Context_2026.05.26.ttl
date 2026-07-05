@@ -17,6 +17,7 @@
 <https://w3id.org/calendar-bench/context/> a owl:Ontology ;
     dcterms:title       "Calendar-Bench Context IRI dictionary"@en ;
     dcterms:description "Curated dictionary of *momentary* context-feature IRIs for persona-based simulation. Stable user characteristics (full Big Five score, identity, etc.) belong in persona `characteristics:`, NOT here. Trait STATES (e.g. currently behaving in a high-extraversion manner) are included under `trait_state`. behaviour_state and capability_opportunity entries carry theory_mappings tying the IRI to TDF / COM-B / HAPA / TTM / SDT."@en ;
+    dcterms:license     <https://creativecommons.org/licenses/by/4.0/> ;
     owl:versionInfo     "2026.05.26" ;
     dcterms:created     "2026-05-26"^^xsd:date .
 

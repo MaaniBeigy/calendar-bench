@@ -78,6 +78,7 @@ def emit_prelude(version: str) -> str:
         "Each task carries title, description, isConcurrent, isDividable, estimatedDurationMinutes, "
         "matchedActivity (Compendium of Physical Activities bridge) and contextLink edges into the "
         'curated context IRI dictionary (mood, energy, location, weather, behaviour-theory categories)."@en ;\n'
+        "    dcterms:license     <https://creativecommons.org/licenses/by/4.0/> ;\n"
         f'    owl:versionInfo     "{version}" .\n'
         "\n"
         "\n"
