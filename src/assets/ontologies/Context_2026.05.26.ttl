@@ -1,7 +1,6 @@
 ## ----------------------------------------------------------------------
 ## Calendar-Bench Context IRI dictionary (Turtle serialisation).
 ## Source : assets/ontologies/context_iris.json (version 2026.05.26)
-## Script : src/scripts/generate_context_ttl.py
 ## Total IRIs: 535
 ## ----------------------------------------------------------------------
 
