@@ -1,10 +1,10 @@
 # CalendarBench
 
 [![Python](https://img.shields.io/badge/Python-3.14-3776AB?style=flat&logo=python&logoColor=white)](https://www.python.org/)
+[![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)](docker-compose.yml)
 [![Code license: MIT](https://img.shields.io/badge/Code-MIT-3DA639?style=flat&logo=opensourceinitiative&logoColor=white)](LICENSE)
 [![Paper license: CC BY 4.0](https://img.shields.io/badge/Paper-CC%20BY%204.0-blue?style=flat&logo=creativecommons&logoColor=white)](paper/LICENSE)
 [![Coverage](src/assets/images/coverage.svg)](.logs/coverage.txt)
-[![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)](docker-compose.yml)
 [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](CONTRIBUTING.md)
 [!["Buy Me A Coffee"](https://img.shields.io/badge/-buy_me_a%C2%A0coffee-gray?logo=buy-me-a-coffee)](https://buymeacoffee.com/maani)
 
