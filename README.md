@@ -13,6 +13,8 @@
 [![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=flat&logo=pytorch&logoColor=white)](https://pytorch.org/)
 [![Z3](https://img.shields.io/badge/Z3-SMT%20solver-1857A4?style=flat)](https://github.com/Z3Prover/z3)
 [![CUDA](https://img.shields.io/badge/CUDA-optional-76B900?style=flat&logo=nvidia&logoColor=white)](#2a-optional-gpu-accelerated-image)
+[![BioPortal: CBHT](https://img.shields.io/badge/BioPortal-CBHT-0b6cbf?logo=databricks&logoColor=white)](https://bioportal.bioontology.org/ontologies/CBHT)
+[![BioPortal: CBCTX](https://img.shields.io/badge/BioPortal-CBCTX-0b6cbf?logo=databricks&logoColor=white)](https://bioportal.bioontology.org/ontologies/CBCTX)
 
 A configurable benchmark framework for personal scheduling in the wild. It couples an ontology-backed **GraphRAG** system (curated behavior-change, nutrition, and physical-activity ontologies; catalog in [src/graphrag/ontology_metadata.py](src/graphrag/ontology_metadata.py)) with a persona-based simulator of a user's calendar and context trace, then augments and scores schedules with a multi-objective human-centric metric.
 
