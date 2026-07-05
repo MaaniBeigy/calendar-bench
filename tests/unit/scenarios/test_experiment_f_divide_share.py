@@ -12,7 +12,7 @@ from src.scripts.scenarios.config.loader import load_experiment_scenarios
 _ROOT = Path(__file__).resolve().parents[3]
 _EXPERIMENT_F = _ROOT / "tests" / "fixtures" / "persona" / "experiment_f"
 _SCENARIOS = _EXPERIMENT_F / "scenarios.yaml"
-_ONTOLOGY = _ROOT / "src" / "assets" / "ontologies" / "HealthTasks_2026.05.18.json"
+_ONTOLOGY = _ROOT / "src" / "assets" / "ontologies" / "HealthTasks_2026.05.19.json"
 
 # Map scenario YAML domain filter values to ontology top-level keys.
 _DOMAIN_TO_BRANCH = {

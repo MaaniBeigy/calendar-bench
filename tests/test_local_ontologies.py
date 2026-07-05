@@ -19,7 +19,7 @@ ONTOLOGIES_DIR = (
     Path(__file__).resolve().parent.parent / "src" / "assets" / "ontologies"
 )
 
-HEALTHTASKS_FILE = ONTOLOGIES_DIR / "HealthTasks_2026.05.18.ttl"
+HEALTHTASKS_FILE = ONTOLOGIES_DIR / "HealthTasks_2026.05.19.ttl"
 HUMANACTIVITIES_FILE = ONTOLOGIES_DIR / "HumanActivities_2026.05.03.ttl"
 
 HEALTH_NS = "https://w3id.org/calendar-bench/health/"
