@@ -23,7 +23,7 @@ A configurable benchmark framework for personal scheduling in the wild. It coupl
 
 ## Example experiment
 
-The repository ships a runnable example in [src/experiments/persona/example_experiment](src/experiments/persona/example_experiment): eight persons sampled from a single full-time employee persona over an eight-week horizon. It compares a greedy heuristic, PTIME, one-shot LLM planners with five models, and an online DQN reinforcement-learning scheduler. Full results, with per-component scheduling gain, weekly trajectories, cost, and prompt ablations, are in [docs/benchmark_report.md](docs/benchmark_report.md).
+The repository provides an example experiment in [src/experiments/persona/example_experiment](src/experiments/persona/example_experiment): eight persons sampled from a single full-time employee persona over an eight-week horizon. It compares a greedy heuristic, PTIME, one-shot LLM planners with five models, and an online DQN reinforcement-learning scheduler. Full results, with per-component scheduling gain, weekly trajectories, cost, and prompt ablations, are in [docs/benchmark_report.md](docs/benchmark_report.md).
 
 ![Average weighted scheduling gain per week for each method in the example experiment.](paper/cross_augmenter_weekly.png)
 
