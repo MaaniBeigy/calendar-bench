@@ -30,6 +30,7 @@ from src.scripts.scenarios.export.benchmark_report import (
     _delta_cell,
     _experiment_badge,
     _format_cross_augmenter_weekly,
+    _format_legend,
     _format_per_person_distribution,
     _format_table,
     _gain_cell,
@@ -993,15 +994,47 @@ class TestCompactLabelInReport:
             "`M: SAP + TAE: gpt-4o-mini`" in md
         )
 
-    def test_legend_section_emitted_when_cfg_supplied(self):
-        runs = [("oneshot_gpt_4o_mini", "llm_agent", _full_artifacts(avg_total=0.5))]
-        md = build_benchmark_markdown(
-            "experiment_f", runs, scenarios_cfg=_exp_with_aug_axis_pair()
+    def test_legend_documents_only_present_method_families(self):
+        # Two runs: an llm_agent one-shot (SAP) and a greedy (GRD).
+        cfg = _make_exp(
+            ScenarioDefinition(
+                id="oneshot_gpt_4o_mini",
+                augmentation=[
+                    AugmentationMethodConfig(
+                        method="llm_agent",
+                        llm_agent=LLMAgentConfig(
+                            model="gpt-4o-mini", prompt_template="augment_oneshot"
+                        ),
+                    )
+                ],
+            ),
+            ScenarioDefinition(
+                id="fcfs_greedy",
+                augmentation=[AugmentationMethodConfig(method="greedy")],
+            ),
         )
+        runs = [
+            ("oneshot_gpt_4o_mini", "llm_agent", _full_artifacts(avg_total=0.5)),
+            ("fcfs_greedy", "greedy", _full_artifacts(avg_total=0.6)),
+        ]
+        md = build_benchmark_markdown("experiment_f", runs, scenarios_cfg=cfg)
         assert "## Legend" in md
-        # Spells out every single-letter acronym used by the tables.
+        # Only the method families the run contains are spelled out.
         for token in ("**M**", "**T**", "**A**", "**E**", "SAP", "GRD"):
             assert token in md
+        # The legacy iterative-turn agent is never run here, so the legend
+        # must not document it (nor the unused RL / PTIME families).
+        assert "Iterative-Turn" not in md
+        assert "`RL`" not in md
+
+    def test_format_legend_lists_only_given_codes(self):
+        line = next(x for x in _format_legend({"SAP", "GRD"}) if "**M**" in x)
+        assert "`SAP`" in line and "`GRD`" in line
+        assert "ITA" not in line and "`RL`" not in line and "`PTIME`" not in line
+
+    def test_format_legend_falls_back_for_unknown_code(self):
+        line = next(x for x in _format_legend({"XYZ"}) if "**M**" in x)
+        assert "`XYZ` = XYZ" in line
 
     def test_legend_section_omitted_without_cfg(self):
         runs = [("s1", "llm_agent", _full_artifacts(avg_total=0.5))]

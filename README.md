@@ -27,6 +27,14 @@ The repository ships a runnable example in [src/experiments/persona/example_expe
 
 ![Average weighted scheduling gain per week for each method in the example experiment.](paper/cross_augmenter_weekly.png)
 
+## Progressive Healthy Lifestyle Challenge (PHLC-2026)
+
+[![Benchmark: PHLC-2026](https://img.shields.io/badge/benchmark-PHLC--2026-8A2BE2?style=flat&logo=googlecharts&logoColor=white)](docs/PHLC-2026)
+
+The main competitive challenge of the benchmark, defined in [src/experiments/persona/healthy_lifestyle_promotion](src/experiments/persona/healthy_lifestyle_promotion): thirty persons over an eight-week horizon on a **progressive ramp**, where the weekly task batch grows from 10 to 38 and the difficulty band widens from Level 1 to Level 4 in three domains (nutrition, physical activity, mental wellbeing). It compares a greedy heuristic, PTIME, five one-shot LLM planners, and an online DQN scheduler under a rising scheduling load. On this challenge the greedy gap-filler and PTIME match or exceed the SOTA one-shot LLM planners, because a one-shot planner places a smaller share of the tasks as the weekly load grows, while the heuristics cover nearly all of them. The full report, per-component gain, and weekly trajectories are in [docs/PHLC-2026](docs/PHLC-2026).
+
+![Average weighted scheduling gain per week for each method in the PHLC-2026 challenge.](docs/PHLC-2026/cross_augmenter_weekly.png)
+
 ## Project layout
 
 ```

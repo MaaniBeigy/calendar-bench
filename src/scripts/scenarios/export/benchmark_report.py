@@ -214,6 +214,17 @@ _METHOD_ACRONYMS: dict[tuple[str, str | None], str] = {
     ("rl", None): "RL",
 }
 
+# Legend gloss for each acronym, rendered only for the method families a
+# run actually contains so the report never documents an unused method
+# (e.g. the legacy `ITA` never appears unless a scenario runs it).
+_ACRONYM_GLOSSARY: dict[str, str] = {
+    "SAP": "`SAP` = Single-Agent Prompt (one-shot `llm_agent` + `augment_oneshot`)",
+    "ITA": "`ITA` = Iterative-Turn Agent (`llm_agent` + `augment_agent`)",
+    "GRD": "`GRD` = greedy",
+    "PTIME": "`PTIME` = PTIME",
+    "RL": "`RL` = RL",
+}
+
 # Stage letter order T, A, E used in the compact label.
 _STAGE_LETTER_ORDER: tuple[tuple[str, str], ...] = (
     ("task_generator", "T"),
@@ -396,16 +407,20 @@ def resolve_stage_models(
 # ---------------------------------------------------------------------------
 
 
-def _format_legend() -> list[str]:
-    """`## Legend`: short codes used in the tables below."""
+def _format_legend(method_codes: set[str]) -> list[str]:
+    """`## Legend`: short codes for the method families this run contains."""
+    entries = [text for code, text in _ACRONYM_GLOSSARY.items() if code in method_codes]
+    entries += [
+        f"`{code}` = {code}"
+        for code in sorted(method_codes)
+        if code not in _ACRONYM_GLOSSARY
+    ]
     lines = [
         "## Legend",
         "",
         "Compact label conventions used in the tables below:",
         "",
-        "* **M**: augmenter method. `SAP` = Single-Agent Prompt (one-shot "
-        "`llm_agent` + `augment_oneshot`); `ITA` = Iterative-Turn Agent "
-        "(`llm_agent` + `augment_agent`); `GRD` = greedy; `RL` = RL.",
+        "* **M**: augmenter method. " + "; ".join(entries) + ".",
         "* **T**, **A**, **E**: Task generator, Augmenter, Evaluator "
         "stage models, in pipeline order.",
         "* Stages sharing the same model are grouped: `TAE: gpt-4o-mini` "
@@ -1211,7 +1226,11 @@ def build_benchmark_markdown(
         ]
 
     if scenarios_cfg is not None:
-        lines += _format_legend()
+        method_codes = {
+            resolve_method_acronym(scenarios_cfg, sid, method)
+            for sid, method, _ in runs
+        }
+        lines += _format_legend(method_codes)
     lines += _format_run_summary(runs, scenarios_cfg)
     lines += _format_scheduling_gain(runs, scenarios_cfg)
     lines += _format_weekly_gain(runs, scenarios_cfg)
