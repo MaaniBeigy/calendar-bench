@@ -369,6 +369,37 @@ def test_slice_solution_for_week_filters_dates():
     assert sliced_cal.events == [ev_in]
 
 
+def test_slice_solution_for_week_scopes_tasks_to_week_batch():
+    """With `week_tasks`, coverage is scored against that week's batch, not the horizon."""
+    from src.scripts.scenarios.domain.calendar import (
+        AugmentedCalendar,
+        CalendarTrace,
+    )
+    from src.scripts.scenarios.domain.solution import SchedulingSolution
+    from src.scripts.scenarios.metrics.loss import _slice_solution_for_week
+    from tests.unit.scenarios.conftest import make_scheduled, make_task
+
+    in_week = DATE
+    wk1 = [make_task(label="walk"), make_task(label="run")]
+    wk2 = [make_task(label="swim"), make_task(label="bike")]
+    st = make_scheduled(task=wk1[0], date=in_week)  # placed "walk" this week
+    solution = SchedulingSolution(
+        person_id="p1",
+        augmented_calendar=AugmentedCalendar(person_id="p1", scheduled_tasks=[st]),
+        tasks=wk1 + wk2,  # whole-horizon list (the buggy denominator)
+        scheduled=[st],
+        unscheduled=[t for t in wk1 + wk2 if t.label != "walk"],
+    )
+    calendar = CalendarTrace(person_id="p1")
+    week_dates = [in_week + datetime.timedelta(days=i) for i in range(7)]
+    sliced_sol, _ = _slice_solution_for_week(
+        solution, calendar, week_dates, week_tasks=wk1
+    )
+    # Denominator is this week's batch (2 tasks), not the whole horizon (4).
+    assert sliced_sol.tasks == wk1
+    assert sliced_sol.unscheduled == [wk1[1]]  # "run" recommended this week, unplaced
+
+
 def test_build_benchmark_markdown_includes_weekly_section(tmp_path: Path):
     runs = [
         (

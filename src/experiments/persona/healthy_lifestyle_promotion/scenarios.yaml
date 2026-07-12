@@ -376,6 +376,21 @@ scenarios:
           interaction: { duration|time: 0.20, overlap|time: 0.10 }
         loss: *shared_loss
 
+  - id: human_coach
+    label: Human coach
+    description: >-
+      Handcrafted schedules authored by a human coach on the same weekly ramp.
+    task_generation: *weekly_ramp
+    task_generator_model: *tg_model
+    evaluation: *shared_evaluation
+    evaluator_model: *eval_model
+    augmentation:
+      - method: human_coach
+        allow_merge: true
+        merge_threshold: 0.70
+        observation: *informed_observation
+        loss: *shared_loss
+
   - id: dqn_rl_per_person
     label: DQN RL per person
     description: >-

@@ -2,15 +2,15 @@
 
 _Experiment id: `progressive_healthy_lifestyle_promotion`_
 
-_Generated 2026-07-09T22:06:42+00:00_
+_Generated 2026-07-12T20:32:00+00:00_
 
-_11 `(scenario_id, method)` run(s) aggregated._
+_12 `(scenario_id, method)` run(s) aggregated._
 
 ## Legend
 
 Compact label conventions used in the tables below:
 
-* **M**: augmenter method. `SAP` = Single-Agent Prompt (one-shot `llm_agent` + `augment_oneshot`); `GRD` = greedy; `PTIME` = PTIME; `RL` = RL.
+* **M**: augmenter method. `SAP` = Single-Agent Prompt (one-shot `llm_agent` + `augment_oneshot`); `GRD` = greedy; `PTIME` = PTIME; `RL` = RL; `HUMAN` = Human coach (handcrafted schedules).
 * **T**, **A**, **E**: Task generator, Augmenter, Evaluator stage models, in pipeline order.
 * Stages sharing the same model are grouped: `TAE: gpt-4o-mini` means all three stages use that model; `TE: gpt-4o-mini + A: gpt-4.1-mini` means only the augmenter differs. `env-default` means the stage inherits its model from `.env`.
 
@@ -28,6 +28,7 @@ Compact label conventions used in the tables below:
 | Context Aware One-Shot (task-gen gpt-4.1-mini) | gpt-4.1-mini | gpt-4o-mini | gpt-4o-mini | `informed_taskgen_gpt_4_1_mini / llm_agent` |
 | First-come-first-served greedy | gpt-4o-mini | env-default | gpt-4o-mini | `fcfs_greedy / greedy` |
 | PTIME | gpt-4o-mini | env-default | gpt-4o-mini | `ptime_choquet / ptime` |
+| Human coach | gpt-4o-mini | env-default | gpt-4o-mini | `human_coach / human_coach` |
 | DQN RL per person | gpt-4o-mini | env-default | gpt-4o-mini | `dqn_rl_per_person / rl` |
 
 ## Scheduling gain
@@ -44,6 +45,7 @@ Compact label conventions used in the tables below:
 | Context Aware One-Shot (task-gen gpt-4.1-mini) | 0.5720 | 30 / 0 | 0.4316 | 0.9877 | 0.7322 | 0.9992 | 0.0219 | 0.6077 | 0.0000 | 0.3381 |
 | First-come-first-served greedy | 0.6462 | 30 / 0 | 0.9927 | 0.9763 | 0.7964 | 0.9990 | 0.0000 | 0.5304 | 0.0000 | 0.2275 |
 | PTIME | 0.6410 | 30 / 0 | 0.9933 | 0.9756 | 0.8083 | 0.9990 | 0.0000 | 0.4911 | 0.0000 | 0.2003 |
+| Human coach | 0.8533 | 30 / 0 | 0.9948 | 0.9704 | 0.7705 | 0.9990 | 0.4316 | 0.9839 | 0.9991 | 0.5649 |
 | DQN RL per person | 0.5214 | 30 / 0 | 0.2808 | 0.9887 | 0.7173 | 0.9986 | 0.0000 | 0.5907 | 0.0000 | 0.1338 |
 
 ## Weekly scheduling gain
@@ -52,17 +54,18 @@ _Per-person mean masked scheduling gain per ISO week. The `Δ` column is the lea
 
 | Configuration | Wk1 | Wk2 | Wk3 | Wk4 | Wk5 | Wk6 | Wk7 | Wk8 | Δ (last - first) |
 |---|---|---|---|---|---|---|---|---|---|
-| Context Blind One-Shot (gpt-4o-mini) | 0.4764 | 0.4938 | 0.5054 | 0.4701 | 0.4913 | 0.4995 | 0.4912 | 0.5022 | +0.0259 |
-| Context Aware One-Shot (gpt-4o-mini) | 0.5195 | 0.5059 | 0.5125 | 0.5033 | 0.4712 | 0.5034 | 0.5044 | 0.4902 | -0.0293 |
-| Context Aware One-Shot (gpt-4.1-mini) | 0.5422 | 0.5050 | 0.5242 | 0.5127 | 0.5032 | 0.5143 | 0.5387 | 0.5320 | -0.0101 |
-| Context Aware One-Shot (gpt-5-mini) | 0.5115 | 0.5351 | 0.5389 | 0.5148 | 0.5104 | 0.5480 | 0.5186 | 0.5725 | +0.0611 |
-| Context Aware One-Shot (gpt-5.4-mini) | 0.5134 | 0.5003 | 0.5223 | 0.5011 | 0.4970 | 0.5335 | 0.5530 | 0.5495 | +0.0361 |
-| Context Aware One-Shot (claude-opus-4-8) | 0.4737 | 0.4957 | 0.5205 | 0.4964 | 0.4939 | 0.5320 | 0.5458 | 0.5412 | +0.0675 |
-| Context Aware One-Shot (eval gpt-4.1-mini) | 0.5053 | 0.5171 | 0.5171 | 0.4409 | 0.5113 | 0.5021 | 0.5063 | 0.4893 | -0.0160 |
-| Context Aware One-Shot (task-gen gpt-4.1-mini) | 0.5352 | 0.5254 | 0.5319 | 0.5148 | 0.4980 | 0.5048 | 0.5101 | 0.4894 | -0.0458 |
-| First-come-first-served greedy | 0.4556 | 0.4735 | 0.4938 | 0.4506 | 0.4864 | 0.5382 | 0.5729 | 0.5916 | +0.1360 |
-| PTIME | 0.4488 | 0.4693 | 0.4826 | 0.4454 | 0.4785 | 0.5317 | 0.5652 | 0.5896 | +0.1408 |
-| DQN RL per person | 0.0151 | 0.4834 | 0.4817 | 0.4586 | 0.1915 | 0.4772 | 0.4762 | 0.4741 | +0.4590 |
+| Context Blind One-Shot (gpt-4o-mini) | 0.5405 | 0.5550 | 0.5669 | 0.5311 | 0.5347 | 0.5341 | 0.5146 | 0.5258 | -0.0147 |
+| Context Aware One-Shot (gpt-4o-mini) | 0.5904 | 0.5701 | 0.5606 | 0.5753 | 0.5044 | 0.5342 | 0.5249 | 0.5120 | -0.0783 |
+| Context Aware One-Shot (gpt-4.1-mini) | 0.6067 | 0.5739 | 0.5851 | 0.5822 | 0.5570 | 0.5461 | 0.5605 | 0.5497 | -0.0570 |
+| Context Aware One-Shot (gpt-5-mini) | 0.6211 | 0.6390 | 0.6388 | 0.6145 | 0.6155 | 0.6244 | 0.5699 | 0.6221 | +0.0010 |
+| Context Aware One-Shot (gpt-5.4-mini) | 0.5860 | 0.5752 | 0.5973 | 0.5984 | 0.5493 | 0.5826 | 0.5860 | 0.5766 | -0.0093 |
+| Context Aware One-Shot (claude-opus-4-8) | 0.5574 | 0.5662 | 0.6048 | 0.5834 | 0.5615 | 0.5833 | 0.5823 | 0.5742 | +0.0169 |
+| Context Aware One-Shot (eval gpt-4.1-mini) | 0.5681 | 0.5786 | 0.5686 | 0.5009 | 0.5557 | 0.5358 | 0.5301 | 0.5121 | -0.0560 |
+| Context Aware One-Shot (task-gen gpt-4.1-mini) | 0.6030 | 0.5902 | 0.5922 | 0.5723 | 0.5274 | 0.5322 | 0.5249 | 0.5070 | -0.0960 |
+| First-come-first-served greedy | 0.6044 | 0.6083 | 0.6221 | 0.5970 | 0.6216 | 0.6360 | 0.6469 | 0.6594 | +0.0550 |
+| PTIME | 0.5962 | 0.6034 | 0.6099 | 0.5918 | 0.6136 | 0.6304 | 0.6435 | 0.6591 | +0.0629 |
+| Human coach | 0.8068 | 0.8415 | 0.8109 | 0.8101 | 0.8481 | 0.8235 | 0.8316 | 0.8261 | +0.0193 |
+| DQN RL per person | 0.0161 | 0.5575 | 0.5398 | 0.5566 | 0.2040 | 0.5029 | 0.4933 | 0.4861 | +0.4700 |
 
 ## Per-person learning distribution
 
@@ -70,17 +73,18 @@ _Per-week median weighted gain across persons, IQM at the final week, and the pe
 
 | Configuration | Wk1 | Wk2 | Wk3 | Wk4 | Wk5 | Wk6 | Wk7 | Wk8 | IQM (last) | Δ median (last - first) | conv/n | flat/n | decl/n |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Context Blind One-Shot (gpt-4o-mini) | 0.4902 | 0.4871 | 0.5069 | 0.4839 | 0.4936 | 0.5033 | 0.4867 | 0.5036 | 0.5056 | +0.0134 | 2/30 | 27/30 | 1/30 |
-| Context Aware One-Shot (gpt-4o-mini) | 0.5301 | 0.5045 | 0.5178 | 0.5085 | 0.5042 | 0.5033 | 0.5040 | 0.4952 | 0.4931 | -0.0349 | 0/30 | 26/30 | 4/30 |
-| Context Aware One-Shot (gpt-4.1-mini) | 0.5230 | 0.4967 | 0.5174 | 0.5146 | 0.5069 | 0.5164 | 0.5410 | 0.5340 | 0.5341 | +0.0110 | 5/30 | 20/30 | 5/30 |
-| Context Aware One-Shot (gpt-5-mini) | 0.4930 | 0.5349 | 0.5428 | 0.5182 | 0.5113 | 0.5449 | 0.5528 | 0.5724 | 0.5722 | +0.0794 | 12/30 | 16/30 | 2/30 |
-| Context Aware One-Shot (gpt-5.4-mini) | 0.5030 | 0.4997 | 0.5259 | 0.5040 | 0.5136 | 0.5329 | 0.5548 | 0.5515 | 0.5502 | +0.0485 | 13/30 | 17/30 | 0/30 |
-| Context Aware One-Shot (claude-opus-4-8) | 0.4731 | 0.4933 | 0.5200 | 0.4945 | 0.4949 | 0.5304 | 0.5442 | 0.5454 | 0.5465 | +0.0723 | 18/30 | 12/30 | 0/30 |
-| Context Aware One-Shot (eval gpt-4.1-mini) | 0.5061 | 0.5213 | 0.5130 | 0.4800 | 0.5131 | 0.4982 | 0.5079 | 0.4947 | 0.4924 | -0.0115 | 0/30 | 28/30 | 2/30 |
-| Context Aware One-Shot (task-gen gpt-4.1-mini) | 0.5227 | 0.5239 | 0.5346 | 0.5178 | 0.5012 | 0.5022 | 0.5140 | 0.4924 | 0.4900 | -0.0303 | 0/30 | 25/30 | 5/30 |
-| First-come-first-served greedy | 0.4551 | 0.4737 | 0.4936 | 0.4472 | 0.4857 | 0.5406 | 0.5752 | 0.5911 | 0.5918 | +0.1360 | 30/30 | 0/30 | 0/30 |
-| PTIME | 0.4498 | 0.4693 | 0.4839 | 0.4507 | 0.4728 | 0.5285 | 0.5623 | 0.5907 | 0.5907 | +0.1409 | 30/30 | 0/30 | 0/30 |
-| DQN RL per person | 0.0000 | 0.4778 | 0.4853 | 0.4596 | 0.0000 | 0.4755 | 0.4716 | 0.4776 | 0.4780 | +0.4776 | 30/30 | 0/30 | 0/30 |
+| Context Blind One-Shot (gpt-4o-mini) | 0.5567 | 0.5482 | 0.5603 | 0.5491 | 0.5431 | 0.5402 | 0.5122 | 0.5252 | 0.5285 | -0.0315 | 1/30 | 23/30 | 6/30 |
+| Context Aware One-Shot (gpt-4o-mini) | 0.5970 | 0.5709 | 0.5671 | 0.5752 | 0.5390 | 0.5378 | 0.5258 | 0.5170 | 0.5157 | -0.0799 | 0/30 | 11/30 | 19/30 |
+| Context Aware One-Shot (gpt-4.1-mini) | 0.5794 | 0.5742 | 0.5846 | 0.5927 | 0.5610 | 0.5448 | 0.5626 | 0.5563 | 0.5530 | -0.0231 | 1/30 | 21/30 | 8/30 |
+| Context Aware One-Shot (gpt-5-mini) | 0.6083 | 0.6352 | 0.6421 | 0.6205 | 0.6174 | 0.6260 | 0.6154 | 0.6206 | 0.6217 | +0.0122 | 1/30 | 20/30 | 9/30 |
+| Context Aware One-Shot (gpt-5.4-mini) | 0.5772 | 0.5793 | 0.5992 | 0.5936 | 0.5659 | 0.5862 | 0.5933 | 0.5761 | 0.5763 | -0.0011 | 4/30 | 23/30 | 3/30 |
+| Context Aware One-Shot (claude-opus-4-8) | 0.5523 | 0.5681 | 0.6011 | 0.5793 | 0.5627 | 0.5808 | 0.5823 | 0.5865 | 0.5821 | +0.0342 | 6/30 | 24/30 | 0/30 |
+| Context Aware One-Shot (eval gpt-4.1-mini) | 0.5668 | 0.5889 | 0.5692 | 0.5447 | 0.5589 | 0.5356 | 0.5295 | 0.5210 | 0.5154 | -0.0458 | 0/30 | 17/30 | 13/30 |
+| Context Aware One-Shot (task-gen gpt-4.1-mini) | 0.6061 | 0.5909 | 0.5995 | 0.5703 | 0.5478 | 0.5344 | 0.5279 | 0.5075 | 0.5071 | -0.0986 | 0/30 | 5/30 | 25/30 |
+| First-come-first-served greedy | 0.6032 | 0.6091 | 0.6252 | 0.5960 | 0.6205 | 0.6397 | 0.6444 | 0.6592 | 0.6591 | +0.0560 | 15/30 | 15/30 | 0/30 |
+| PTIME | 0.5961 | 0.6033 | 0.6092 | 0.5946 | 0.6117 | 0.6327 | 0.6452 | 0.6589 | 0.6593 | +0.0628 | 14/30 | 16/30 | 0/30 |
+| Human coach | 0.8057 | 0.8398 | 0.8072 | 0.7934 | 0.8694 | 0.8256 | 0.8292 | 0.8265 | 0.8260 | +0.0207 | 0/30 | 30/30 | 0/30 |
+| DQN RL per person | 0.0000 | 0.5606 | 0.5232 | 0.5652 | 0.0000 | 0.4961 | 0.4921 | 0.4878 | 0.4904 | +0.4878 | 30/30 | 0/30 | 0/30 |
 
 ## Cross-augmenter weekly trajectory
 
@@ -88,17 +92,18 @@ _Cohort-mean weighted gain per ISO week for every run, with the OLS `slope` over
 
 | Configuration | Wk1 | Wk2 | Wk3 | Wk4 | Wk5 | Wk6 | Wk7 | Wk8 | Δ (last - first) | slope |
 |---|---|---|---|---|---|---|---|---|---|---|
-| Context Blind One-Shot (gpt-4o-mini) | 0.4764 | 0.4938 | 0.5054 | 0.4701 | 0.4913 | 0.4995 | 0.4912 | 0.5022 | +0.0259 | +0.0020 |
-| Context Aware One-Shot (gpt-4o-mini) | 0.5195 | 0.5059 | 0.5125 | 0.5033 | 0.4712 | 0.5034 | 0.5044 | 0.4902 | -0.0293 | -0.0032 |
-| Context Aware One-Shot (gpt-4.1-mini) | 0.5422 | 0.5050 | 0.5242 | 0.5127 | 0.5032 | 0.5143 | 0.5387 | 0.5320 | -0.0101 | +0.0007 |
-| Context Aware One-Shot (gpt-5-mini) | 0.5115 | 0.5351 | 0.5389 | 0.5148 | 0.5104 | 0.5480 | 0.5186 | 0.5725 | +0.0611 | +0.0044 |
-| Context Aware One-Shot (gpt-5.4-mini) | 0.5134 | 0.5003 | 0.5223 | 0.5011 | 0.4970 | 0.5335 | 0.5530 | 0.5495 | +0.0361 | +0.0065 |
-| Context Aware One-Shot (claude-opus-4-8) | 0.4737 | 0.4957 | 0.5205 | 0.4964 | 0.4939 | 0.5320 | 0.5458 | 0.5412 | +0.0675 | +0.0090 |
-| Context Aware One-Shot (eval gpt-4.1-mini) | 0.5053 | 0.5171 | 0.5171 | 0.4409 | 0.5113 | 0.5021 | 0.5063 | 0.4893 | -0.0160 | -0.0017 |
-| Context Aware One-Shot (task-gen gpt-4.1-mini) | 0.5352 | 0.5254 | 0.5319 | 0.5148 | 0.4980 | 0.5048 | 0.5101 | 0.4894 | -0.0458 | -0.0059 |
-| First-come-first-served greedy | 0.4556 | 0.4735 | 0.4938 | 0.4506 | 0.4864 | 0.5382 | 0.5729 | 0.5916 | +0.1360 | +0.0193 |
-| PTIME | 0.4488 | 0.4693 | 0.4826 | 0.4454 | 0.4785 | 0.5317 | 0.5652 | 0.5896 | +0.1408 | +0.0196 |
-| DQN RL per person | 0.0151 | 0.4834 | 0.4817 | 0.4586 | 0.1915 | 0.4772 | 0.4762 | 0.4741 | +0.4590 | +0.0345 |
+| Context Blind One-Shot (gpt-4o-mini) | 0.5405 | 0.5550 | 0.5669 | 0.5311 | 0.5347 | 0.5341 | 0.5146 | 0.5258 | -0.0147 | -0.0048 |
+| Context Aware One-Shot (gpt-4o-mini) | 0.5904 | 0.5701 | 0.5606 | 0.5753 | 0.5044 | 0.5342 | 0.5249 | 0.5120 | -0.0783 | -0.0110 |
+| Context Aware One-Shot (gpt-4.1-mini) | 0.6067 | 0.5739 | 0.5851 | 0.5822 | 0.5570 | 0.5461 | 0.5605 | 0.5497 | -0.0570 | -0.0072 |
+| Context Aware One-Shot (gpt-5-mini) | 0.6211 | 0.6390 | 0.6388 | 0.6145 | 0.6155 | 0.6244 | 0.5699 | 0.6221 | +0.0010 | -0.0045 |
+| Context Aware One-Shot (gpt-5.4-mini) | 0.5860 | 0.5752 | 0.5973 | 0.5984 | 0.5493 | 0.5826 | 0.5860 | 0.5766 | -0.0093 | -0.0012 |
+| Context Aware One-Shot (claude-opus-4-8) | 0.5574 | 0.5662 | 0.6048 | 0.5834 | 0.5615 | 0.5833 | 0.5823 | 0.5742 | +0.0169 | +0.0013 |
+| Context Aware One-Shot (eval gpt-4.1-mini) | 0.5681 | 0.5786 | 0.5686 | 0.5009 | 0.5557 | 0.5358 | 0.5301 | 0.5121 | -0.0560 | -0.0081 |
+| Context Aware One-Shot (task-gen gpt-4.1-mini) | 0.6030 | 0.5902 | 0.5922 | 0.5723 | 0.5274 | 0.5322 | 0.5249 | 0.5070 | -0.0960 | -0.0146 |
+| First-come-first-served greedy | 0.6044 | 0.6083 | 0.6221 | 0.5970 | 0.6216 | 0.6360 | 0.6469 | 0.6594 | +0.0550 | +0.0077 |
+| PTIME | 0.5962 | 0.6034 | 0.6099 | 0.5918 | 0.6136 | 0.6304 | 0.6435 | 0.6591 | +0.0629 | +0.0086 |
+| Human coach | 0.8068 | 0.8415 | 0.8109 | 0.8101 | 0.8481 | 0.8235 | 0.8316 | 0.8261 | +0.0193 | +0.0019 |
+| DQN RL per person | 0.0161 | 0.5575 | 0.5398 | 0.5566 | 0.2040 | 0.5029 | 0.4933 | 0.4861 | +0.4700 | +0.0298 |
 
 _The per-week figure is a cohort mean; the per-person distribution above is the unit-of-analysis view, so a flat mean alone does not prove that no individual learned._
 
@@ -106,17 +111,18 @@ _The per-week figure is a cohort mean; the per-person distribution above is the 
 
 | Configuration | Task generation wall | Task generation tokens | Task generation cost | Augmentation wall | Augmentation tokens | Augmentation cost | Augmentation reasoning (tokens / cost) | Evaluation wall | Evaluation tokens | Evaluation cost | Total cost |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Context Blind One-Shot (gpt-4o-mini) | 18574.7s | 643334 | $0.2027 | 6312.0s | 3353805 | $0.6887 | n/a | 288.8s | 72990 | $0.0134 | $0.9048 |
-| Context Aware One-Shot (gpt-4o-mini) | 23226.2s | 692523 | $0.2101 | 6112.4s | 4092060 | $0.7951 | n/a | 188.7s | 28682 | $0.0053 | $1.0106 |
-| Context Aware One-Shot (gpt-4.1-mini) | 18354.1s | 685893 | $0.2123 | 7334.7s | 4134142 | $2.1877 | n/a | 287.6s | 74745 | $0.0137 | $2.4137 |
-| Context Aware One-Shot (gpt-5-mini) | 18230.7s | 682826 | $0.2125 | 37633.8s | 6864686 | $7.2989 | 2873664 / $5.7473 | 287.5s | 72127 | $0.0133 | $7.5247 |
-| Context Aware One-Shot (gpt-5.4-mini) | 17322.8s | 673066 | $0.2109 | 1852.6s | 4065256 | $4.5192 | n/a | 280.2s | 75650 | $0.0139 | $4.7440 |
-| Context Aware One-Shot (claude-opus-4-8) | 18169.4s | 667043 | $0.2071 | 4691.4s | 5758651 | $38.3954 | n/a | 299.3s | 76934 | $0.0141 | $38.6166 |
-| Context Aware One-Shot (eval gpt-4.1-mini) | 17426.0s | 652204 | $0.2049 | 8150.7s | 4066637 | $0.7855 | n/a | 314.2s | 75335 | $0.0376 | $1.0279 |
-| Context Aware One-Shot (task-gen gpt-4.1-mini) | 17982.2s | 656319 | $0.5397 | 9701.3s | 4091016 | $0.7923 | n/a | 238.6s | 60123 | $0.0110 | $1.3430 |
-| First-come-first-served greedy | 16695.5s | 548046 | $0.1693 | 0.8s | 0 | n/a | n/a | 319.5s | 79556 | $0.0146 | $0.1839 |
-| PTIME | 19934.2s | 691614 | $0.2113 | 13.9s | 0 | n/a | n/a | 345.3s | 76964 | $0.0141 | $0.2255 |
-| DQN RL per person | 19680.1s | 674228 | $0.2082 | 17771.2s | 0 | n/a | n/a | 177.2s | 57588 | $0.0106 | $0.2188 |
+| Context Blind One-Shot (gpt-4o-mini) | 18574.7s | 643334 | $0.2027 | 6312.0s | 3353805 | $0.6887 | n/a | 52.6s | 0 | $0.0000 | $0.8914 |
+| Context Aware One-Shot (gpt-4o-mini) | 23226.2s | 692523 | $0.2101 | 6112.4s | 4092060 | $0.7951 | n/a | 51.8s | 0 | $0.0000 | $1.0053 |
+| Context Aware One-Shot (gpt-4.1-mini) | 18354.1s | 685893 | $0.2123 | 7334.7s | 4134142 | $2.1877 | n/a | 49.9s | 0 | $0.0000 | $2.4000 |
+| Context Aware One-Shot (gpt-5-mini) | 18230.7s | 682826 | $0.2125 | 37633.8s | 6864686 | $7.2989 | 2873664 / $5.7473 | 56.5s | 0 | $0.0000 | $7.5115 |
+| Context Aware One-Shot (gpt-5.4-mini) | 17322.8s | 673066 | $0.2109 | 1852.6s | 4065256 | $4.5192 | n/a | 51.8s | 0 | $0.0000 | $4.7301 |
+| Context Aware One-Shot (claude-opus-4-8) | 18169.4s | 667043 | $0.2071 | 4691.4s | 5758651 | $38.3954 | n/a | 51.5s | 0 | $0.0000 | $38.6025 |
+| Context Aware One-Shot (eval gpt-4.1-mini) | 17426.0s | 652204 | $0.2049 | 8150.7s | 4066637 | $0.7855 | n/a | 51.1s | 0 | $0.0000 | $0.9904 |
+| Context Aware One-Shot (task-gen gpt-4.1-mini) | 17982.2s | 656319 | $0.5397 | 9701.3s | 4091016 | $0.7923 | n/a | 51.0s | 0 | $0.0000 | $1.3320 |
+| First-come-first-served greedy | 16695.5s | 548046 | $0.1693 | 0.8s | 0 | n/a | n/a | 66.5s | 0 | $0.0000 | $0.1693 |
+| PTIME | 19934.2s | 691614 | $0.2113 | 13.9s | 0 | n/a | n/a | 65.9s | 0 | $0.0000 | $0.2113 |
+| Human coach | 0.0s | 0 | n/a | 3.6s | 0 | n/a | n/a | 72.8s | 0 | $0.0000 | $0.0000 |
+| DQN RL per person | 19680.1s | 674228 | $0.2082 | 17771.2s | 0 | n/a | n/a | 40.3s | 0 | $0.0000 | $0.2082 |
 
 ## Ontology grounding
 
@@ -132,6 +138,7 @@ _The per-week figure is a cohort mean; the per-person distribution above is the 
 | Context Aware One-Shot (task-gen gpt-4.1-mini) | 4925 | 4925 (100.0%) | 4925 (100.0%) | 30 | 0 |
 | First-come-first-served greedy | 4842 | 4842 (100.0%) | 4842 (100.0%) | 30 | 0 |
 | PTIME | 4775 | 4775 (100.0%) | 4775 (100.0%) | 30 | 0 |
+| Human coach | 4842 | 4842 (100.0%) | 4842 (100.0%) | 30 | 0 |
 | DQN RL per person | 4838 | 4838 (100.0%) | 4838 (100.0%) | 30 | 0 |
 
 ## Preference breakdown
@@ -148,6 +155,7 @@ _The per-week figure is a cohort mean; the per-person distribution above is the 
 | Context Aware One-Shot (task-gen gpt-4.1-mini) | 0.3013 (n=6360) | 0.2852 (n=2582) | 0.0250 (n=2582) | n/a | 0.4408 (n=3253) | 0.3011 (n=1563) | 0.7801 (n=9) |
 | First-come-first-served greedy | 0.1883 (n=7593) | 0.1613 (n=3684) | 0.0269 (n=3684) | n/a | 0.6144 (n=5102) | 0.0913 (n=1493) | 0.8714 (n=15) |
 | PTIME | 0.1692 (n=7369) | 0.1546 (n=3641) | 0.0265 (n=3641) | n/a | 0.5990 (n=4980) | 0.0861 (n=1516) | 0.8944 (n=18) |
+| Human coach | 0.2072 (n=14350) | 0.2175 (n=4864) | 0.0210 (n=4864) | n/a | 0.6276 (n=6411) | 0.2984 (n=2305) | 0.8714 (n=15) |
 | DQN RL per person | 0.2754 (n=1449) | 0.2714 (n=993) | 0.0205 (n=993) | n/a | 0.7597 (n=1165) | 0.2762 (n=634) | 1.0000 (n=1) |
 
 ## Divide breakdown
@@ -164,6 +172,7 @@ _The per-week figure is a cohort mean; the per-person distribution above is the 
 | Context Aware One-Shot (task-gen gpt-4.1-mini) | 1131 | 0 (0.0%) | 836 (73.9%) | 295 (26.1%) | 0 (0.0%) | 0 (0.0%) |
 | First-come-first-served greedy | 1358 | 0 (0.0%) | 1358 (100.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) |
 | PTIME | 1357 | 0 (0.0%) | 1357 (100.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) |
+| Human coach | 1361 | 1359 (99.9%) | 2 (0.1%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) |
 | DQN RL per person | 991 | 0 (0.0%) | 991 (100.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) |
 
 ## Pairwise A/B
@@ -183,8 +192,8 @@ _Baseline: `Context Blind One-Shot (gpt-4o-mini)`. Each Δ is `(other - baseline
 | G_spread | 0.6029 | 0.6000 | -0.0029 |
 | G_divide | 0.0000 | 0.0000 | +0.0000 |
 | G_context | 0.1902 | 0.3013 | +0.1112 |
-| Total cost | $0.9048 | $1.0106 | +0.1057 |
-| Total wall time | 25175.5s | 29527.3s | +4351.7743 |
+| Total cost | $0.8914 | $1.0053 | +0.1138 |
+| Total wall time | 24939.4s | 29390.4s | +4451.0693 |
 
 ### `Context Aware One-Shot (gpt-4.1-mini)`  vs  `Context Blind One-Shot (gpt-4o-mini)`  (axis: augmenter)
 
@@ -199,8 +208,8 @@ _Baseline: `Context Blind One-Shot (gpt-4o-mini)`. Each Δ is `(other - baseline
 | G_spread | 0.6029 | 0.6964 | +0.0936 |
 | G_divide | 0.0000 | 0.0000 | +0.0000 |
 | G_context | 0.1902 | 0.2700 | +0.0799 |
-| Total cost | $0.9048 | $2.4137 | +1.5089 |
-| Total wall time | 25175.5s | 25976.4s | +800.9057 |
+| Total cost | $0.8914 | $2.4000 | +1.5086 |
+| Total wall time | 24939.4s | 25738.7s | +799.3322 |
 
 ### `Context Aware One-Shot (gpt-5-mini)`  vs  `Context Blind One-Shot (gpt-4o-mini)`  (axis: augmenter)
 
@@ -215,8 +224,8 @@ _Baseline: `Context Blind One-Shot (gpt-4o-mini)`. Each Δ is `(other - baseline
 | G_spread | 0.6029 | 0.7405 | +0.1376 |
 | G_divide | 0.0000 | 0.0000 | +0.0000 |
 | G_context | 0.1902 | 0.3368 | +0.1466 |
-| Total cost | $0.9048 | $7.5247 | +6.6199 |
-| Total wall time | 25175.5s | 56152.0s | +30976.4738 |
+| Total cost | $0.8914 | $7.5115 | +6.6200 |
+| Total wall time | 24939.4s | 55921.0s | +30981.6396 |
 
 ### `Context Aware One-Shot (gpt-5.4-mini)`  vs  `Context Blind One-Shot (gpt-4o-mini)`  (axis: augmenter)
 
@@ -231,8 +240,8 @@ _Baseline: `Context Blind One-Shot (gpt-4o-mini)`. Each Δ is `(other - baseline
 | G_spread | 0.6029 | 0.7561 | +0.1532 |
 | G_divide | 0.0000 | 0.0000 | +0.0000 |
 | G_context | 0.1902 | 0.2709 | +0.0808 |
-| Total cost | $0.9048 | $4.7440 | +3.8392 |
-| Total wall time | 25175.5s | 19455.6s | -5719.9067 |
+| Total cost | $0.8914 | $4.7301 | +3.8387 |
+| Total wall time | 24939.4s | 19227.2s | -5712.1219 |
 
 ### `Context Aware One-Shot (claude-opus-4-8)`  vs  `Context Blind One-Shot (gpt-4o-mini)`  (axis: augmenter)
 
@@ -247,8 +256,8 @@ _Baseline: `Context Blind One-Shot (gpt-4o-mini)`. Each Δ is `(other - baseline
 | G_spread | 0.6029 | 0.6744 | +0.0715 |
 | G_divide | 0.0000 | 0.0000 | +0.0000 |
 | G_context | 0.1902 | 0.2493 | +0.0592 |
-| Total cost | $0.9048 | $38.6166 | +37.7118 |
-| Total wall time | 25175.5s | 23160.1s | -2015.3724 |
+| Total cost | $0.8914 | $38.6025 | +37.7111 |
+| Total wall time | 24939.4s | 22912.3s | -2027.0412 |
 
 ### `Context Aware One-Shot (eval gpt-4.1-mini)`  vs  `Context Blind One-Shot (gpt-4o-mini)`  (axis: evaluator)
 
@@ -263,8 +272,8 @@ _Baseline: `Context Blind One-Shot (gpt-4o-mini)`. Each Δ is `(other - baseline
 | G_spread | 0.6029 | 0.5714 | -0.0314 |
 | G_divide | 0.0000 | 0.0000 | +0.0000 |
 | G_context | 0.1902 | 0.2955 | +0.1054 |
-| Total cost | $0.9048 | $1.0279 | +0.1231 |
-| Total wall time | 25175.5s | 25890.9s | +715.3886 |
+| Total cost | $0.8914 | $0.9904 | +0.0989 |
+| Total wall time | 24939.4s | 25627.8s | +688.3885 |
 
 ### `Context Aware One-Shot (task-gen gpt-4.1-mini)`  vs  `Context Blind One-Shot (gpt-4o-mini)`  (axis: task_generator)
 
@@ -279,8 +288,8 @@ _Baseline: `Context Blind One-Shot (gpt-4o-mini)`. Each Δ is `(other - baseline
 | G_spread | 0.6029 | 0.6077 | +0.0049 |
 | G_divide | 0.0000 | 0.0000 | +0.0000 |
 | G_context | 0.1902 | 0.3381 | +0.1479 |
-| Total cost | $0.9048 | $1.3430 | +0.4382 |
-| Total wall time | 25175.5s | 27922.1s | +2746.6062 |
+| Total cost | $0.8914 | $1.3320 | +0.4405 |
+| Total wall time | 24939.4s | 27734.5s | +2795.1808 |
 
 ### `First-come-first-served greedy`  vs  `Context Blind One-Shot (gpt-4o-mini)`  (axis: augmenter)
 
@@ -295,8 +304,8 @@ _Baseline: `Context Blind One-Shot (gpt-4o-mini)`. Each Δ is `(other - baseline
 | G_spread | 0.6029 | 0.5304 | -0.0725 |
 | G_divide | 0.0000 | 0.0000 | +0.0000 |
 | G_context | 0.1902 | 0.2275 | +0.0373 |
-| Total cost | $0.9048 | $0.1839 | -0.7209 |
-| Total wall time | 25175.5s | 17015.8s | -8159.7139 |
+| Total cost | $0.8914 | $0.1693 | -0.7221 |
+| Total wall time | 24939.4s | 16762.7s | -8176.6195 |
 
 ### `PTIME`  vs  `Context Blind One-Shot (gpt-4o-mini)`  (axis: augmenter)
 
@@ -311,8 +320,24 @@ _Baseline: `Context Blind One-Shot (gpt-4o-mini)`. Each Δ is `(other - baseline
 | G_spread | 0.6029 | 0.4911 | -0.1118 |
 | G_divide | 0.0000 | 0.0000 | +0.0000 |
 | G_context | 0.1902 | 0.2003 | +0.0101 |
-| Total cost | $0.9048 | $0.2255 | -0.6794 |
-| Total wall time | 25175.5s | 20293.4s | -4882.1085 |
+| Total cost | $0.8914 | $0.2113 | -0.6801 |
+| Total wall time | 24939.4s | 20014.0s | -4925.3532 |
+
+### `Human coach`  vs  `Context Blind One-Shot (gpt-4o-mini)`  (axis: augmenter)
+
+| Metric | Context Blind One-Shot (gpt-4o-mini) | Human coach | Δ (other - baseline) |
+|---|---|---|---|
+| Avg total gain | 0.5621 | 0.8533 | +0.2912 |
+| G_cov | 0.4368 | 0.9948 | +0.5580 |
+| G_cal | 0.9853 | 0.9704 | -0.0149 |
+| G_pref | 0.7912 | 0.7705 | -0.0207 |
+| G_disp | 0.9992 | 0.9990 | -0.0002 |
+| G_merge | 0.0040 | 0.4316 | +0.4275 |
+| G_spread | 0.6029 | 0.9839 | +0.3811 |
+| G_divide | 0.0000 | 0.9991 | +0.9991 |
+| G_context | 0.1902 | 0.5649 | +0.3747 |
+| Total cost | $0.8914 | $0.0000 | -0.8914 |
+| Total wall time | 24939.4s | 76.5s | -24862.8972 |
 
 ### `DQN RL per person`  vs  `Context Blind One-Shot (gpt-4o-mini)`  (axis: augmenter)
 
@@ -327,8 +352,8 @@ _Baseline: `Context Blind One-Shot (gpt-4o-mini)`. Each Δ is `(other - baseline
 | G_spread | 0.6029 | 0.5907 | -0.0122 |
 | G_divide | 0.0000 | 0.0000 | +0.0000 |
 | G_context | 0.1902 | 0.1338 | -0.0563 |
-| Total cost | $0.9048 | $0.2188 | -0.6860 |
-| Total wall time | 25175.5s | 37628.5s | +12452.9999 |
+| Total cost | $0.8914 | $0.2082 | -0.6832 |
+| Total wall time | 24939.4s | 37491.6s | +12552.1947 |
 
 ## Prompt component ablation
 

@@ -212,6 +212,7 @@ _METHOD_ACRONYMS: dict[tuple[str, str | None], str] = {
     ("llm_agent", "augment_oneshot"): "SAP",
     ("llm_agent", "augment_agent"): "ITA",
     ("rl", None): "RL",
+    ("human_coach", None): "HUMAN",
 }
 
 # Legend gloss for each acronym, rendered only for the method families a
@@ -223,6 +224,7 @@ _ACRONYM_GLOSSARY: dict[str, str] = {
     "GRD": "`GRD` = greedy",
     "PTIME": "`PTIME` = PTIME",
     "RL": "`RL` = RL",
+    "HUMAN": "`HUMAN` = Human coach (handcrafted schedules)",
 }
 
 # Stage letter order T, A, E used in the compact label.

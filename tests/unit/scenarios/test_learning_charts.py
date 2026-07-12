@@ -246,6 +246,31 @@ def test_cross_overlay_styles_are_stable_across_input_order(
     assert style_by_label(axes[0]) == style_by_label(axes[1])
 
 
+def test_cross_overlay_pins_human_coach_black_without_shifting_others(
+    tmp_path: Path, monkeypatch
+):
+    axes = _capture_axes(monkeypatch)
+    g, p, h = tmp_path / "g", tmp_path / "p", tmp_path / "h"
+    _weekly(g, "p0", [0.30, 0.45, 0.60, 0.70])
+    _weekly(p, "p0", [0.40, 0.50, 0.55, 0.60])
+    _weekly(h, "p0", [0.55, 0.60, 0.65, 0.70])
+    baseline = [("fcfs_greedy", "greedy", g), ("ptime_choquet", "ptime", p)]
+    render_cross_augmenter_overlay(baseline, tmp_path / "c1")
+    render_cross_augmenter_overlay(
+        [*baseline, ("human_coach", "human_coach", h)], tmp_path / "c2"
+    )
+
+    def colors(ax) -> dict:
+        return {line.get_label(): line.get_color() for line in ax.get_lines()}
+
+    without, with_hc = colors(axes[0]), colors(axes[1])
+    # human_coach is pinned to black
+    assert with_hc["human_coach"] == "#000000"
+    # the other methods keep the exact colors they had before it was added
+    assert with_hc["fcfs_greedy"] == without["fcfs_greedy"]
+    assert with_hc["ptime_choquet"] == without["ptime_choquet"]
+
+
 def test_cross_overlay_colors_are_distinct_within_palette(tmp_path: Path, monkeypatch):
     axes = _capture_axes(monkeypatch)
     runs = []

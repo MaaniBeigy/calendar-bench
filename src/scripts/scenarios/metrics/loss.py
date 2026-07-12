@@ -1279,6 +1279,7 @@ class SchedulingLoss:
         window_map: "WindowMap | None" = None,
         observed_categories: frozenset[str] | None = None,
         mask: "frozenset[str] | set[str] | None" = None,
+        week_tasks: list | None = None,
     ) -> tuple[float, LossComponents]:
         """Slice the solution + calendar to `week_dates` and score that week.
 
@@ -1290,12 +1291,15 @@ class SchedulingLoss:
             persona_constraints: per-person preference constraints.
             window_map: per-person window map.
             observed_categories: context category opt-ins for `L_context_fit`.
+            week_tasks: tasks recommended for this ISO week; when supplied they
+                become the coverage / divide denominator so the week is scored
+                against its own batch, not the whole-horizon task list.
 
         Returns:
             `(weighted_loss, components)` for the week-restricted slice.
         """
         sliced_solution, sliced_calendar = _slice_solution_for_week(
-            solution, calendar, week_dates
+            solution, calendar, week_dates, week_tasks
         )
         return self.compute(
             sliced_solution,
@@ -1313,18 +1317,23 @@ def _slice_solution_for_week(
     solution: SchedulingSolution,
     calendar: CalendarTrace,
     week_dates: list[datetime.date],
+    week_tasks: list | None = None,
 ) -> tuple[SchedulingSolution, CalendarTrace]:
     """Return week-restricted copies of `solution` and `calendar`.
 
     The new solution keeps tasks whose `date` is inside `week_dates`;
     `unscheduled` is recomputed as `tasks - scheduled` so `L_cov` is
-    correct for the week.
+    correct for the week. `week_tasks`, when supplied, is that week's
+    recommended batch and becomes the task universe, so coverage and
+    splitting are scored against the week's own tasks rather than the
+    whole-horizon list (otherwise the denominator would be every week's
+    tasks and per-week coverage would collapse to about `1 / num_weeks`).
     """
     from src.scripts.scenarios.domain.calendar import AugmentedCalendar
 
     window = set(week_dates)
     sched = [st for st in solution.scheduled if st.date in window]
-    tasks = list(solution.tasks)
+    tasks = list(week_tasks) if week_tasks is not None else list(solution.tasks)
     scheduled_labels = {st.task.label for st in sched}
     unscheduled = [t for t in tasks if t.label not in scheduled_labels]
     aug_cal = AugmentedCalendar(

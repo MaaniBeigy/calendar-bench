@@ -279,11 +279,20 @@ def render_cross_augmenter_overlay(
     # Square chart sized so its height is about 1.75x the (font-fixed)
     # legend height; shrinking the figure shrinks only the chart.
     fig, ax = plt.subplots(figsize=(6.05, 6.05))
-    for idx, (label, sid, method, (weeks, means, cis)) in enumerate(series):
-        color, marker, linestyle = _style_at(idx)
+    palette_idx = 0
+    for label, sid, method, (weeks, means, cis) in series:
+        if method == "human_coach":
+            # The human-coach ceiling is pinned to a black line with a gray 95%
+            # CI band, and stays out of the palette cycle so its presence never
+            # shifts the colors the other methods carry in earlier runs.
+            color, marker, linestyle, ci_color = "#000000", "o", "-", "#999999"
+        else:
+            color, marker, linestyle = _style_at(palette_idx)
+            ci_color = color
+            palette_idx += 1
         # RL is the learning baseline; draw it heavier and on top.
         emphasis = method == "rl"
-        (line,) = ax.plot(
+        ax.plot(
             weeks,
             means,
             color=color,
@@ -296,7 +305,7 @@ def render_cross_augmenter_overlay(
         )
         lower = [m - c for m, c in zip(means, cis)]
         upper = [m + c for m, c in zip(means, cis)]
-        ax.fill_between(weeks, lower, upper, color=line.get_color(), alpha=0.15)
+        ax.fill_between(weeks, lower, upper, color=ci_color, alpha=0.15)
     ax.set_xlabel("weeks")
     ax.set_ylabel("Average Weighted Scheduling Gain with 95% CI")
     ax.set_ylim(0.0, 1.0)

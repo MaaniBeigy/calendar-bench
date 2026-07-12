@@ -90,6 +90,33 @@ def test_multi_augment_propagates_failing_rc_from_variant_fanout(tmp_path):
     assert rc == EXIT_USAGE
 
 
+def test_multi_augment_skips_human_coach_fixtures(tmp_path):
+    """A sweep skips the fixtures-only human_coach method and continues."""
+    exp = ExperimentScenariosConfig.model_validate(
+        {
+            "experiment_id": "exp_hc",
+            "scenarios": [
+                {"id": "human_coach", "augmentation": [{"method": "human_coach"}]},
+                {"id": "s1", "augmentation": [{"method": "greedy"}]},
+            ],
+        }
+    )
+    args = _multi_args(tmp_path)
+    args.no_ablation = False
+    args.ablation_variant = None
+    augmented: list[str] = []
+
+    def fake_aug(cfg, sub_args):
+        augmented.append(cfg.augmentation.method)
+        return EXIT_OK
+
+    with patch.object(cli_module, "_cmd_augment_with_cfg", side_effect=fake_aug):
+        rc = _multi_augment(exp, args, scenario_id=None, method_filter=None)
+    assert rc == EXIT_OK
+    assert "human_coach" not in augmented
+    assert augmented == ["greedy"]
+
+
 def test_multi_evaluate_skips_variant_excluded_by_filter(tmp_path):
     """`ablation_variant='v1'` runs v1 and skips v2."""
     exp = _exp_with_llm_ablation()

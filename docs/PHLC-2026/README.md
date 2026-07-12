@@ -6,7 +6,7 @@ Benchmark results for the `progressive_healthy_lifestyle_promotion` experiment, 
 
 The cohort is **thirty persons** drawn from **three contrasting personas**, each sampled into ten instances. `diligent_anxious_active` is a conscientious, anxious, full-time employee and the only health-oriented archetype, with a full sports routine (gym, running, cycling, swimming) and deliberate planning contexts. `unemployed_family_caregiver` is an unemployed at-home caregiver with the highest fatigue, stress, and time at home in the cohort and no sports routine. `free_spirited_social_student` is a spontaneous, social young adult with a late-shifted, loosely structured routine. Only the first archetype is health-oriented, so recommended health tasks must be fitted into two routines that were not built around them. Each persona and its ten instances are detailed in [PERSONAS.md](../../src/experiments/persona/healthy_lifestyle_promotion/PERSONAS.md).
 
-Every person is simulated over an **eight-week horizon** on a 10-minute placement grid. Task recommendation follows a **progressive ramp**: each week generates its own batch, the count grows from **10 to 38 tasks per week**, and the difficulty band widens from **Level 1 to Level 4** in **three domains** (nutrition, physical activity, mental wellbeing). Weeks 1 to 5 keep each week's tasks distinct from earlier weeks; weeks 6 to 8 allow reuse. Four scheduler families are compared under identical loss weights (coverage 0.16, consistency 0.16, preference 0.12, intensity 0.16, merging 0.12, spread 0.10, splitting 0.08, context 0.10): a first-come-first-served greedy gap-filler, PTIME, five one-shot LLM planners, and a per-person online DQN.
+Every person is simulated over an **eight-week horizon** on a 10-minute placement grid. Task recommendation follows a **progressive ramp**: each week generates its own batch, the count grows from **10 to 38 tasks per week**, and the difficulty band widens from **Level 1 to Level 4** in **three domains** (nutrition, physical activity, mental wellbeing). Weeks 1 to 5 keep each week's tasks distinct from earlier weeks; weeks 6 to 8 allow reuse. Five scheduler families are compared under identical loss weights (coverage 0.16, consistency 0.16, preference 0.12, intensity 0.16, merging 0.12, spread 0.10, splitting 0.08, context 0.10): a first-come-first-served greedy gap-filler, PTIME, five one-shot LLM planners, a per-person online DQN, and a human coach who placed the recommended tasks into each calendar by hand.
 
 Experiment configuration (five YAML files): [src/experiments/persona/healthy_lifestyle_promotion](../../src/experiments/persona/healthy_lifestyle_promotion)
 
@@ -26,8 +26,9 @@ Average total scheduling gain over 30 persons (higher is better), sorted; covera
 
 | Method | Total gain $G$ | Coverage $G_{\text{cov}}$ |
 |---|---|---|
-| First-come-first-served greedy | **0.6462** | 0.9927 |
-| SAP one-shot, aug gpt-5-mini | **0.6454** | 0.7304 |
+| Human coach | **0.8533** | 0.9948 |
+| First-come-first-served greedy | 0.6462 | 0.9927 |
+| SAP one-shot, aug gpt-5-mini | 0.6454 | 0.7304 |
 | PTIME | 0.6410 | 0.9933 |
 | SAP one-shot, aug gpt-5.4-mini | 0.6033 | 0.5125 |
 | SAP one-shot, aug gpt-4.1-mini | 0.5963 | 0.4467 |
@@ -40,6 +41,10 @@ Average total scheduling gain over 30 persons (higher is better), sorted; covera
 
 Full per-component breakdown (all eight legs), weekly trajectories, per-person learning distribution, cost, and prompt ablations: [benchmark_report.md](benchmark_report.md).
 
+## The human coach ceiling
+
+The human coach (`human_coach`) is the reference ceiling for the benchmark: a person scheduled the recommended tasks into each calendar by hand. The handcrafted schedules earn each loss leg at once: every dividable task is split into two valid pieces on different days, concurrent tasks are co-scheduled inside compatible host events, placements are spread through the week, and context-linked tasks overlap the matching context episodes within the categories the observation budget exposes. The schedules keep greedy's near-total coverage (0.9948) and lead every quality leg, so total gain of 0.8533 sits well clear of the next-best 0.6462.
+
 ## Why the heuristics match the SOTA LLM planners
 
-As the weekly task batch grows toward 38, the one-shot LLM planners place a decreasing share of the tasks (42 to 73 percent), whereas the greedy gap-filler and PTIME place about 99 percent. Coverage carries the joint-highest weight and about 59 percent of the run's discriminative signal, so it determines the ranking even though the LLM planners lead on the quality legs: they score higher on task spread and context fit, and are the only methods to earn any merging credit. The advantage reverses within the horizon, the LLM planners lead in the lighter early weeks, and the mean of the eight weekly gains places gpt-5-mini first.
+As the weekly task batch grows toward 38, the one-shot LLM planners place a decreasing share of the tasks (42 to 73 percent), whereas the greedy gap-filler and PTIME place about 99 percent. Coverage carries the joint-highest weight and about 59 percent of the run's discriminative signal, so it determines the ranking even though the LLM planners lead the other automated baselines on the quality legs: they score higher on task spread and context fit, and, apart from the human coach, are the only methods to earn any merging credit. The advantage reverses within the horizon, the LLM planners lead in the lighter early weeks, and the mean of the eight weekly gains places gpt-5-mini first among the automated schedulers.
