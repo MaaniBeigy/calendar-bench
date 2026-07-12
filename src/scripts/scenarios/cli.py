@@ -927,6 +927,7 @@ def _evaluate_weekly_gain(
     window_map,
     observed_categories,
     mask,
+    weekly_tasks=None,
 ) -> list[dict]:
     """Score each ISO week of a reconstructed solution under the eval mask.
 
@@ -942,6 +943,13 @@ def _evaluate_weekly_gain(
     )
     records: list[dict] = []
     for week_idx, week_dates in enumerate(weeks):
+        # Score each ISO week against its own recommended batch so per-week
+        # coverage / splitting are not diluted by the whole-horizon task list.
+        week_tasks = (
+            weekly_tasks[week_idx]
+            if weekly_tasks is not None and week_idx < len(weekly_tasks)
+            else None
+        )
         week_loss, week_comp = loss_fn.compute_weekly(
             solution,
             calendar,
@@ -951,6 +959,7 @@ def _evaluate_weekly_gain(
             window_map=window_map,
             observed_categories=observed_categories,
             mask=mask,
+            week_tasks=week_tasks,
         )
         records.append(
             {
@@ -1657,6 +1666,15 @@ def _multi_augment(
         for method_cfg in scenario.augmentation:
             if method_filter and method_cfg.method != method_filter:
                 continue
+            if method_cfg.method == "human_coach":
+                # No augmenter: human_coach schedules are handcrafted and
+                # committed as fixtures, so a sweep skips them and scores
+                # them at evaluate time.
+                log.info(
+                    "augment: skipping %s/human_coach (handcrafted fixtures)",
+                    scenario.id,
+                )
+                continue
             cfg = _method_cfg_to_scenario_config(
                 exp, scenario, method_cfg, scenario_file=scenario_file
             )
@@ -2076,7 +2094,7 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     aug.add_argument(
         "--method",
-        choices=["greedy", "llm_agent", "rl", "ptime"],
+        choices=["greedy", "llm_agent", "rl", "ptime", "human_coach"],
         default=None,
         help="Override / filter the augmentation method.",
     )
@@ -2152,7 +2170,7 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     ev.add_argument(
         "--method",
-        choices=["greedy", "llm_agent", "rl", "ptime"],
+        choices=["greedy", "llm_agent", "rl", "ptime", "human_coach"],
         default=None,
         help="Restrict evaluation to one augmentation method (multi-scenario only).",
     )
@@ -2181,7 +2199,7 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     run.add_argument(
         "--method",
-        choices=["greedy", "llm_agent", "rl", "ptime"],
+        choices=["greedy", "llm_agent", "rl", "ptime", "human_coach"],
         default=None,
         help="Run only this augmentation method (multi-scenario only).",
     )
@@ -2241,7 +2259,7 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     rep.add_argument(
         "--method",
-        choices=["greedy", "llm_agent", "rl", "ptime"],
+        choices=["greedy", "llm_agent", "rl", "ptime", "human_coach"],
         default=None,
         help="Restrict the report to one augmentation method.",
     )
@@ -3409,6 +3427,10 @@ def _cmd_evaluate_with_cfg(cfg: ScenarioConfig, args: argparse.Namespace) -> int
     eval_telems: list[EvaluateTelemetry] = []
     weekly_records_by_person: dict[str, list[dict]] = {}
     eval_method = persons_dir.parent.parent.name or ""
+    # Per-week recommended batches (task_generation/<sid>/tasks/<pid>_tasks.json)
+    # drive the per-week coverage / divide denominator so each ISO week is
+    # scored against its own tasks rather than the whole-horizon list.
+    eval_tasks_dir = getattr(args, "tasks_dir", None)
     for sf in wrap_progress(
         solution_files, total=len(solution_files), desc="Evaluating", show=show_bar
     ):
@@ -3502,7 +3524,18 @@ def _cmd_evaluate_with_cfg(cfg: ScenarioConfig, args: argparse.Namespace) -> int
                 eval_telem.record_semantic_lookup(wall_time_seconds=sem_timer.elapsed)
 
             # Authoritative per-week gain over the reconstructed solution,
-            # under the same oracle + mask, sliced per ISO week.
+            # under the same oracle + mask, sliced per ISO week and scored
+            # against each week's own recommended batch.
+            weekly_tasks_for_person = None
+            if eval_tasks_dir is not None:
+                _task_path = Path(eval_tasks_dir) / f"{person_id}_tasks.json"
+                if _task_path.is_file():
+                    try:
+                        weekly_tasks_for_person = _read_weekly_tasks(_task_path)
+                    except Exception as exc:  # pragma: no cover - defensive
+                        log.debug(
+                            "Could not read weekly tasks for %s: %s", person_id, exc
+                        )
             weekly_records_by_person[person_id] = _evaluate_weekly_gain(
                 solution=solution,
                 calendar=score_calendar,
@@ -3512,6 +3545,7 @@ def _cmd_evaluate_with_cfg(cfg: ScenarioConfig, args: argparse.Namespace) -> int
                 window_map=pref_window_map,
                 observed_categories=eval_observed_categories,
                 mask=mask,
+                weekly_tasks=weekly_tasks_for_person,
             )
             _write_evaluate_leg_sidecars(
                 solution=solution,
