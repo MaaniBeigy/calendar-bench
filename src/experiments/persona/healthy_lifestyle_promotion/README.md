@@ -5,7 +5,7 @@
 Three personas defined in [`persona_config.yaml`](persona_config.yaml), each sampled
 into `instances: 10` persons. Events come from the catalog in
 [`event_config.yaml`](event_config.yaml); temporal relations and rules are defined in
-`temporal_relation_rules.yaml`.
+[`temporal_relation_rules.yaml`](temporal_relation_rules.yaml).
 
 | | `diligent_anxious_active` | `unemployed_family_caregiver` | `free_spirited_social_student` |
 | --- | --- | --- | --- |
