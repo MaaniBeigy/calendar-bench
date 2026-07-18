@@ -391,6 +391,24 @@ scenarios:
         observation: *informed_observation
         loss: *shared_loss
 
+  - id: gamebus_coach
+    label: GameBus Coach
+    description: >-
+      The GameBus multi-agent coach service on the same weekly ramp. It reads
+      the person's base calendar as busy intervals and the five survey context
+      categories, and runs one scheduling pass per week out of process; the
+      resulting plans are converted into solution files and scored here.
+    task_generation: *weekly_ramp
+    task_generator_model: *tg_model
+    evaluation: *shared_evaluation
+    evaluator_model: *eval_model
+    augmentation:
+      - method: gamebus_coach
+        allow_merge: true
+        merge_threshold: 0.70
+        observation: *informed_observation
+        loss: *shared_loss
+
   - id: dqn_rl_per_person
     label: DQN RL per person
     description: >-

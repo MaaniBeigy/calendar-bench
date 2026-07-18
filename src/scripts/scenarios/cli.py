@@ -1675,6 +1675,15 @@ def _multi_augment(
                     scenario.id,
                 )
                 continue
+            if method_cfg.method == "gamebus_coach":
+                # No augmenter: the gamebus-coach service schedules out of
+                # process and its plans are converted into solution files, so a
+                # sweep skips them and scores them at evaluate time.
+                log.info(
+                    "augment: skipping %s/gamebus_coach (external coach service)",
+                    scenario.id,
+                )
+                continue
             cfg = _method_cfg_to_scenario_config(
                 exp, scenario, method_cfg, scenario_file=scenario_file
             )
@@ -2094,7 +2103,7 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     aug.add_argument(
         "--method",
-        choices=["greedy", "llm_agent", "rl", "ptime", "human_coach"],
+        choices=["greedy", "llm_agent", "rl", "ptime", "human_coach", "gamebus_coach"],
         default=None,
         help="Override / filter the augmentation method.",
     )
@@ -2170,7 +2179,7 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     ev.add_argument(
         "--method",
-        choices=["greedy", "llm_agent", "rl", "ptime", "human_coach"],
+        choices=["greedy", "llm_agent", "rl", "ptime", "human_coach", "gamebus_coach"],
         default=None,
         help="Restrict evaluation to one augmentation method (multi-scenario only).",
     )
@@ -2199,7 +2208,7 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     run.add_argument(
         "--method",
-        choices=["greedy", "llm_agent", "rl", "ptime", "human_coach"],
+        choices=["greedy", "llm_agent", "rl", "ptime", "human_coach", "gamebus_coach"],
         default=None,
         help="Run only this augmentation method (multi-scenario only).",
     )
@@ -2259,7 +2268,7 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     rep.add_argument(
         "--method",
-        choices=["greedy", "llm_agent", "rl", "ptime", "human_coach"],
+        choices=["greedy", "llm_agent", "rl", "ptime", "human_coach", "gamebus_coach"],
         default=None,
         help="Restrict the report to one augmentation method.",
     )
