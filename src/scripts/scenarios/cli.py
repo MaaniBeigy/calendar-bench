@@ -1787,7 +1787,12 @@ def _multi_evaluate(
     for scenario in exp.scenarios:
         if selected_set is not None and scenario.id not in selected_set:
             continue
-        tasks_dir = _multi_scenario_tasks_dir(exp, scenario.id)
+        # A `--tasks-dir` override wins (for scoring an out-of-pipeline scenario
+        # like gamebus_coach against a supplied batch dir); otherwise use the
+        # per-scenario task_generation/<sid>/tasks resolved from the config.
+        tasks_dir = getattr(args, "tasks_dir", None) or _multi_scenario_tasks_dir(
+            exp, scenario.id
+        )
         for method_cfg in scenario.augmentation:
             if method_filter and method_cfg.method != method_filter:
                 continue
@@ -2170,6 +2175,18 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     ev.add_argument("--scenario", required=True, type=Path, metavar="YAML")
     ev.add_argument("--run-dir", type=Path, default=None, metavar="DIR")
+    ev.add_argument(
+        "--tasks-dir",
+        type=Path,
+        default=None,
+        metavar="DIR",
+        help=(
+            "Directory of per-week recommended batches (<pid>_tasks.json) so "
+            "each ISO week is scored against its own tasks. Without it, per-week "
+            "coverage/divide fall back to the whole-horizon list and collapse to "
+            "about 1/num_weeks."
+        ),
+    )
     ev.add_argument(
         "--scenario-id",
         nargs="+",
