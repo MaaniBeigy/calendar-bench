@@ -1,6 +1,6 @@
 # Progressive Healthy Lifestyle Challenge (PHLC-2026) Personas:
 
-![Benchmark: PHLC-2026](https://img.shields.io/badge/benchmark-PHLC--2026-8A2BE2?style=flat&logo=googlecharts&logoColor=white)
+![Benchmark: PHLC-2026](https://img.shields.io/badge/CalendarBench-PHLC--2026-8A2BE2?style=flat&logo=googlecharts&logoColor=white)
 
 Three personas defined in [`persona_config.yaml`](persona_config.yaml), each sampled
 into `instances: 10` persons. Events come from the catalog in

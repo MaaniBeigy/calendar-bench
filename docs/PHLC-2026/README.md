@@ -1,6 +1,6 @@
 # Progressive Healthy Lifestyle Challenge (PHLC-2026)
 
-![Benchmark: PHLC-2026](https://img.shields.io/badge/benchmark-PHLC--2026-8A2BE2?style=flat&logo=googlecharts&logoColor=white)
+![Benchmark: PHLC-2026](https://img.shields.io/badge/CalendarBench-PHLC--2026-8A2BE2?style=flat&logo=googlecharts&logoColor=white)
 
 Benchmark results for the `progressive_healthy_lifestyle_promotion` experiment, the main competitive challenge of [CalendarBench](../../README.md).
 
