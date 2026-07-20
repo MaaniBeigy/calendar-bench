@@ -35,6 +35,7 @@ from __future__ import annotations
 
 import datetime
 import math
+import re
 import statistics
 from collections import defaultdict
 from dataclasses import dataclass
@@ -1313,6 +1314,16 @@ class SchedulingLoss:
         )
 
 
+def _normalize_label(label: str) -> str:
+    """Casefold a task label and drop separators for robust matching.
+
+    `do-30-minutes-of-cardio` and `do_30_minutes_of_cardio` collapse to
+    the same key so coverage matching does not depend on the label
+    formatting a given pipeline happens to emit.
+    """
+    return re.sub(r"[^a-z0-9]", "", str(label).lower())
+
+
 def _slice_solution_for_week(
     solution: SchedulingSolution,
     calendar: CalendarTrace,
@@ -1334,8 +1345,11 @@ def _slice_solution_for_week(
     window = set(week_dates)
     sched = [st for st in solution.scheduled if st.date in window]
     tasks = list(week_tasks) if week_tasks is not None else list(solution.tasks)
-    scheduled_labels = {st.task.label for st in sched}
-    unscheduled = [t for t in tasks if t.label not in scheduled_labels]
+    # Match recommended->scheduled on a normalized label so hyphen/underscore
+    # or case differences between the recommended batch and the placed tasks
+    # (which can come from different pipelines) do not leak coverage.
+    scheduled_labels = {_normalize_label(st.task.label) for st in sched}
+    unscheduled = [t for t in tasks if _normalize_label(t.label) not in scheduled_labels]
     aug_cal = AugmentedCalendar(
         person_id=solution.person_id,
         base_events=[ev for ev in calendar.events if ev.date in window],

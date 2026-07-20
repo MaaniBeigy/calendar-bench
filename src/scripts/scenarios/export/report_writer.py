@@ -220,17 +220,61 @@ def _cohort_aggregates(
     return 1.0 - avg_loss, avg_per_component_gain, len(scored), len(empty_pids)
 
 
+def _weekly_cohort_aggregates(
+    weekly_gain: dict,
+    empty_pids: set[str],
+) -> tuple[float | None, dict[str, float | None] | None, int, int]:
+    """Cohort aggregates defined as the per-person mean of per-week gains."""
+    by_person = weekly_gain.get("by_person") or {}
+    person_totals: list[float] = []
+    comp_means: dict[str, list[float]] = {
+        full: [] for _, full in _COMPONENT_FULL_NAMES
+    }
+    for pid, rows in by_person.items():
+        if pid in empty_pids:
+            continue
+        gains = [r["weighted_gain"] for r in rows if r.get("weighted_gain") is not None]
+        if not gains:
+            continue
+        person_totals.append(sum(gains) / len(gains))
+        for _abbr, full in _COMPONENT_FULL_NAMES:
+            vals = [
+                r["gains"][full]
+                for r in rows
+                if (r.get("gains") or {}).get(full) is not None
+            ]
+            if vals:
+                comp_means[full].append(sum(vals) / len(vals))
+    if not person_totals:
+        return None, None, 0, len(empty_pids)
+    avg_total = sum(person_totals) / len(person_totals)
+    avg_per_component = {
+        full: (sum(v) / len(v) if v else None) for full, v in comp_means.items()
+    }
+    return avg_total, avg_per_component, len(person_totals), len(empty_pids)
+
+
 def format_total_gain_report(
     results: list[tuple[str, float, LossComponents]],
     *,
     grounding: dict | None = None,
     window: dict | None = None,
+    weekly_gain: dict | None = None,
 ) -> str:
-    """Format the cohort-aggregate section as plain text."""
+    """Format the cohort-aggregate section as plain text.
+
+    When `weekly_gain` is supplied the headline is the per-user weekly
+    aggregate; otherwise it falls back to the whole-horizon scoring.
+    """
     empty_pids = _empty_plan_persons(grounding)
-    avg_total, avg_per_component, scored, empty = _cohort_aggregates(
-        results, empty_pids
-    )
+    if weekly_gain and weekly_gain.get("by_person"):
+        avg_total, avg_per_component, scored, empty = _weekly_cohort_aggregates(
+            weekly_gain, empty_pids
+        )
+    else:
+        avg_total, avg_per_component, scored, empty = _cohort_aggregates(
+            results, empty_pids
+        )
     width = _name_col_width()
     lines = ["=== Total Scheduling Gain ===", ""]
     window_line = _format_window_line(window)
@@ -265,18 +309,39 @@ def total_gain_to_dict(
     *,
     grounding: dict | None = None,
     window: dict | None = None,
+    weekly_gain: dict | None = None,
 ) -> dict:
-    """Convert the cohort-aggregate section to a JSON-serialisable dict."""
+    """Convert the cohort-aggregate section to a JSON-serialisable dict.
+    """
     empty_pids = _empty_plan_persons(grounding)
-    avg_total, avg_per_component, scored, empty = _cohort_aggregates(
+    wh_total, wh_component, wh_scored, wh_empty = _cohort_aggregates(
         results, empty_pids
     )
+    use_weekly = bool(weekly_gain and weekly_gain.get("by_person"))
+    if use_weekly:
+        avg_total, avg_per_component, scored, empty = _weekly_cohort_aggregates(
+            weekly_gain, empty_pids
+        )
+    else:
+        avg_total, avg_per_component, scored, empty = (
+            wh_total,
+            wh_component,
+            wh_scored,
+            wh_empty,
+        )
     payload: dict = {
         "average_total_gain": avg_total,
         "average_gains": avg_per_component,
         "scored_persons": scored,
         "empty_plan_persons": empty,
+        "aggregation": "per_user_weekly" if use_weekly else "whole_horizon",
     }
+    if use_weekly:
+        payload["whole_horizon"] = {
+            "average_total_gain": wh_total,
+            "average_gains": wh_component,
+            "scored_persons": wh_scored,
+        }
     if window:
         payload["window"] = window
     return payload
@@ -782,8 +847,12 @@ def write_evaluation_reports(
     written[TOTAL_REPORT_BASENAME] = _write_pair(
         out_dir,
         TOTAL_REPORT_BASENAME,
-        format_total_gain_report(results, grounding=grounding, window=window),
-        total_gain_to_dict(results, grounding=grounding, window=window),
+        format_total_gain_report(
+            results, grounding=grounding, window=window, weekly_gain=weekly_gain
+        ),
+        total_gain_to_dict(
+            results, grounding=grounding, window=window, weekly_gain=weekly_gain
+        ),
     )
     if grounding is not None:
         written[ONTOLOGY_REPORT_BASENAME] = _write_pair(

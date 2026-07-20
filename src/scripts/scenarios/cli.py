@@ -3440,6 +3440,15 @@ def _cmd_evaluate_with_cfg(cfg: ScenarioConfig, args: argparse.Namespace) -> int
     # drive the per-week coverage / divide denominator so each ISO week is
     # scored against its own tasks rather than the whole-horizon list.
     eval_tasks_dir = getattr(args, "tasks_dir", None)
+    if not eval_tasks_dir or not Path(eval_tasks_dir).is_dir():
+        log.warning(
+            "evaluate: no --tasks-dir with per-week recommended batches; per-week "
+            "coverage/divide will be scored against the whole-horizon task list and "
+            "collapse to about 1/num_weeks, so the weekly gain (and the per-user "
+            "weekly total) will understate this method. Pass --tasks-dir "
+            "task_generation/<scenario>/tasks to score each ISO week against its own "
+            "batch."
+        )
     for sf in wrap_progress(
         solution_files, total=len(solution_files), desc="Evaluating", show=show_bar
     ):
