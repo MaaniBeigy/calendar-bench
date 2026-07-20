@@ -2,15 +2,15 @@
 
 _Experiment id: `progressive_healthy_lifestyle_promotion`_
 
-_Generated 2026-07-12T20:32:00+00:00_
+_Generated 2026-07-20T22:14:50+00:00_
 
-_12 `(scenario_id, method)` run(s) aggregated._
+_13 `(scenario_id, method)` run(s) aggregated._
 
 ## Legend
 
 Compact label conventions used in the tables below:
 
-* **M**: augmenter method. `SAP` = Single-Agent Prompt (one-shot `llm_agent` + `augment_oneshot`); `GRD` = greedy; `PTIME` = PTIME; `RL` = RL; `HUMAN` = Human coach (handcrafted schedules).
+* **M**: augmenter method. `SAP` = Single-Agent Prompt (one-shot `llm_agent` + `augment_oneshot`); `GRD` = greedy; `PTIME` = PTIME; `RL` = RL; `HUMAN` = Human coach (handcrafted schedules); `MAS` = Multi-agent scheduler (external multi-agent coach service).
 * **T**, **A**, **E**: Task generator, Augmenter, Evaluator stage models, in pipeline order.
 * Stages sharing the same model are grouped: `TAE: gpt-4o-mini` means all three stages use that model; `TE: gpt-4o-mini + A: gpt-4.1-mini` means only the augmenter differs. `env-default` means the stage inherits its model from `.env`.
 
@@ -29,6 +29,7 @@ Compact label conventions used in the tables below:
 | First-come-first-served greedy | gpt-4o-mini | env-default | gpt-4o-mini | `fcfs_greedy / greedy` |
 | PTIME | gpt-4o-mini | env-default | gpt-4o-mini | `ptime_choquet / ptime` |
 | Human coach | gpt-4o-mini | env-default | gpt-4o-mini | `human_coach / human_coach` |
+| Multi-agent scheduler (MAS, gpt-4o-mini) | gpt-4o-mini | env-default | gpt-4o-mini | `mas / mas` |
 | DQN RL per person | gpt-4o-mini | env-default | gpt-4o-mini | `dqn_rl_per_person / rl` |
 
 ## Scheduling gain
@@ -46,7 +47,8 @@ Compact label conventions used in the tables below:
 | First-come-first-served greedy | 0.6462 | 30 / 0 | 0.9927 | 0.9763 | 0.7964 | 0.9990 | 0.0000 | 0.5304 | 0.0000 | 0.2275 |
 | PTIME | 0.6410 | 30 / 0 | 0.9933 | 0.9756 | 0.8083 | 0.9990 | 0.0000 | 0.4911 | 0.0000 | 0.2003 |
 | Human coach | 0.8533 | 30 / 0 | 0.9948 | 0.9704 | 0.7705 | 0.9990 | 0.4316 | 0.9839 | 0.9991 | 0.5649 |
-| DQN RL per person | 0.5214 | 30 / 0 | 0.2808 | 0.9887 | 0.7173 | 0.9986 | 0.0000 | 0.5907 | 0.0000 | 0.1338 |
+| Multi-agent scheduler (MAS, gpt-4o-mini) | 0.6519 | 30 / 0 | 0.7828 | 0.9602 | 0.7988 | 0.8495 | 0.1668 | 0.8699 | 0.0000 | 0.3423 |
+| DQN RL per person | 0.4190 | 30 / 0 | 0.2863 | 0.7933 | 0.5754 | 0.6829 | 0.0000 | 0.5796 | 0.0000 | 0.1002 |
 
 ## Weekly scheduling gain
 
@@ -65,6 +67,7 @@ _Per-person mean masked scheduling gain per ISO week. The `Δ` column is the lea
 | First-come-first-served greedy | 0.6044 | 0.6083 | 0.6221 | 0.5970 | 0.6216 | 0.6360 | 0.6469 | 0.6594 | +0.0550 |
 | PTIME | 0.5962 | 0.6034 | 0.6099 | 0.5918 | 0.6136 | 0.6304 | 0.6435 | 0.6591 | +0.0629 |
 | Human coach | 0.8068 | 0.8415 | 0.8109 | 0.8101 | 0.8481 | 0.8235 | 0.8316 | 0.8261 | +0.0193 |
+| Multi-agent scheduler (MAS, gpt-4o-mini) | 0.6722 | 0.6691 | 0.6682 | 0.6609 | 0.6748 | 0.6267 | 0.6210 | 0.6223 | -0.0499 |
 | DQN RL per person | 0.0161 | 0.5575 | 0.5398 | 0.5566 | 0.2040 | 0.5029 | 0.4933 | 0.4861 | +0.4700 |
 
 ## Per-person learning distribution
@@ -84,6 +87,7 @@ _Per-week median weighted gain across persons, IQM at the final week, and the pe
 | First-come-first-served greedy | 0.6032 | 0.6091 | 0.6252 | 0.5960 | 0.6205 | 0.6397 | 0.6444 | 0.6592 | 0.6591 | +0.0560 | 15/30 | 15/30 | 0/30 |
 | PTIME | 0.5961 | 0.6033 | 0.6092 | 0.5946 | 0.6117 | 0.6327 | 0.6452 | 0.6589 | 0.6593 | +0.0628 | 14/30 | 16/30 | 0/30 |
 | Human coach | 0.8057 | 0.8398 | 0.8072 | 0.7934 | 0.8694 | 0.8256 | 0.8292 | 0.8265 | 0.8260 | +0.0207 | 0/30 | 30/30 | 0/30 |
+| Multi-agent scheduler (MAS, gpt-4o-mini) | 0.6839 | 0.6854 | 0.6660 | 0.6658 | 0.6754 | 0.6370 | 0.6291 | 0.6301 | 0.6235 | -0.0537 | 2/30 | 11/30 | 17/30 |
 | DQN RL per person | 0.0000 | 0.5606 | 0.5232 | 0.5652 | 0.0000 | 0.4961 | 0.4921 | 0.4878 | 0.4904 | +0.4878 | 30/30 | 0/30 | 0/30 |
 
 ## Cross-augmenter weekly trajectory
@@ -103,6 +107,7 @@ _Cohort-mean weighted gain per ISO week for every run, with the OLS `slope` over
 | First-come-first-served greedy | 0.6044 | 0.6083 | 0.6221 | 0.5970 | 0.6216 | 0.6360 | 0.6469 | 0.6594 | +0.0550 | +0.0077 |
 | PTIME | 0.5962 | 0.6034 | 0.6099 | 0.5918 | 0.6136 | 0.6304 | 0.6435 | 0.6591 | +0.0629 | +0.0086 |
 | Human coach | 0.8068 | 0.8415 | 0.8109 | 0.8101 | 0.8481 | 0.8235 | 0.8316 | 0.8261 | +0.0193 | +0.0019 |
+| Multi-agent scheduler (MAS, gpt-4o-mini) | 0.6722 | 0.6691 | 0.6682 | 0.6609 | 0.6748 | 0.6267 | 0.6210 | 0.6223 | -0.0499 | -0.0083 |
 | DQN RL per person | 0.0161 | 0.5575 | 0.5398 | 0.5566 | 0.2040 | 0.5029 | 0.4933 | 0.4861 | +0.4700 | +0.0298 |
 
 _The per-week figure is a cohort mean; the per-person distribution above is the unit-of-analysis view, so a flat mean alone does not prove that no individual learned._
@@ -122,7 +127,8 @@ _The per-week figure is a cohort mean; the per-person distribution above is the 
 | First-come-first-served greedy | 16695.5s | 548046 | $0.1693 | 0.8s | 0 | n/a | n/a | 66.5s | 0 | $0.0000 | $0.1693 |
 | PTIME | 19934.2s | 691614 | $0.2113 | 13.9s | 0 | n/a | n/a | 65.9s | 0 | $0.0000 | $0.2113 |
 | Human coach | 0.0s | 0 | n/a | 3.6s | 0 | n/a | n/a | 72.8s | 0 | $0.0000 | $0.0000 |
-| DQN RL per person | 19680.1s | 674228 | $0.2082 | 17771.2s | 0 | n/a | n/a | 40.3s | 0 | $0.0000 | $0.2082 |
+| Multi-agent scheduler (MAS, gpt-4o-mini) | 0.0s | 0 | n/a | 0.0s | 0 | n/a | n/a | 114.6s | 0 | $0.0000 | $0.0000 |
+| DQN RL per person | 19680.1s | 674228 | $0.2082 | 17771.2s | 0 | n/a | n/a | 41.7s | 0 | $0.0000 | $0.2082 |
 
 ## Ontology grounding
 
@@ -139,6 +145,7 @@ _The per-week figure is a cohort mean; the per-person distribution above is the 
 | First-come-first-served greedy | 4842 | 4842 (100.0%) | 4842 (100.0%) | 30 | 0 |
 | PTIME | 4775 | 4775 (100.0%) | 4775 (100.0%) | 30 | 0 |
 | Human coach | 4842 | 4842 (100.0%) | 4842 (100.0%) | 30 | 0 |
+| Multi-agent scheduler (MAS, gpt-4o-mini) | 4748 | 4748 (100.0%) | 4748 (100.0%) | 30 | 0 |
 | DQN RL per person | 4838 | 4838 (100.0%) | 4838 (100.0%) | 30 | 0 |
 
 ## Preference breakdown
@@ -156,6 +163,7 @@ _The per-week figure is a cohort mean; the per-person distribution above is the 
 | First-come-first-served greedy | 0.1883 (n=7593) | 0.1613 (n=3684) | 0.0269 (n=3684) | n/a | 0.6144 (n=5102) | 0.0913 (n=1493) | 0.8714 (n=15) |
 | PTIME | 0.1692 (n=7369) | 0.1546 (n=3641) | 0.0265 (n=3641) | n/a | 0.5990 (n=4980) | 0.0861 (n=1516) | 0.8944 (n=18) |
 | Human coach | 0.2072 (n=14350) | 0.2175 (n=4864) | 0.0210 (n=4864) | n/a | 0.6276 (n=6411) | 0.2984 (n=2305) | 0.8714 (n=15) |
+| Multi-agent scheduler (MAS, gpt-4o-mini) | 0.2335 (n=5576) | 0.2229 (n=3228) | 0.0271 (n=3228) | n/a | 0.4925 (n=4212) | 0.2073 (n=1511) | 0.9538 (n=13) |
 | DQN RL per person | 0.2754 (n=1449) | 0.2714 (n=993) | 0.0205 (n=993) | n/a | 0.7597 (n=1165) | 0.2762 (n=634) | 1.0000 (n=1) |
 
 ## Divide breakdown
@@ -173,6 +181,7 @@ _The per-week figure is a cohort mean; the per-person distribution above is the 
 | First-come-first-served greedy | 1358 | 0 (0.0%) | 1358 (100.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) |
 | PTIME | 1357 | 0 (0.0%) | 1357 (100.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) |
 | Human coach | 1361 | 1359 (99.9%) | 2 (0.1%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) |
+| Multi-agent scheduler (MAS, gpt-4o-mini) | 1158 | 0 (0.0%) | 1112 (96.0%) | 46 (4.0%) | 0 (0.0%) | 0 (0.0%) |
 | DQN RL per person | 991 | 0 (0.0%) | 991 (100.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) |
 
 ## Pairwise A/B
@@ -339,21 +348,37 @@ _Baseline: `Context Blind One-Shot (gpt-4o-mini)`. Each Δ is `(other - baseline
 | Total cost | $0.8914 | $0.0000 | -0.8914 |
 | Total wall time | 24939.4s | 76.5s | -24862.8972 |
 
+### `Multi-agent scheduler (MAS, gpt-4o-mini)`  vs  `Context Blind One-Shot (gpt-4o-mini)`  (axis: augmenter)
+
+| Metric | Context Blind One-Shot (gpt-4o-mini) | Multi-agent scheduler (MAS, gpt-4o-mini) | Δ (other - baseline) |
+|---|---|---|---|
+| Avg total gain | 0.5621 | 0.6519 | +0.0898 |
+| G_cov | 0.4368 | 0.7828 | +0.3460 |
+| G_cal | 0.9853 | 0.9602 | -0.0251 |
+| G_pref | 0.7912 | 0.7988 | +0.0076 |
+| G_disp | 0.9992 | 0.8495 | -0.1496 |
+| G_merge | 0.0040 | 0.1668 | +0.1628 |
+| G_spread | 0.6029 | 0.8699 | +0.2671 |
+| G_divide | 0.0000 | 0.0000 | +0.0000 |
+| G_context | 0.1902 | 0.3423 | +0.1522 |
+| Total cost | $0.8914 | $0.0000 | -0.8914 |
+| Total wall time | 24939.4s | 114.6s | -24824.7193 |
+
 ### `DQN RL per person`  vs  `Context Blind One-Shot (gpt-4o-mini)`  (axis: augmenter)
 
 | Metric | Context Blind One-Shot (gpt-4o-mini) | DQN RL per person | Δ (other - baseline) |
 |---|---|---|---|
-| Avg total gain | 0.5621 | 0.5214 | -0.0407 |
-| G_cov | 0.4368 | 0.2808 | -0.1560 |
-| G_cal | 0.9853 | 0.9887 | +0.0034 |
-| G_pref | 0.7912 | 0.7173 | -0.0739 |
-| G_disp | 0.9992 | 0.9986 | -0.0005 |
+| Avg total gain | 0.5621 | 0.4190 | -0.1431 |
+| G_cov | 0.4368 | 0.2863 | -0.1505 |
+| G_cal | 0.9853 | 0.7933 | -0.1920 |
+| G_pref | 0.7912 | 0.5754 | -0.2158 |
+| G_disp | 0.9992 | 0.6829 | -0.3163 |
 | G_merge | 0.0040 | 0.0000 | -0.0040 |
-| G_spread | 0.6029 | 0.5907 | -0.0122 |
+| G_spread | 0.6029 | 0.5796 | -0.0233 |
 | G_divide | 0.0000 | 0.0000 | +0.0000 |
-| G_context | 0.1902 | 0.1338 | -0.0563 |
+| G_context | 0.1902 | 0.1002 | -0.0899 |
 | Total cost | $0.8914 | $0.2082 | -0.6832 |
-| Total wall time | 24939.4s | 37491.6s | +12552.1947 |
+| Total wall time | 24939.4s | 37493.0s | +12553.6449 |
 
 ## Prompt component ablation
 
