@@ -4836,7 +4836,7 @@ src/scripts/scenarios/augmentation/rl/augmenter.py                              
 src/scripts/scenarios/augmentation/rl/env.py                                           274      0     80      0   100%
 src/scripts/scenarios/augmentation/rl/parallel.py                                      106      2     22      1    98%   188-189
 src/scripts/scenarios/calendar/loader.py                                               102      0     28      0   100%
-src/scripts/scenarios/cli.py                                                          1376     30    418     15    97%   1216, 1915-1916, 2656->2663, 2664->2666, 2693, 2704-2723, 2760, 2969->2980, 3335, 3398-3404, 3439-3441, 3532->3539, 3565, 3615, 3724->3731, 3738->3746, 3780, 3905-3914
+src/scripts/scenarios/cli.py                                                          1381     32    422     16    97%   1216, 1682-1686, 1924-1925, 2665->2672, 2673->2675, 2702, 2713-2732, 2769, 2978->2989, 3344, 3407-3413, 3457-3459, 3550->3557, 3583, 3633, 3742->3749, 3756->3764, 3798, 3923-3932
 src/scripts/scenarios/config/loader.py                                                  45      0     14      0   100%
 src/scripts/scenarios/config/schema.py                                                 305      0     76      0   100%
 src/scripts/scenarios/config/timeframe.py                                               41      0     14      0   100%
@@ -4850,7 +4850,7 @@ src/scripts/scenarios/export/benchmark_report.py                                
 src/scripts/scenarios/export/ics_writer.py                                              49      0     12      0   100%
 src/scripts/scenarios/export/json_writer.py                                             69      0     18      0   100%
 src/scripts/scenarios/export/learning_charts.py                                        185      0     52      0   100%
-src/scripts/scenarios/export/report_writer.py                                          346      0    136      0   100%
+src/scripts/scenarios/export/report_writer.py                                          374      3    154      3    99%   235, 238, 249
 src/scripts/scenarios/metrics/allen.py                                                 237      0    124      0   100%
 src/scripts/scenarios/metrics/context_fit.py                                            83      0     30      0   100%
 src/scripts/scenarios/metrics/context_fit_breakdown.py                                  58      0     26      0   100%
@@ -4859,7 +4859,7 @@ src/scripts/scenarios/metrics/grounding.py                                      
 src/scripts/scenarios/metrics/health_task_hierarchy.py                                  15      0      8      0   100%
 src/scripts/scenarios/metrics/intensity_resolver.py                                    165      0     60      0   100%
 src/scripts/scenarios/metrics/llm_judge.py                                              93      0     28      0   100%
-src/scripts/scenarios/metrics/loss.py                                                  476      0    230      0   100%
+src/scripts/scenarios/metrics/loss.py                                                  479      0    230      0   100%
 src/scripts/scenarios/metrics/met_lookup.py                                            155      0     56      0   100%
 src/scripts/scenarios/metrics/ontology_source.py                                        11      0      6      0   100%
 src/scripts/scenarios/metrics/preference_cache.py                                      115      0     38      0   100%
@@ -4889,7 +4889,7 @@ src/scripts/scenarios/task_generation/prompts/productivity.py                   
 src/scripts/scenarios/task_generation/prompts/senior_lifestyle.py                        3      0      0      0   100%
 src/scripts/scenarios/validate_matched_activity_links.py                               115      0     36      0   100%
 --------------------------------------------------------------------------------------------------------------------------------
-TOTAL                                                                                14939     35   5314     19    99%
+TOTAL                                                                                14975     40   5336     23    99%
 Coverage HTML written to dir htmlcov
 Coverage XML written to file coverage.xml
 =========================== short test summary info ============================
@@ -4912,5 +4912,5 @@ SKIPPED [1] tests/test_rag.py:106: Could not parse sample URIs for EFO
 SKIPPED [1] tests/test_rag.py:106: Could not parse sample URIs for OCHV
 SKIPPED [1] tests/test_rag.py:106: Could not parse sample URIs for FOODON
 SKIPPED [1] tests/test_rag.py:106: Could not parse sample URIs for HSPO
-================= 4726 passed, 19 skipped in 314.89s (0:05:14) =================
+================= 4726 passed, 19 skipped in 316.04s (0:05:16) =================
 SUCCESS - Coverage badge created: '/app/src/assets/images/coverage.svg'

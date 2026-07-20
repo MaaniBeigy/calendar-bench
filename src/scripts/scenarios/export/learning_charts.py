@@ -31,7 +31,8 @@ _PALETTE: tuple[str, ...] = (
     "#A6028A",  # violet
     "#44AA99",  # teal
     # "#882255",  # wine
-    "#031b8a",  # dark blue
+    # "#031b8a",  # dark blue
+    "#4b65db", # semi dark blue
     "#999999",  # gray
     "#F0E442",  # yellow
     "#000000",  # black
@@ -285,7 +286,7 @@ def render_cross_augmenter_overlay(
             # The human-coach ceiling is pinned to a black line with a gray 95%
             # CI band, and stays out of the palette cycle so its presence never
             # shifts the colors the other methods carry in earlier runs.
-            color, marker, linestyle, ci_color = "#4d5157", "o", "-", "#999999"
+            color, marker, linestyle, ci_color = "#878b91", "o", "-", "#999999"
         elif method == "ptime":
             # PTIME keeps the yellow pentagon it carried in earlier published
             # figures, pinned out of the palette cycle so a newly added method
