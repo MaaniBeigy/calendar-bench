@@ -392,7 +392,7 @@ scenarios:
         loss: *shared_loss
 
   - id: mas
-    label: Multi-agent scheduler (MAS)
+    label: Multi-agent scheduler (MAS, gpt-4o-mini)
     description: >-
       The multi-agent scheduler (MAS) on the same weekly ramp. It reads
       the person's base calendar as busy intervals and the five survey context
