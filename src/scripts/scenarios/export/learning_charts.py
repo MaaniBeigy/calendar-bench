@@ -285,7 +285,19 @@ def render_cross_augmenter_overlay(
             # The human-coach ceiling is pinned to a black line with a gray 95%
             # CI band, and stays out of the palette cycle so its presence never
             # shifts the colors the other methods carry in earlier runs.
-            color, marker, linestyle, ci_color = "#000000", "o", "-", "#999999"
+            color, marker, linestyle, ci_color = "#4d5157", "o", "-", "#999999"
+        elif method == "ptime":
+            # PTIME keeps the yellow pentagon it carried in earlier published
+            # figures, pinned out of the palette cycle so a newly added method
+            # can never take its colour (backward compatibility).
+            color, marker, linestyle = "#F0E442", "p", "-."
+            ci_color = color
+        elif method == "mas":
+            # Multi-agent scheduler: a distinct reddish-purple (Okabe-Ito,
+            # colour-blind safe), also out of the cycle so it never displaces
+            # another method's colour.
+            color, marker, linestyle = "#CC79A7", "p", "-."
+            ci_color = color
         else:
             color, marker, linestyle = _style_at(palette_idx)
             ci_color = color

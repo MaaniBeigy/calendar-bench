@@ -1675,12 +1675,12 @@ def _multi_augment(
                     scenario.id,
                 )
                 continue
-            if method_cfg.method == "gamebus_coach":
-                # No augmenter: the gamebus-coach service schedules out of
-                # process and its plans are converted into solution files, so a
-                # sweep skips them and scores them at evaluate time.
+            if method_cfg.method == "mas":
+                # No augmenter: the multi-agent scheduler runs out of process
+                # and its plans are converted into solution files, so a sweep
+                # skips them and scores them at evaluate time.
                 log.info(
-                    "augment: skipping %s/gamebus_coach (external coach service)",
+                    "augment: skipping %s/mas (external multi-agent scheduler)",
                     scenario.id,
                 )
                 continue
@@ -1788,7 +1788,7 @@ def _multi_evaluate(
         if selected_set is not None and scenario.id not in selected_set:
             continue
         # A `--tasks-dir` override wins (for scoring an out-of-pipeline scenario
-        # like gamebus_coach against a supplied batch dir); otherwise use the
+        # like mas against a supplied batch dir); otherwise use the
         # per-scenario task_generation/<sid>/tasks resolved from the config.
         tasks_dir = getattr(args, "tasks_dir", None) or _multi_scenario_tasks_dir(
             exp, scenario.id
@@ -2108,7 +2108,7 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     aug.add_argument(
         "--method",
-        choices=["greedy", "llm_agent", "rl", "ptime", "human_coach", "gamebus_coach"],
+        choices=["greedy", "llm_agent", "rl", "ptime", "human_coach", "mas"],
         default=None,
         help="Override / filter the augmentation method.",
     )
@@ -2196,7 +2196,7 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     ev.add_argument(
         "--method",
-        choices=["greedy", "llm_agent", "rl", "ptime", "human_coach", "gamebus_coach"],
+        choices=["greedy", "llm_agent", "rl", "ptime", "human_coach", "mas"],
         default=None,
         help="Restrict evaluation to one augmentation method (multi-scenario only).",
     )
@@ -2225,7 +2225,7 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     run.add_argument(
         "--method",
-        choices=["greedy", "llm_agent", "rl", "ptime", "human_coach", "gamebus_coach"],
+        choices=["greedy", "llm_agent", "rl", "ptime", "human_coach", "mas"],
         default=None,
         help="Run only this augmentation method (multi-scenario only).",
     )
@@ -2285,7 +2285,7 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     rep.add_argument(
         "--method",
-        choices=["greedy", "llm_agent", "rl", "ptime", "human_coach", "gamebus_coach"],
+        choices=["greedy", "llm_agent", "rl", "ptime", "human_coach", "mas"],
         default=None,
         help="Restrict the report to one augmentation method.",
     )

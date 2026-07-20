@@ -601,7 +601,7 @@ class AugmentationConfig(_Frozen):
     per week) or the total budget shared across all tasks when `False`.
     """
 
-    method: Literal["greedy", "llm_agent", "rl", "ptime", "human_coach", "gamebus_coach"] = "greedy"
+    method: Literal["greedy", "llm_agent", "rl", "ptime", "human_coach", "mas"] = "greedy"
     allow_merge: bool = True
     merge_threshold: float = Field(default=0.70, ge=0.0, le=1.0)
     repeat_per_week: bool = True
@@ -753,7 +753,7 @@ class AugmentationMethodConfig(_Frozen):
     `{output_base}/{experiment_id}/{scenario_id}/{method}/`.
     """
 
-    method: Literal["greedy", "llm_agent", "rl", "ptime", "human_coach", "gamebus_coach"] = "greedy"
+    method: Literal["greedy", "llm_agent", "rl", "ptime", "human_coach", "mas"] = "greedy"
     allow_merge: bool = True
     merge_threshold: float = Field(default=0.70, ge=0.0, le=1.0)
     repeat_per_week: bool = True
