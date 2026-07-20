@@ -1,8 +1,8 @@
-# Benchmark report: 8-week example experiment with online DQN augmenter; 5 survey-collectable context categories observed by every method
+# Benchmark report: 8-week cohort with online DQN augmenter; 5 survey-collectable context categories observed by every method
 
 _Experiment id: `example_experiment`_
 
-_Generated 2026-06-13T18:29:34+00:00_
+_Generated 2026-07-20T22:22:34+00:00_
 
 _11 `(scenario_id, method)` run(s) aggregated._
 
@@ -10,7 +10,7 @@ _11 `(scenario_id, method)` run(s) aggregated._
 
 Compact label conventions used in the tables below:
 
-* **M**: augmenter method. `SAP` = Single-Agent Prompt (one-shot `llm_agent` + `augment_oneshot`); `ITA` = Iterative-Turn Agent (`llm_agent` + `augment_agent`); `GRD` = greedy; `RL` = RL.
+* **M**: augmenter method. `SAP` = Single-Agent Prompt (one-shot `llm_agent` + `augment_oneshot`); `GRD` = greedy; `PTIME` = PTIME; `RL` = RL.
 * **T**, **A**, **E**: Task generator, Augmenter, Evaluator stage models, in pipeline order.
 * Stages sharing the same model are grouped: `TAE: gpt-4o-mini` means all three stages use that model; `TE: gpt-4o-mini + A: gpt-4.1-mini` means only the augmenter differs. `env-default` means the stage inherits its model from `.env`.
 
@@ -84,7 +84,7 @@ _Per-week median weighted gain across persons, IQM at the final week, and the pe
 
 ## Cross-augmenter weekly trajectory
 
-_Mean weighted gain across persons per ISO week for every run, with the OLS `slope` over weeks. A positive slope is improvement over time; the RL run should trend up while the non-learning baselines stay near zero._
+_Cohort-mean weighted gain per ISO week for every run, with the OLS `slope` over weeks. A positive slope is improvement over time; the RL run should trend up while the non-learning baselines stay near zero._
 
 | Configuration | Wk1 | Wk2 | Wk3 | Wk4 | Wk5 | Wk6 | Wk7 | Wk8 | Δ (last - first) | slope |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -100,7 +100,7 @@ _Mean weighted gain across persons per ISO week for every run, with the OLS `slo
 | PTIME | 0.6088 | 0.5896 | 0.5901 | 0.5903 | 0.5917 | 0.5916 | 0.5898 | 0.6379 | +0.0291 | +0.0025 |
 | DQN RL per person | 0.1345 | 0.4135 | 0.5854 | 0.5850 | 0.5573 | 0.5101 | 0.5991 | 0.5810 | +0.4465 | +0.0452 |
 
-_The per-week figure is a mean across persons; the per-person distribution above is the unit-of-analysis view, so a flat mean alone does not prove that no individual learned._
+_The per-week figure is a cohort mean; the per-person distribution above is the unit-of-analysis view, so a flat mean alone does not prove that no individual learned._
 
 ## Stage cost & latency
 
