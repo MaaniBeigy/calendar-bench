@@ -21,13 +21,13 @@ A configurable benchmark framework for personal scheduling in the wild. It coupl
 - Experiment configuration reference: [CONFIG.md](CONFIG.md)
 - Running tests and coverage: [CONTRIBUTING.md](CONTRIBUTING.md)
 
-## Example experiment
+## Lightweight Example experiment: N=8, One Persona Archetype
 
 The repository provides an example experiment in [src/experiments/persona/example_experiment](src/experiments/persona/example_experiment): eight persons sampled from a single full-time employee persona over an eight-week horizon. It compares a greedy heuristic, PTIME, one-shot LLM planners with five models, and an online DQN reinforcement-learning scheduler. Full results, with per-component scheduling gain, weekly trajectories, cost, and prompt ablations, are in [docs/benchmark_report.md](docs/benchmark_report.md).
 
 ![Average weighted scheduling gain per week for each method in the example experiment.](docs/cross_augmenter_weekly.png)
 
-## Progressive Healthy Lifestyle Challenge (PHLC-2026)
+## Progressive Healthy Lifestyle Challenge (PHLC-2026): N=30, Three Persona Archetypes
 
 [![Benchmark: PHLC-2026](https://img.shields.io/badge/CalendarBench-PHLC--2026-8A2BE2?style=flat&logo=googlecharts&logoColor=white)](docs/PHLC-2026)
 
